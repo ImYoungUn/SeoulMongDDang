@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SeoulMong</string>
+    <string name="facebook_app_id">105121096916759</string>
+    <string name="fb_login_protocol_scheme">fb105121096916759</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

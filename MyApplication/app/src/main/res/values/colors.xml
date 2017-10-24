@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#78a740</color>
+    <color name="colorPrimaryDark">#33691E</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="whiteColor">#FFFFFF</color>
+    <color name="grayColor">#7F7F7F</color>
+    <color name="colorAmber">#ff8527</color>
+    <color name="ButtonColorYellow">#FF6F00</color>
+    <color name="ButtonColorGreen">#8BC34A</color>
+    <color name="backgroundLight">#f1f1f1</color>
+    <color name="facebookColor">#3B589E</color>
+    <color name="transparent">#00ff0000</color>
+    <color name="shade">#E0E0E0</color>
+
+</resources>
