@@ -4,40 +4,9 @@ package com.example.youngun.myapplication;
  * Created by youngun on 2017-10-08.
  */
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.database.DatabaseErrorHandler;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.UserHandle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Display;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -47,10 +16,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,23 +24,37 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
-public class Server {
+public class Server{
 
     private String func;
     private String item;
     private String item2;
+    private String mongId;
     private String result;
+    private JSONTask js;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
+
     private GoogleApiClient client;
     //private LoginActivity loginActivity;
     //private HomeActivity homeActivity;
+    //************임시 사용자 형성*****************
+    protected void register(HomeActivity loginActivity) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        js = (JSONTask) new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
+        onStart();
 
+        onStop();
+    }
+
+    public String getResultServer(){
+        return js.innerResult;
+    }
+    //************임시 사용자 형성*****************
     //실행할때는 항상 setFunction을 하여서 getFunction이 가능하도록 해야 함.
     protected void register(LoginActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
@@ -85,17 +64,27 @@ public class Server {
 
         onStop();
     }
-    protected void insert(RatingActivity1 loginActivity) {
+    //home - 왼쪽 버튼
+    protected void insert(RatingActivity1 ratingActivity1) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+    //home - 오른쪽 버튼
+    protected void insert(RatingActivity2 ratingActivity2) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(ratingActivity2).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
     protected void recommend(HomeActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
-        new JSONTask().execute("http://18.221.180.219:3000/recomment");//AsyncTask 시작시킴
+        new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask 시작시킴
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
         onStart();
 
@@ -138,18 +127,26 @@ public class Server {
         this.item = item;
         this.item2 = item2;
     }
+    public void setFunction(String func, String item, String item2, String mongId) {
+        this.func = func;
+        this.item = item;
+        this.item2 = item2;
+        this.mongId = mongId;
+    }
     public String getFunction(){
         if(func.compareTo("register")==0)
                 return "name";
         else if(func.compareTo("insert")==0)
                 return "rate";
         else if(func.compareTo("recommend")==0)
-                return "empty";
+                return "json";
         return "Null";
     }
 
+
     public class JSONTask extends AsyncTask<String, String, String> {
 
+        private String innerResult;
         @Override
         protected String doInBackground(String... urls) {
             try {
@@ -157,6 +154,10 @@ public class Server {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate(getFunction(), item);
                 jsonObject.accumulate("id", item2);
+                if(getFunction().compareTo("rate")==0){
+                    Log.e("Server_send",HomeActivity.mongId);
+                    jsonObject.accumulate("mongId", HomeActivity.mongId);
+                }
 
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
@@ -221,14 +222,12 @@ public class Server {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        public void onPostExecute(String result) {
             super.onPostExecute(result);
-            result = result;//서버로 부터 받은 값을 출력해주는 부
-        }
-        public String getResultServer(){
-            return result;
+            if(result.compareTo("OK!")!=0)
+                HomeActivity.mongId = result;
         }
     }
-
 }
+
 

@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 public class ContentsItem {
     private Bitmap bitmap;
     private String title;
+    private String time;
     private String date;
     private String code;
     private String place;
@@ -18,10 +19,11 @@ public class ContentsItem {
     private boolean watched = false;//true면 colored로 바뀜
 
 
-    public ContentsItem(String code,Bitmap bitmap, String title, String date, String place, boolean unWatched, boolean watched) {
+    public ContentsItem(String code,Bitmap bitmap, String title, String time, String date, String place, boolean unWatched, boolean watched) {
         this.code = code;
         this.bitmap = bitmap;
         this.title = title;
+        this.time = time;
         this.date = date;
         this.place = place;
         this.unWatched = unWatched;
@@ -40,6 +42,9 @@ public class ContentsItem {
     }
     public String getDate() {
         return date;
+    }
+    public String getTime() {
+        return time;
     }
     public Bitmap getBitmap() {
         return bitmap;

@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.Serializable;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
@@ -24,6 +27,7 @@ public class ContentsView extends LinearLayout {
     TextView textView1;
     TextView textView2;
     TextView textView3;
+    TextView time;
     ImageButton unWatched;
     ImageButton watched;
     HomeActivity main;
@@ -38,6 +42,7 @@ public class ContentsView extends LinearLayout {
         imageViewButton = (ImageView) findViewById(R.id.imageView_button);
         textView1 = (TextView) findViewById(R.id.titleText);
         textView2 = (TextView) findViewById(R.id.dateText);
+        time = (TextView) findViewById(R.id.timeText);
         textView3 = (TextView) findViewById(R.id.placeText);
         unWatched = (ImageButton) findViewById(R.id.unWatched);
         watched = (ImageButton) findViewById(R.id.watched);
@@ -52,6 +57,7 @@ public class ContentsView extends LinearLayout {
         textView1.setText(contentsItem.getTitle());
         textView2.setText(contentsItem.getDate());
         textView3.setText(contentsItem.getPlace());
+        time.setText(contentsItem.getTime());
 
 
         if (contentsItem.isUnWatched() == false)
@@ -83,6 +89,9 @@ public class ContentsView extends LinearLayout {
                     Intent intent = new Intent(main, RatingActivity1.class);
                     intent.putExtra("title",textView1.getText().toString());
                     intent.putExtra("code",contentsItem.getCode().toString());
+
+                    //버튼은 그냥 R.layout.unWatchedButton만 가지고 오는것일 뿐이더라
+                    intent.putExtra("unWatched", v.getId());
                     main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 }
             });
@@ -91,31 +100,12 @@ public class ContentsView extends LinearLayout {
                     Intent intent = new Intent(main, RatingActivity2.class);
                     intent.putExtra("title",textView1.getText().toString());
                     intent.putExtra("code",contentsItem.getCode().toString());
-                    startActivityForResult(intent, REQEST_CODE_RATING2);
+                    intent.putExtra("unWatched", v.getId());
+                    main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 }
             });
         }
 
-        protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-            super.onActivityResult(requestCode, resultCode, intent);
-            if (requestCode == REQEST_CODE_RATING1) {
-                Intent resultIntent = getIntent();
-                Log.e("ContentsView", "왼쪽");
-                float rating = resultIntent.getIntExtra("rating", -1);
-                //rating 서버로 보내기, true로 바꾸기
-                b1.setImageResource(R.drawable.star_colored);
-            }
-            if (requestCode == REQEST_CODE_RATING2) {
-                Intent resultIntent = getIntent();
-                Log.e("ContentsView", "오른쪽");
-                float rating = resultIntent.getIntExtra("rating", -1);
-                //rating 서버로 보내기, true로 바꾸기, 코멘트 저장하기
-                b2.setImageResource(R.drawable.customer_colored);
 
-            }
-            if (resultCode == RESULT_OK) {
-                Log.e("RESULT_OK", "good");
-            }
-        }
     }
 }

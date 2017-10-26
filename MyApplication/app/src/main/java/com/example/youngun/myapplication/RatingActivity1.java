@@ -10,16 +10,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RatingActivity1 extends AppCompatActivity {
 
     TextView textView;
     RatingBar ratingBar;
     Button b;
-    float score;
+    float score = -1;
     TextView scoreText;
     RatingActivity1 ra;
     String code;
+    int unWatchedButtonId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,7 @@ public class RatingActivity1 extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         code = intent.getStringExtra("code");
+        unWatchedButtonId = intent.getIntExtra("unWatched", 0);
         textView = (TextView) findViewById(R.id.ratingTitle);
         textView.setText(title);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -44,21 +48,32 @@ public class RatingActivity1 extends AppCompatActivity {
 
 
         b = (Button) findViewById(R.id.ratingButton);
+        //점수를 체크한 후에 버튼을 눌러야 보내짐.
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent();
-                Log.e("SCORE_RATINGACTIVITY1", Float.toString(score));
-                SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
-                String id = sp.getString("id","");
-                //서버에 score, id 보내기
-                String send = Float.toString(score)+":"+code+":0";
-                Server server = new Server();
-                server.setFunction("insert",send,id);
-                server.insert(ra);
-                setResult(RESULT_OK, intent1);
-                finish();
+                if (score != -1) {
+                    Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
+                    SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("mongId",HomeActivity.mongId);
+                    Log.e("임시사용자",HomeActivity.mongId);
+                    String id = sp.getString("id", "");
+                    //서버에 score, id 보내기
+                    String send = Float.toString(score) + ":" + code + ":0";
+                    Server server = new Server();
+                    server.setFunction("insert", send, id);
+                    server.insert(ra);
+                    intent1.putExtra("score", Float.toString(score));
+                    intent1.putExtra("unWatched", unWatchedButtonId);
+                    //Result_Ok 정보와 intent1 보내기
+                    setResult(RESULT_OK, intent1);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "기존 점수를 유지하려면, 뒤로가기를 누르세요.", Toast.LENGTH_SHORT).show();
+                }
             }
+
         });
     }
 }

@@ -57,6 +57,11 @@ public class LoginActivity extends AppCompatActivity {
             first_login = false;
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));
             //server.recommend();@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //************임시 사용자 형성****************
+            SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("tempUser", 0);
+            //************임시 사용자 형성*****************
             Intent intent1 = new Intent(this, HomeActivity.class);
             startActivity(intent1);
             finish();

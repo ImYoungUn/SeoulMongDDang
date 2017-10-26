@@ -22,7 +22,8 @@ import java.util.ArrayList;
  */
 public class Information extends Thread {
     private ContentsInfo[] ci;
-    public ArrayList<ContentsInfo> list;
+    private ArrayList<ContentsInfo> list;
+    private JSONpart json;
 
     int getList_total_count() {
         if (Build.VERSION.SDK_INT > 9) {
@@ -62,6 +63,7 @@ public class Information extends Thread {
     }
 
     Information() {
+        json = new JSONpart();
         int count = getList_total_count();
         list = new ArrayList<ContentsInfo>();
         if (Build.VERSION.SDK_INT > 9) {
@@ -148,7 +150,12 @@ public class Information extends Thread {
                                 String tmp = parser.getText();
                                 URL urlImage = new URL(tmp);
                                 InputStream is = urlImage.openStream();
-                                ci[i].setContentsImage(BitmapFactory.decodeStream(is));
+                                try {
+                                    ci[i].setContentsImage(BitmapFactory.decodeStream(is));
+                                }catch (Exception e){
+                                    skip = true;
+                                    Log.e("skip", tmp + "가 skip됐습니다");
+                                }
                             }
                         }
                         break;
@@ -172,6 +179,7 @@ public class Information extends Thread {
                             image = false;
                             if (skip == false) {
                                 list.add(ci[i]);
+                                json.addCode(ci[i].getContentsCode());
                                 i++;
                                 ci[i] = new ContentsInfo();
                             }
@@ -190,7 +198,9 @@ public class Information extends Thread {
         }
 
     }
-
+    JSONpart getJson(){
+        return json;
+    }
     ArrayList<ContentsInfo> getList() {
         return list;
     }

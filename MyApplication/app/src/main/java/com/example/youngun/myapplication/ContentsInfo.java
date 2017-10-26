@@ -29,6 +29,7 @@ public class ContentsInfo {
     public void setContentsEndDate(String endDate) {
         this.endDate = endDate;
     }
+
     public void setContentsTitle(String title){
         this.title = title;
     }
@@ -49,7 +50,12 @@ public class ContentsInfo {
         return temp;
     }
     public String getTIme(){
-        return "날짜 : " +startDate+" ~ "+endDate+" 시간 : "+time;
+        if(time==null)
+            return "";
+        return " 시간 : "+time;
+    }
+    public String getDate(){
+        return "날짜 : " +startDate+" ~ "+endDate;
     }
     public String getContentsCode(){
         return contentsCode;
