@@ -24,6 +24,7 @@ import com.facebook.login.widget.LoginButton;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Server server;
     private LoginActivity loginActivity;
+    private Information info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,9 @@ public class LoginActivity extends AppCompatActivity {
             editor.putInt("tempUser", 0);
             Log.e("tempUser Change","good");
             //************임시 사용자 형성*****************
-            Intent intent1 = new Intent(this, HomeActivity.class);
+            info = loading();
+            Intent intent1 = new Intent(this, LoadingActivity.class);
+            intent1.putExtra("info",info);
             startActivity(intent1);
             finish();
             Log.d("Tag", "user id : " + AccessToken.getCurrentAccessToken().getUserId());
@@ -105,7 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                 request.executeAsync();
-                Intent intent2 = new Intent(LoginActivity.this, HomeActivity.class);
+                info = loading();
+                Intent intent2 = new Intent(LoginActivity.this, LoginActivity.class);
+                intent2.putExtra("info",info);
                 startActivity(intent2);
                 finish();
             }
@@ -151,5 +157,21 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public Information loading(){
+        Information info = new Information();
+        int infoCount = info.getList_total_count();
+
+        //JSONpart클래스 실행하여 recommend시 필요한 정보 server로 넘겨주기
+        JSONpart json = info.getJson();
+        try {
+            json.addIdAndLogin(LoginActivity.mongId,this);
+            json.send("recommend");
+            Log.e("Home","send Recommend");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return info;
     }
 }

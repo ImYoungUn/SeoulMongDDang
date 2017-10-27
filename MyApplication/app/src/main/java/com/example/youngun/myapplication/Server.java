@@ -82,7 +82,7 @@ public class Server{
 
         onStop();
     }
-    protected void recommend(HomeActivity loginActivity) {
+    protected void recommend(LoginActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask 시작시킴
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
@@ -230,10 +230,14 @@ public class Server{
                 return;
             }
 
-            if(result.length()<5)
+            if(result.length()<5) {
+                Log.e("Server", "result");
                 LoginActivity.mongId = result;
-            else
+            }
+            else {
+                Log.e("Server","result");
                 Information.recommendString = result;
+            }
         }
     }
 }

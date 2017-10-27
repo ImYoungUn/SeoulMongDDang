@@ -15,7 +15,8 @@ public class JSONpart {
     JSONArray arr;
     JSONObject obj;
     String id;
-    HomeActivity homeActivity;
+    //HomeActivity homeActivity;
+    LoginActivity loginActivity;
     String gettingMongId = "notYet";
     int tempUser;
     JSONpart(){
@@ -25,9 +26,9 @@ public class JSONpart {
     public void addCode(String code){
         arr.put(code);
     }
-    public void addIdAndHome(String id,HomeActivity homeActivity) throws JSONException {
+    public void addIdAndLogin(String id,LoginActivity loginActivity) throws JSONException {
         this.id = id;
-        this.homeActivity = homeActivity;
+        this.loginActivity = loginActivity;
         obj.put("userId", id);
     }
     //임시 유저 생성
@@ -38,12 +39,13 @@ public class JSONpart {
         Server server = new Server();
         if(user.compareTo("tempUser")==0) {
             server.setFunction("register", "임시유저", Integer.toString(tempUser));
-            server.register(homeActivity);
+            //server.register(loginActivity);
         }
         else {
+            Log.e("JSONpart","server.recommend");
             obj.put("allContents",arr);
             server.setFunction("recommend",obj.toString(),id);
-            server.recommend(homeActivity);
+            server.recommend(loginActivity);
         }
     }
     public String getMongId(){
