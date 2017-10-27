@@ -15,6 +15,7 @@ public class ContentsInfo {
     String place;
     String time;
     String janre;
+    String expectScore;
 
     public void setContentsCode(String code){
         this.contentsCode = code;
@@ -35,6 +36,9 @@ public class ContentsInfo {
     }
     public void setContentsJanre(String janre){
         this.janre = janre;
+    }
+    public void setContentsExpectScore(String expectScore){
+        this.expectScore = expectScore;
     }
     public void setContentsImage(Bitmap bmImg){
         this.contentsImage = bmImg;
@@ -66,4 +70,5 @@ public class ContentsInfo {
     public Bitmap getContentsImage(){
         return contentsImage;
     }
+    public String getExpectScore(){return expectScore;}
 }

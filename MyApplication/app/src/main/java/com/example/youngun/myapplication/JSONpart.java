@@ -34,12 +34,17 @@ public class JSONpart {
     public void setTempUser(int user){
         tempUser = user;
     }
-    public void send() throws JSONException {
-        obj.put("allContents", arr);
+    public void send(String user) throws JSONException {
         Server server = new Server();
-        //원래 함수 : server.setFunction("register",obj.toString(),id);
-        server.setFunction("register","임시유저",Integer.toString(tempUser));
-        server.register(homeActivity);
+        if(user.compareTo("tempUser")==0) {
+            server.setFunction("register", "임시유저", Integer.toString(tempUser));
+            server.register(homeActivity);
+        }
+        else {
+            obj.put("allContents",arr);
+            server.setFunction("recommend",obj.toString(),id);
+            server.recommend(homeActivity);
+        }
     }
     public String getMongId(){
         return gettingMongId;

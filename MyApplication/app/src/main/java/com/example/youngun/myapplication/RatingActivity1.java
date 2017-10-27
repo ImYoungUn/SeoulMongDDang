@@ -56,8 +56,8 @@ public class RatingActivity1 extends AppCompatActivity {
                     Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
                     SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("mongId",HomeActivity.mongId);
-                    Log.e("임시사용자",HomeActivity.mongId);
+                    editor.putString("mongId",LoginActivity.mongId);
+                    Log.e("임시사용자",LoginActivity.mongId);
                     String id = sp.getString("id", "");
                     //서버에 score, id 보내기
                     String send = Float.toString(score) + ":" + code + ":0";

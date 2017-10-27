@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  * Created by youngun on 2017-09-12.
  */
 public class Information extends Thread {
+    static String recommendString;
     private ContentsInfo[] ci;
     private ArrayList<ContentsInfo> list;
     private JSONpart json;
@@ -152,7 +154,7 @@ public class Information extends Thread {
                                 InputStream is = urlImage.openStream();
                                 try {
                                     ci[i].setContentsImage(BitmapFactory.decodeStream(is));
-                                }catch (Exception e){
+                                }catch (OutOfMemoryError e){
                                     skip = true;
                                     Log.e("skip", tmp + "가 skip됐습니다");
                                 }
@@ -201,7 +203,34 @@ public class Information extends Thread {
     JSONpart getJson(){
         return json;
     }
+
     ArrayList<ContentsInfo> getList() {
         return list;
     }
+
+    ArrayList<ContentsInfo> getRecommendationList(){
+        String parse[] = Information.recommendString.split(",");
+        int ci_recomSize = Integer.parseInt(parse[parse.length-1]);
+        ContentsInfo ci_recom[] = new ContentsInfo[ci_recomSize];
+        ArrayList<ContentsInfo> list_recom = new ArrayList<>();
+        for(int i=0;i<parse.length-2;i+=2){
+            for(int j=0;j<ci.length;i++){
+                if(parse[i].compareTo(ci[j].getContentsCode())==0){
+                    ci_recom[i] = ci[j];
+                    ci_recom[i].setContentsExpectScore(parse[i+1]);
+                    list_recom.add(ci_recom[i]);
+                    break;
+                }
+            }
+        }
+        return list_recom;
+    }
+    private BitmapFactory.Options getBitmapSize(File imageFile) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+        return options;
+    }
+
+
 }

@@ -28,14 +28,11 @@ public class ContentsView extends LinearLayout {
     TextView textView2;
     TextView textView3;
     TextView time;
-    ImageButton unWatched;
-    ImageButton watched;
+    TextView expection;
     HomeActivity main;
-    ContentsItem contentsItem;
 
     public ContentsView(Context context, ContentsItem contentsItem, HomeActivity main) {
         super(context);
-        this.contentsItem = contentsItem;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.activity_contentlist, this, true);
 
@@ -44,8 +41,7 @@ public class ContentsView extends LinearLayout {
         textView2 = (TextView) findViewById(R.id.dateText);
         time = (TextView) findViewById(R.id.timeText);
         textView3 = (TextView) findViewById(R.id.placeText);
-        unWatched = (ImageButton) findViewById(R.id.unWatched);
-        watched = (ImageButton) findViewById(R.id.watched);
+        expection = (TextView) findViewById(R.id.expectScore);
 
         this.main = main;
         changeToNew(contentsItem);
@@ -54,10 +50,15 @@ public class ContentsView extends LinearLayout {
     public void changeToNew(final ContentsItem contentsItem) {
         imageViewButton.setImageBitmap(contentsItem.getBitmap());
 
+        ImageButton unWatched = (ImageButton) findViewById(R.id.unWatched);
+        ImageButton watched = (ImageButton) findViewById(R.id.watched);
+
         textView1.setText(contentsItem.getTitle());
         textView2.setText(contentsItem.getDate());
         textView3.setText(contentsItem.getPlace());
         time.setText(contentsItem.getTime());
+        expection.setText(contentsItem.getExpectScore());
+        String code = contentsItem.getCode();
 
 
         if (contentsItem.isUnWatched() == false)
@@ -73,7 +74,7 @@ public class ContentsView extends LinearLayout {
         else
             watched.setImageResource(R.drawable.customer_colored);
 
-        RatingClass rc = new RatingClass(unWatched,watched);
+        new RatingClass(unWatched,watched,code);
     }
 
     class RatingClass extends AppCompatActivity {
@@ -81,14 +82,15 @@ public class ContentsView extends LinearLayout {
         public static final int REQEST_CODE_RATING2 = 1002;
 
         ImageButton b1, b2;
-        RatingClass(ImageButton button1, ImageButton button2) {
+        RatingClass(ImageButton button1, ImageButton button2, final String code) {
             this.b1 = button1;
             this.b2 = button2;
             b1.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(main, RatingActivity1.class);
                     intent.putExtra("title",textView1.getText().toString());
-                    intent.putExtra("code",contentsItem.getCode().toString());
+                    intent.putExtra("code",code);
+                    Log.e("ContentsView_code :",code);
 
                     //버튼은 그냥 R.layout.unWatchedButton만 가지고 오는것일 뿐이더라
                     intent.putExtra("unWatched", v.getId());
@@ -99,7 +101,7 @@ public class ContentsView extends LinearLayout {
                 public void onClick(View v) {
                     Intent intent = new Intent(main, RatingActivity2.class);
                     intent.putExtra("title",textView1.getText().toString());
-                    intent.putExtra("code",contentsItem.getCode().toString());
+                    intent.putExtra("code",code);
                     intent.putExtra("unWatched", v.getId());
                     main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 }

@@ -41,10 +41,10 @@ public class Server{
     private GoogleApiClient client;
     //private LoginActivity loginActivity;
     //private HomeActivity homeActivity;
-    //************ì„ì‹œ ì‚¬ìš©ì í˜•ì„±*****************
+    //************ÀÓ½Ã »ç¿ëÀÚ Çü¼º*****************
     protected void register(HomeActivity loginActivity) {
-        //ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ ì—¬ê¸° ë¦¬ìŠ¤ë„ˆë¡œ ì˜´
-        js = (JSONTask) new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask ì‹œì‘ì‹œí‚´
+        //¹öÆ°ÀÌ Å¬¸¯µÇ¸é ¿©±â ¸®½º³Ê·Î ¿È
+        js = (JSONTask) new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask ½ÃÀÛ½ÃÅ´
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
         onStart();
 
@@ -54,37 +54,37 @@ public class Server{
     public String getResultServer(){
         return js.innerResult;
     }
-    //************ì„ì‹œ ì‚¬ìš©ì í˜•ì„±*****************
-    //ì‹¤í–‰í• ë•ŒëŠ” í•­ìƒ setFunctionì„ í•˜ì—¬ì„œ getFunctionì´ ê°€ëŠ¥í•˜ë„ë¡ í•´ì•¼ í•¨.
+    //************ÀÓ½Ã »ç¿ëÀÚ Çü¼º*****************
+    //½ÇÇàÇÒ¶§´Â Ç×»ó setFunctionÀ» ÇÏ¿©¼­ getFunctionÀÌ °¡´ÉÇÏµµ·Ï ÇØ¾ß ÇÔ.
     protected void register(LoginActivity loginActivity) {
-        //ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ ì—¬ê¸° ë¦¬ìŠ¤ë„ˆë¡œ ì˜´
-        new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask ì‹œì‘ì‹œí‚´
+        //¹öÆ°ÀÌ Å¬¸¯µÇ¸é ¿©±â ¸®½º³Ê·Î ¿È
+        new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask ½ÃÀÛ½ÃÅ´
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
-    //home - ì™¼ìª½ ë²„íŠ¼
+    //home - ¿ŞÂÊ ¹öÆ°
     protected void insert(RatingActivity1 ratingActivity1) {
-        //ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ ì—¬ê¸° ë¦¬ìŠ¤ë„ˆë¡œ ì˜´
-        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask ì‹œì‘ì‹œí‚´
+        //¹öÆ°ÀÌ Å¬¸¯µÇ¸é ¿©±â ¸®½º³Ê·Î ¿È
+        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask ½ÃÀÛ½ÃÅ´
         client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
-    //home - ì˜¤ë¥¸ìª½ ë²„íŠ¼
+    //home - ¿À¸¥ÂÊ ¹öÆ°
     protected void insert(RatingActivity2 ratingActivity2) {
-        //ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ ì—¬ê¸° ë¦¬ìŠ¤ë„ˆë¡œ ì˜´
-        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask ì‹œì‘ì‹œí‚´
+        //¹öÆ°ÀÌ Å¬¸¯µÇ¸é ¿©±â ¸®½º³Ê·Î ¿È
+        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask ½ÃÀÛ½ÃÅ´
         client = new GoogleApiClient.Builder(ratingActivity2).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
     protected void recommend(HomeActivity loginActivity) {
-        //ë²„íŠ¼ì´ í´ë¦­ë˜ë©´ ì—¬ê¸° ë¦¬ìŠ¤ë„ˆë¡œ ì˜´
-        new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask ì‹œì‘ì‹œí‚´
+        //¹öÆ°ÀÌ Å¬¸¯µÇ¸é ¿©±â ¸®½º³Ê·Î ¿È
+        new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask ½ÃÀÛ½ÃÅ´
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
         onStart();
 
@@ -150,15 +150,14 @@ public class Server{
         @Override
         protected String doInBackground(String... urls) {
             try {
-                //JSONObjectë¥¼ ë§Œë“¤ê³  key value í˜•ì‹ìœ¼ë¡œ ê°’ì„ ì €ì¥í•´ì¤€ë‹¤.
+                //JSONObject¸¦ ¸¸µé°í key value Çü½ÄÀ¸·Î °ªÀ» ÀúÀåÇØÁØ´Ù.
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate(getFunction(), item);
                 jsonObject.accumulate("id", item2);
-                Log.e("Server_mongId",LoginActivity.mongId);
-                //mongIdëŠ” í˜„ì¬ registerí• ë•Œ ì„œë²„ì—ì„œ ë°›ì•„ì˜¤ê³ , insertë¥¼ í• ë•Œ ì„œë²„ë¡œ ë³´ë‚¸ë‹¤.
-                //recommendí• ë•ŒëŠ” jasonì— ë¯¸ë¦¬ ë“¤ì–´ê°€ìˆë‹¤.
-                jsonObject.accumulate("mongId", LoginActivity.mongId);
-
+                if(getFunction().compareTo("rate")==0){
+                    Log.e("Server_send",HomeActivity.mongId);
+                    jsonObject.accumulate("mongId", HomeActivity.mongId);
+                }
 
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
@@ -166,26 +165,26 @@ public class Server{
                 try {
                     //URL url = new URL("http://192.168.25.16:3000/users");
                     URL url = new URL(urls[0]);
-                    //ì—°ê²°ì„ í•¨
+                    //¿¬°áÀ» ÇÔ
                     con = (HttpURLConnection) url.openConnection();
 
-                    con.setRequestMethod("POST");//POSTë°©ì‹ìœ¼ë¡œ ë³´ëƒ„
-                    con.setRequestProperty("Cache-Control", "no-cache");//ìºì‹œ ì„¤ì •
-                    con.setRequestProperty("Content-Type", "application/json");//application JSON í˜•ì‹ìœ¼ë¡œ ì „ì†¡
-                    con.setRequestProperty("Accept", "text/html");//ì„œë²„ì— response ë°ì´í„°ë¥¼ htmlë¡œ ë°›ìŒ
-                    con.setDoOutput(true);//Outstreamìœ¼ë¡œ post ë°ì´í„°ë¥¼ ë„˜ê²¨ì£¼ê² ë‹¤ëŠ” ì˜ë¯¸
-                    con.setDoInput(true);//Inputstreamìœ¼ë¡œ ì„œë²„ë¡œë¶€í„° ì‘ë‹µì„ ë°›ê² ë‹¤ëŠ” ì˜ë¯¸
+                    con.setRequestMethod("POST");//POST¹æ½ÄÀ¸·Î º¸³¿
+                    con.setRequestProperty("Cache-Control", "no-cache");//Ä³½Ã ¼³Á¤
+                    con.setRequestProperty("Content-Type", "application/json");//application JSON Çü½ÄÀ¸·Î Àü¼Û
+                    con.setRequestProperty("Accept", "text/html");//¼­¹ö¿¡ response µ¥ÀÌÅÍ¸¦ html·Î ¹ŞÀ½
+                    con.setDoOutput(true);//OutstreamÀ¸·Î post µ¥ÀÌÅÍ¸¦ ³Ñ°ÜÁÖ°Ú´Ù´Â ÀÇ¹Ì
+                    con.setDoInput(true);//InputstreamÀ¸·Î ¼­¹ö·ÎºÎÅÍ ÀÀ´äÀ» ¹Ş°Ú´Ù´Â ÀÇ¹Ì
                     con.connect();
 
-                    //ì„œë²„ë¡œ ë³´ë‚´ê¸°ìœ„í•´ì„œ ìŠ¤íŠ¸ë¦¼ ë§Œë“¬
+                    //¼­¹ö·Î º¸³»±âÀ§ÇØ¼­ ½ºÆ®¸² ¸¸µë
                     OutputStream outStream = con.getOutputStream();
-                    //ë²„í¼ë¥¼ ìƒì„±í•˜ê³  ë„£ìŒ
+                    //¹öÆÛ¸¦ »ı¼ºÇÏ°í ³ÖÀ½
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
                     writer.write(jsonObject.toString());
                     writer.flush();
-                    writer.close();//ë²„í¼ë¥¼ ë°›ì•„ì¤Œ
+                    writer.close();//¹öÆÛ¸¦ ¹Ş¾ÆÁÜ
 
-                    //ì„œë²„ë¡œ ë¶€í„° ë°ì´í„°ë¥¼ ë°›ìŒ
+                    //¼­¹ö·Î ºÎÅÍ µ¥ÀÌÅÍ¸¦ ¹ŞÀ½
                     InputStream stream = con.getInputStream();
 
                     reader = new BufferedReader(new InputStreamReader(stream));
@@ -197,7 +196,7 @@ public class Server{
                         buffer.append(line);
                     }
 
-                    return buffer.toString();//ì„œë²„ë¡œ ë¶€í„° ë°›ì€ ê°’ì„ ë¦¬í„´í•´ì¤Œ ì•„ë§ˆ OK!!ê°€ ë“¤ì–´ì˜¬ê²ƒì„
+                    return buffer.toString();//¼­¹ö·Î ºÎÅÍ ¹ŞÀº °ªÀ» ¸®ÅÏÇØÁÜ ¾Æ¸¶ OK!!°¡ µé¾î¿Ã°ÍÀÓ
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -209,7 +208,7 @@ public class Server{
                     }
                     try {
                         if (reader != null) {
-                            reader.close();//ë²„í¼ë¥¼ ë‹«ì•„ì¤Œ
+                            reader.close();//¹öÆÛ¸¦ ´İ¾ÆÁÜ
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -225,15 +224,8 @@ public class Server{
         @Override
         public void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(result==null){
-                Log.e("Server","ì•„ì§ ì•„ë¬´ result ì—†ìŒ");
-                return;
-            }
-
-            if(result.length()<5)
-                LoginActivity.mongId = result;
-            else
-                Information.recommendString = result;
+            if(result.compareTo("OK!")!=0)
+                HomeActivity.mongId = result;
         }
     }
 }

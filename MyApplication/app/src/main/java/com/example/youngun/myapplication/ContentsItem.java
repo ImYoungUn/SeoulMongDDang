@@ -14,6 +14,7 @@ public class ContentsItem {
     private String date;
     private String code;
     private String place;
+    private String expectScore;
 
     private boolean unWatched = false;//true면 colored로 바뀜
     private boolean watched = false;//true면 colored로 바뀜
@@ -46,6 +47,7 @@ public class ContentsItem {
     public String getTime() {
         return time;
     }
+    public String getExpectScore(){return expectScore;}
     public Bitmap getBitmap() {
         return bitmap;
     }
