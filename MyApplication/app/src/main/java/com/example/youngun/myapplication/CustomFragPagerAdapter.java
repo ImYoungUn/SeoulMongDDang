@@ -73,7 +73,7 @@ public class CustomFragPagerAdapter extends PagerAdapter {
             case 0:
                 return "추천";
             case 1:
-                return "뉴스피드";
+                return "찜 목록";
             case 2:
                 return "인기멤버";
             default:

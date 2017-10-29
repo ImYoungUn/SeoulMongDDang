@@ -20,6 +20,9 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by youngun on 2017-09-12.
@@ -39,18 +42,34 @@ public class Information extends Thread implements Parcelable {
         codeParsing();
     }
 
+    protected Information(Parcel in) {
+        codeList = in.createStringArray();
+        expectScoreList = in.createStringArray();
+        cultureSize = in.readInt();
+    }
+
+    public static final Creator<Information> CREATOR = new Creator<Information>() {
+        @Override
+        public Information createFromParcel(Parcel in) {
+            return new Information(in);
+        }
+
+        @Override
+        public Information[] newArray(int size) {
+            return new Information[size];
+        }
+    };
+
     void get_server_recommendList(){
         String parse[] = Information.recommendString.split(",");
         Log.e("Information","recommendString");
-        int ci_recomSize = Integer.parseInt(parse[parse.length-1]);
+        //int ci_recomSize = Integer.parseInt(parse[parse.length-1]);
         codeList = new String[cultureSize];
         expectScoreList = new String[cultureSize];
-        ContentsInfo ci_recom[] = new ContentsInfo[ci_recomSize];
-        ArrayList<ContentsInfo> list_recom = new ArrayList<>();
         //30개까지만 받음
         for(int i=0;i<cultureSize*2;i+=2){
-            codeList[i/2] = parse[i];
-            expectScoreList[i/2] = parse[i+1];
+            expectScoreList[i/2] = parse[i];
+            codeList[i/2] = parse[i+1];
         }
     }
     public ArrayList<ContentsInfo> getRecommendList(){
@@ -82,6 +101,7 @@ public class Information extends Thread implements Parcelable {
                     case XmlPullParser.START_TAG:
                         tag = parser.getName();
                         if (tag.compareTo("CULTCODE") == 0) {
+                            //Log.e("Information_cultcode : ",tag);
                             code = true;
                             skip=false;
                         }
@@ -116,9 +136,13 @@ public class Information extends Thread implements Parcelable {
                             else {
                                 String cultCode = parser.getText();
                                 skip = true;
+                                //Log.e("Information_culcode2 : ",cultCode);
                                 for(int j=0;j<cultureSize;j++){
+                                   // Log.e("codeLis1t",codeList[j]);
                                     if(cultCode.compareTo(codeList[j])==0){
+                                        //Log.e("codeList2",codeList[j]);
                                         ci[i].setContentsCode(parser.getText());
+                                        ci[i].setContentsExpectScore(expectScoreList[j]);
                                         skip=false;
                                         break;
                                     }
@@ -160,6 +184,7 @@ public class Information extends Thread implements Parcelable {
                             else {
                                 String tmp = parser.getText();
                                 URL urlImage = new URL(tmp);
+                                ci[i].setContentsURL(tmp);
                                 InputStream is = urlImage.openStream();
                                 try {
                                     ci[i].setContentsImage(BitmapFactory.decodeStream(is));
@@ -190,6 +215,7 @@ public class Information extends Thread implements Parcelable {
                             image = false;
                             if (skip == false) {
                                 list.add(ci[i]);
+                                Log.e("Information_getRL : ",Integer.toString(i));
                                 i++;
                                 ci[i] = new ContentsInfo();
                             }
@@ -208,9 +234,13 @@ public class Information extends Thread implements Parcelable {
         }
 
         Log.e("Information","getRecommendationList_finish");
+        DescendingObj descendingObj = new DescendingObj();
+        Collections.sort(list, descendingObj);
         return list;
     }
+
     private void codeParsing(){
+        //information()생성자에서 실행 'cultureCode'만 파싱해서 json에 저장하는 함수
         Log.e("Information","codePasing_start");
         json = new JSONpart();
         String cultid=null;
@@ -232,7 +262,8 @@ public class Information extends Thread implements Parcelable {
             boolean code = false;
             boolean skip = false;
             int i = 0;
-            while (i < count ){
+            while (i<100){
+                //Log.e("Information_count",Integer.toString(i));
                 switch (parserEvent) {
                     case XmlPullParser.START_TAG:
                         tag = parser.getName();
@@ -254,13 +285,13 @@ public class Information extends Thread implements Parcelable {
                             code = false;
                             if (skip == false) {
                                 json.addCode(cultid);
+                                i++;
                             }
                             skip = false;
                         }
                         break;
                 }
                 parserEvent = parser.next();
-                i++;
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -277,6 +308,7 @@ public class Information extends Thread implements Parcelable {
 
 
     int getList_total_count() {
+        //url에서 총 컨텐츠 갯수를 알려줌.
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -284,7 +316,7 @@ public class Information extends Thread implements Parcelable {
 
         try {
             //String key = "554a764c56796f7531364e77764250";
-            URL url = new URL("http://openapi.seoul.go.kr:8088/554a764c56796f7531364e77764250/xml/SearchConcertDetailService/1/5/");
+            URL url = new URL("http://openapi.seoul.go.kr:8088/554a764c56796f7531364e77764250/xml/SearchConcertDetailService/1/2/");
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 
             XmlPullParser parser = factory.newPullParser();
@@ -320,6 +352,15 @@ public class Information extends Thread implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(codeList);
+        parcel.writeStringArray(expectScoreList);
+        parcel.writeInt(cultureSize);
+    }
+}
+class DescendingObj implements Comparator<ContentsInfo>{
 
+    @Override
+    public int compare(ContentsInfo contentsInfo, ContentsInfo t1) {
+        return t1.getExpectScore().compareTo(contentsInfo.getExpectScore());
     }
 }

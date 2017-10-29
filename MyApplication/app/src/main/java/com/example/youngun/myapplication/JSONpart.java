@@ -1,7 +1,5 @@
 package com.example.youngun.myapplication;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,8 +13,9 @@ public class JSONpart {
     JSONArray arr;
     JSONObject obj;
     String id;
-    //HomeActivity homeActivity;
+    HomeActivity homeActivity;
     LoginActivity loginActivity;
+    ReadyForGetMongId readyForGetMongId;
     String gettingMongId = "notYet";
     int tempUser;
     JSONpart(){
@@ -26,20 +25,32 @@ public class JSONpart {
     public void addCode(String code){
         arr.put(code);
     }
+
     public void addIdAndLogin(String id,LoginActivity loginActivity) throws JSONException {
         this.id = id;
         this.loginActivity = loginActivity;
         obj.put("userId", id);
     }
+    public void addIdAndReady(String id,ReadyForGetMongId ready) throws JSONException {
+        this.id = id;
+        this.readyForGetMongId = ready;
+        obj.put("userId", id);
+    }
     //임시 유저 생성
-    public void setTempUser(int user){
+    public void setTempUser(int user,HomeActivity homeActivity){
         tempUser = user;
+        this.homeActivity = homeActivity;
     }
     public void send(String user) throws JSONException {
         Server server = new Server();
         if(user.compareTo("tempUser")==0) {
             server.setFunction("register", "임시유저", Integer.toString(tempUser));
-            //server.register(loginActivity);
+            server.register(homeActivity);
+        }
+        else if(user.compareTo("firstRecommend")==0){
+            obj.put("allContents",arr);
+            server.setFunction("recommend",obj.toString(),id);
+            server.recommend(readyForGetMongId);
         }
         else {
             Log.e("JSONpart","server.recommend");

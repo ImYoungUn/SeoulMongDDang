@@ -16,21 +16,27 @@ public class RatingActivity1 extends AppCompatActivity {
 
     TextView textView;
     RatingBar ratingBar;
-    Button b;
+    Button rateButton;
+    Button saveButton;
     float score = -1;
     TextView scoreText;
     RatingActivity1 ra;
     String code;
     int unWatchedButtonId;
+    ContentsItem contentsItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating1);
         ra = this;
-
+Log.e("ratingActivity","Rating");
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
+        //contentsView에서 가져온 해당 contentsItem
+        contentsItem = intent.getParcelableExtra("contentsItem");
+        //final String title = intent.getStringExtra("title");
+        Log.e("RatingActivity",contentsItem.getTitle());
+        String title = contentsItem.getTitle();
         code = intent.getStringExtra("code");
         unWatchedButtonId = intent.getIntExtra("unWatched", 0);
         textView = (TextView) findViewById(R.id.ratingTitle);
@@ -46,18 +52,28 @@ public class RatingActivity1 extends AppCompatActivity {
             }
         });
 
+        saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
+                String id = sp.getString("id","");
+                Server server = new Server();
+                server.setFunction("save",contentsItem,id);
+                server.save(ra);
+                Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        b = (Button) findViewById(R.id.ratingButton);
+       rateButton = (Button) findViewById(R.id.ratingButton);
         //점수를 체크한 후에 버튼을 눌러야 보내짐.
-        b.setOnClickListener(new View.OnClickListener() {
+        rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (score != -1) {
                     Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
                     SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("mongId",LoginActivity.mongId);
-                    Log.e("임시사용자",LoginActivity.mongId);
+                    Log.e("사용자",LoginActivity.mongId);
                     String id = sp.getString("id", "");
                     //서버에 score, id 보내기
                     String send = Float.toString(score) + ":" + code + ":0";

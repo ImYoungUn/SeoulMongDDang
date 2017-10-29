@@ -24,9 +24,11 @@ public class ContentsAdapter extends BaseAdapter {
     private List<ContentsItem> contents = new ArrayList<ContentsItem>();
     private HomeActivity Main;
     private Boolean unWatched[];
-    public ContentsAdapter(Context context, HomeActivity main) {
+    private String page;
+    public ContentsAdapter(Context context, HomeActivity main, String page) {
         this.context = context;
         Main=main;
+        this.page = page;
     }
 
     public void addContents(ContentsItem c) {
@@ -53,11 +55,11 @@ public class ContentsAdapter extends BaseAdapter {
         ContentsView itemView;
         //없으면 새로 만들고, 있으면 전에 만들었던 view를 그대로 다시 씀(4개 돌려쓰기)
         if (view == null) {
-            itemView = new ContentsView(context, contents.get(i),Main);
+            itemView = new ContentsView(context, contents.get(i),Main, page);
         } else {
             itemView = (ContentsView) view;
         }
-        itemView.changeToNew(contents.get(i));
+        itemView.changeToNew(contents.get(i),page);
         return itemView;
     }
     public void setMain(HomeActivity Main){

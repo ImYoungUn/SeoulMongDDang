@@ -12,6 +12,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -25,12 +27,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Server{
+public class Server {
 
     private String func;
     private String item;
     private String item2;
+    private String item3;
     private String mongId;
+    private ContentsItem ci;
     private String result;
     private JSONTask js;
     /**
@@ -39,6 +43,7 @@ public class Server{
      */
 
     private GoogleApiClient client;
+
     //private LoginActivity loginActivity;
     //private HomeActivity homeActivity;
     //************임시 사용자 형성*****************
@@ -51,9 +56,10 @@ public class Server{
         onStop();
     }
 
-    public String getResultServer(){
+    public String getResultServer() {
         return js.innerResult;
     }
+
     //************임시 사용자 형성*****************
     //실행할때는 항상 setFunction을 하여서 getFunction이 가능하도록 해야 함.
     protected void register(LoginActivity loginActivity) {
@@ -64,7 +70,26 @@ public class Server{
 
         onStop();
     }
-    //home - 왼쪽 버튼
+
+    protected void save(RatingActivity1 ratingActivity1) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/save");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+
+    protected void getSave(LoadingActivity ratingActivity1) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/getSave");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+
+    //home - 추천 버튼
     protected void insert(RatingActivity1 ratingActivity1) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
@@ -73,15 +98,7 @@ public class Server{
 
         onStop();
     }
-    //home - 오른쪽 버튼
-    protected void insert(RatingActivity2 ratingActivity2) {
-        //버튼이 클릭되면 여기 리스너로 옴
-        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity2).addApi(AppIndex.API).build();
-        onStart();
 
-        onStop();
-    }
     protected void recommend(LoginActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask 시작시킴
@@ -90,6 +107,17 @@ public class Server{
 
         onStop();
     }
+
+    //어플 깔고 처음 제공하는 recommendation시 ReadyForGetMongId에서 접근함.
+    protected void recommend(ReadyForGetMongId loginActivity) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+
     public void onStart() {
         client.connect();
         Action viewAction = Action.newAction(
@@ -127,19 +155,32 @@ public class Server{
         this.item = item;
         this.item2 = item2;
     }
-    public void setFunction(String func, String item, String item2, String mongId) {
+
+    public void setFunction(String func, String item, String item2, String item3, String mongId) {
         this.func = func;
         this.item = item;
         this.item2 = item2;
+        this.item3 = item3;
         this.mongId = mongId;
     }
-    public String getFunction(){
-        if(func.compareTo("register")==0)
-                return "name";
-        else if(func.compareTo("insert")==0)
-                return "rate";
-        else if(func.compareTo("recommend")==0)
-                return "json";
+
+    public void setFunction(String func, ContentsItem ci, String id) {
+        this.func = func;
+        this.ci = ci;
+        this.item2 = id;//facebook_id
+    }
+
+    public String getFunction() {
+        if (func.compareTo("register") == 0)
+            return "name";
+        else if (func.compareTo("insert") == 0)
+            return "rate";
+        else if (func.compareTo("recommend") == 0)
+            return "json";
+        else if (func.compareTo("save") == 0)
+            return "contentsItem";
+        else if (func.compareTo("getSave") == 0)
+            return "non";
         return "Null";
     }
 
@@ -147,17 +188,73 @@ public class Server{
     public class JSONTask extends AsyncTask<String, String, String> {
 
         private String innerResult;
+
         @Override
         protected String doInBackground(String... urls) {
             try {
+                Log.e("Server", "doinBackground");
                 //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate(getFunction(), item);
-                jsonObject.accumulate("id", item2);
-                Log.e("Server_mongId",LoginActivity.mongId);
-                //mongId는 현재 register할때 서버에서 받아오고, insert를 할때 서버로 보낸다.
-                //recommend할때는 jason에 미리 들어가있다.
-                jsonObject.accumulate("mongId", LoginActivity.mongId);
+                jsonObject.accumulate("id", item2);//faceBookId
+
+                if (getFunction().compareTo("rate") == 0) {
+                    Log.e("Server_mongId", LoginActivity.mongId);
+                    jsonObject.accumulate("mongId", LoginActivity.mongId);
+                    //mongId는 현재 register할때 서버에서 받아오고, insert를 할때 서버로 보낸다.
+                    //recommend할때는 jason에 미리 들어가있다.
+                }
+                if (getFunction().compareTo("contentsItem") == 0) {
+                    String temp = ci.getTitle();
+                    temp = temp.replaceAll(",", ".");
+                    jsonObject.accumulate("title", temp);
+                    //jsonObject.accumulate("janre",ci.getJanre());
+                    //jsonObject.accumulate("janreS","janreS");
+                    jsonObject.accumulate("contentsImage", ci.getUrl());
+                    jsonObject.accumulate("dateS", "startDate");
+                    jsonObject.accumulate("date", ci.getDate());
+
+                    /*
+                    if (ci.getStartDate() != null) {
+                        temp = ci.getStartDate();
+                        temp = temp.replaceAll(",", ".");
+                        jsonObject.accumulate("startDate", temp);
+                        jsonObject.accumulate("startDateS", "startDate");
+                    } else {
+                        //없으면 빈 상태로 저장하기
+                        jsonObject.accumulate("startDate", " ");
+                        jsonObject.accumulate("startDateS", " ");
+                    }
+                    if (ci.getEndDate() != null) {
+                        temp = ci.getEndDate();
+                        temp = temp.replaceAll(",", ".");
+                        jsonObject.accumulate("endDate", temp);
+                        jsonObject.accumulate("endDateS", "endDate");
+                    } else {
+                        //없으면 빈 상태로 저장하기
+                        jsonObject.accumulate("endDate", " ");
+                        jsonObject.accumulate("endDateS", " ");
+                    }
+                    */
+                    if (ci.getPlace() != null) {
+                        temp = ci.getPlace();
+                        temp = temp.replaceAll(",", ".");
+                        jsonObject.accumulate("placeS", "place");
+                        jsonObject.accumulate("place", temp);
+                    } else {
+                        jsonObject.accumulate("placeS", "place");
+                        jsonObject.accumulate("place", " ");
+                    }
+                    if (ci.getTime() != null) {
+                        temp = ci.getTime();
+                        temp = temp.replaceAll(",", ".");
+                        jsonObject.accumulate("timeS", "time");
+                        jsonObject.accumulate("time", temp);
+                    } else {
+                        jsonObject.accumulate("timeS", "time");
+                        jsonObject.accumulate("Time", " ");
+                    }
+                }
 
 
                 HttpURLConnection con = null;
@@ -225,17 +322,31 @@ public class Server{
         @Override
         public void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(result==null){
-                Log.e("Server","아직 아무 result 없음");
+            if (result == null || result.compareTo("") == 0 || result.compareTo("[]")==0) {
+                Log.e("Server", "아직 아무 result 없음");
                 return;
-            }
+            } else if (result.compareTo("OK!") == 0) {
+                return;
+            } else if (result.length() < 5) {
+                Log.e("Server", result);
+                String parsing[] = result.split(",");
+                //mongId는 AUTO_INCREMENT로 계속 증가하는데, 같은 FACEBOOK_ID를 가지고 있는 사용자에게는
+                //첫번째 등록된 mongId를 server로 부터 계속 받게 된다.
+                //따라서 서버로부터 '서버가 안드로이드에 제공하는 mongId와 서버에서 방금 증가한 mongId를 비교하면
+                //새 사용자인지 기존 사용자인지 알 수 있다.
+                if (Integer.parseInt(parsing[0]) < Integer.parseInt(parsing[1])) {
+                    LoginActivity.mongId = parsing[0];
+                    ReadyForGetMongId.NewUser = "false";
+                } else {
+                    LoginActivity.mongId = parsing[0];
+                    ReadyForGetMongId.NewUser = "true";
 
-            if(result.length()<5) {
+                }
+            } else if (result.contains("title")) {
+                Log.e("server", "result_찜 목록");
+                HomeActivity.saveString = result;
+            } else {
                 Log.e("Server", "result");
-                LoginActivity.mongId = result;
-            }
-            else {
-                Log.e("Server","result");
                 Information.recommendString = result;
             }
         }

@@ -16,26 +16,34 @@ public class ContentsInfo {
     String time;
     String janre;
     String expectScore;
+    String url;
 
+    //Information class에서 저장됨.
     public void setContentsCode(String code){
         this.contentsCode = code;
     }
     public void setContentsTime(String time){
         this.time = time;
     }
-
+    public void setContentsURL(String url){this.url = url;}
     public void setContentsStartDate(String startDate) {
         this.startDate = startDate;
     }
     public void setContentsEndDate(String endDate) {
-        this.endDate = endDate;
+        if(endDate!="")
+            this.endDate = "날짜 : "+startDate + " ~ "+ endDate;
+        else
+            this.endDate = startDate;
     }
 
     public void setContentsTitle(String title){
         this.title = title;
     }
     public void setContentsJanre(String janre){
-        this.janre = janre;
+        if(janre!="")
+            this.janre = "<"+janre+">";
+        else
+            this.janre = janre;
     }
     public void setContentsExpectScore(String expectScore){
         this.expectScore = expectScore;
@@ -49,17 +57,33 @@ public class ContentsInfo {
     }
 
     public String getTitle(){
-        String temp = "("+janre+")"+title;
+        String temp = janre+title;
         temp = temp.replaceAll("&#39;", "'");
+        temp = temp.replaceAll("&quot;", "\"");
+        temp = temp.replaceAll("&gt;", ">");
+        temp = temp.replaceAll("&lt;", "<");
+        temp = temp.replaceAll("&nbsp", " ");
+        temp = temp.replaceAll("&amp;", "&");
         return temp;
     }
     public String getTIme(){
         if(time==null)
             return "";
+        if(time.contains("시간"))
+            return time;
         return " 시간 : "+time;
     }
     public String getDate(){
-        return "날짜 : " +startDate+" ~ "+endDate;
+        return endDate;
+    }
+    public String getStartDate(){
+        return startDate;
+    }
+    public String getEndDate(){
+        return endDate;
+    }
+    public String getJanre(){
+        return janre;
     }
     public String getContentsCode(){
         return contentsCode;
@@ -71,4 +95,5 @@ public class ContentsInfo {
         return contentsImage;
     }
     public String getExpectScore(){return expectScore;}
+    public String getUrl(){return url;}
 }

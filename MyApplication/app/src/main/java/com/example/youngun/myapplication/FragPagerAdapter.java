@@ -45,7 +45,7 @@ public class FragPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "추천";
             case 1:
-                return "뉴스피드";
+                return "찜목록";
             case 2:
                 return "인기멤버";
             default:

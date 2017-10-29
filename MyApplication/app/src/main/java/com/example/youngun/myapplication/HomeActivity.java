@@ -20,9 +20,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -34,6 +38,7 @@ import layout.RecommendationFragment;
  * Created by youngun on 2017-10-18.
  */
 public class HomeActivity extends FragmentActivity implements RecommendationFragment.OnFragmentInteractionListener, NewsFragment.OnFragmentInteractionListener, FamousFragment.OnFragmentInteractionListener {
+    static String saveString;
     private Context context;
     ListView listView;
     ListView listView2;
@@ -41,12 +46,15 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     ImageButton search;
     JSONpart json;
     ContentsAdapter adapter;
+    ContentsAdapter adapter2;
     String userName;
+    HomeActivity home;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+        home=this;
 /*
         FragPagerAdapter mpageAdapter = new FragPagerAdapter(getSupportFragmentManager());
         ViewPager mviewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -58,7 +66,8 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
         listView = new ListView(context);
         listView2 = new ListView(context);
         listView3 = new ListView(context);
-        adapter = new ContentsAdapter(this, this);
+        adapter = new ContentsAdapter(this, this, "recommend");
+        adapter2 = new ContentsAdapter(this, this, "save");
 
         Vector<View> pages = new Vector<View>();
         pages.add(listView);
@@ -83,17 +92,31 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         //ArrayList<ContentsInfo> ar = info.getRecommendationList();
         Intent intent = getIntent();
-        Information info = (Information) intent.getExtras().getSerializable("info");
-
+        Information info = intent.getParcelableExtra("info");
+//info는 정보를 받고, item은 그 정보를 통해 item객체를 생성하고 그 item을 adapter에 넣음.
         ArrayList<ContentsInfo> ar = info.getRecommendList();
+        ArrayList<ContentsInfo> ar2 = null;
+        try {
+            ar2 = new Save().getSaveList();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        for (int i = 0; i < info.cultureSize; i++) {
+        for (int i = 0; i < ar.size(); i++) {
             //adapter.setMain(this);
-            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), false, false));
+            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(), ar.get(i).getStartDate(), ar.get(i).getEndDate(), ar.get(i).getJanre(), false, false));
         }
         listView.setAdapter(adapter);
-        listView2.setAdapter(adapter);
-        listView3.setAdapter(adapter);
+        if (ar2 != null) {
+            Log.e("HomeActivity","ar2!=null");
+            for (int i = 0; i < ar2.size(); i++) {
+                Log.e("Home_s",ar2.get(i).getContentsImage().toString());
+                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace()));
+            }
+            listView2.setAdapter(adapter2);
+        }
         search = (ImageButton) findViewById(R.id.searchButton);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,8 +130,10 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                     tempUser++;
                     //tempUser가 1에서 더이상 안넘어가네
                     editor.putInt("tempUser", tempUser);
-                    json.setTempUser(tempUser);
+                    json = new JSONpart();
+                    json.setTempUser(tempUser,home);
                     json.send("tempUser");
+                    editor.apply();
                     Toast.makeText(getApplicationContext(), "계정이 전환되었습니다. tempUser : " + tempUser, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     Log.e("search", "Fail");
@@ -125,7 +150,6 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     //그냥 뒤로가기눌러서 나왔을 때도 체크
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         final int REQEST_CODE_RATING1 = 1001;
-        final int REQEST_CODE_RATING2 = 1002;
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQEST_CODE_RATING1) {
             //점수를 주었을 때
@@ -137,14 +161,6 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
             }
         }
-        if (requestCode == REQEST_CODE_RATING2) {
-            Intent resultIntent = getIntent();
-            Log.e("ContentsView", "오른쪽");
-            float rating = resultIntent.getIntExtra("rating", -1);
-            //rating 서버로 보내기, true로 바꾸기, 코멘트 저장하기
-            //b2.setImageResource(R.drawable.customer_colored);
-
-        }
         if (resultCode == RESULT_OK) {
             Log.e("RESULT_OK", "good");
         }
@@ -153,44 +169,5 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    private class CheckTypesTask extends AsyncTask<Void, Void, Void> {
-
-        HomeActivity homeActivity;
-        Information info;
-
-        CheckTypesTask(HomeActivity h) {
-            homeActivity = h;
-        }
-
-        ProgressDialog asyncDialog = new ProgressDialog(
-                HomeActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("로딩중입니다..");
-
-            // show dialog
-            asyncDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            asyncDialog.dismiss();
-            super.onPostExecute(result);
-        }
-
-        public Information getInfo() {
-            return info;
-        }
     }
 }
