@@ -62,6 +62,13 @@
             android:layout_weight="1"
             android:src="@drawable/btn_image_selector"
             android:background="#00FF0000" />
+        <ImageButton
+            android:id="@+id/homePage"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:src="@drawable/btn_image_selector_browser"
+            android:background="#00FF0000" />
 
 
         <ImageButton

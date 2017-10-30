@@ -30,12 +30,11 @@ public class RatingActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating1);
         ra = this;
-Log.e("ratingActivity","Rating");
+        Log.e("ratingActivity", "Rating");
         Intent intent = getIntent();
         //contentsView에서 가져온 해당 contentsItem
         contentsItem = intent.getParcelableExtra("contentsItem");
-        //final String title = intent.getStringExtra("title");
-        Log.e("RatingActivity",contentsItem.getTitle());
+        Log.e("RatingActivity", contentsItem.getTitle());
         String title = contentsItem.getTitle();
         code = intent.getStringExtra("code");
         unWatchedButtonId = intent.getIntExtra("unWatched", 0);
@@ -57,24 +56,26 @@ Log.e("ratingActivity","Rating");
             @Override
             public void onClick(View view) {
                 SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
-                String id = sp.getString("id","");
+                String id = sp.getString("id", "");
                 Server server = new Server();
-                server.setFunction("save",contentsItem,id);
+                server.setFunction("save", contentsItem, id);
                 server.save(ra);
                 Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^", Toast.LENGTH_SHORT).show();
             }
         });
 
-       rateButton = (Button) findViewById(R.id.ratingButton);
+        rateButton = (Button) findViewById(R.id.ratingButton);
         //점수를 체크한 후에 버튼을 눌러야 보내짐.
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (score != -1) {
+                    contentsItem.setRate(true);
+                    contentsItem.setTitle("What");
                     Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
                     SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
-                    Log.e("사용자",LoginActivity.mongId);
                     String id = sp.getString("id", "");
+
                     //서버에 score, id 보내기
                     String send = Float.toString(score) + ":" + code + ":0";
                     Server server = new Server();

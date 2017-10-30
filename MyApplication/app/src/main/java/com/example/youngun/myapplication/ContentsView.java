@@ -31,56 +31,58 @@ public class ContentsView extends LinearLayout {
     TextView time;
     TextView expection;
     HomeActivity main;
+    ImageButton rate;
     String url;
 
     public ContentsView(Context context, ContentsItem contentsItem, HomeActivity main, String page) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if(page.compareTo("recommend")==0)
+        if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0)
             inflater.inflate(R.layout.activity_contentlist, this, true);
-        else if(page.compareTo("save")==0) {
+        else if (page.compareTo("save") == 0) {
             inflater.inflate(R.layout.activity_savelist, this, true);
-            Log.e("ContentsView_s",contentsItem.getBitmap().toString());
+            Log.e("ContentsView_s", contentsItem.getBitmap().toString());
         }
 
         imageViewButton = (ImageView) findViewById(R.id.imageView_button);
         imageViewButton2 = (ImageView) findViewById(R.id.imageView_button2);
+        rate = (ImageButton) findViewById(R.id.unWatched);
         textView1 = (TextView) findViewById(R.id.titleText);
         textView2 = (TextView) findViewById(R.id.dateText);
         time = (TextView) findViewById(R.id.timeText);
         textView3 = (TextView) findViewById(R.id.placeText);
         expection = (TextView) findViewById(R.id.expectScore);
 
-
         this.main = main;
-        changeToNew(contentsItem,page);
+        changeToNew(contentsItem, page);
     }
 
-    public void changeToNew(final ContentsItem contentsItem,String page) {
-        if(page.compareTo("recommend")==0) {
+    public void changeToNew(final ContentsItem contentsItem, String page) {
+        if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
 
-            ImageButton unWatched = (ImageButton) findViewById(R.id.unWatched);
+            if (contentsItem.getRated()) {
+                rate.setImageResource(R.drawable.star_colored);
+                Log.e("contentsView_랭킹", contentsItem.getTitle());
+            } else
+                rate.setImageResource(R.drawable.star);
 
             textView1.setText(contentsItem.getTitle());
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
             time.setText(contentsItem.getTime());
-            expection.setText("예상점수 : " + contentsItem.getExpectScore());
+            expection.setText("(" + contentsItem.getI() + "위)" + "예상점수 : " + contentsItem.getExpectScore());
+            if (page.compareTo("famous") == 0)
+                expection.setText("(" + contentsItem.getI() + 1 + "위) 평균점수 : " + contentsItem.getExpectScore());
             String code = contentsItem.getCode();
             url = contentsItem.getUrl();
 
 
-            if (contentsItem.isUnWatched() == false)
-                unWatched.setImageResource(R.drawable.star);
-            else
-                unWatched.setImageResource(R.drawable.star_colored);
             // inflater- 평가내리는 창 열리고,
             // if(평가 후) -> unWatched_colored로 바뀜
 
-            new RatingClass(unWatched, code, contentsItem);
-        }
-        else if(page.compareTo("save")==0){
+            new RatingClass(rate, code, contentsItem);
+        } else if (page.compareTo("save") == 0) {
             imageViewButton2.setImageBitmap(contentsItem.getBitmap());
             textView1.setText(contentsItem.getTitle());
             textView2.setText(contentsItem.getDate());
@@ -96,10 +98,10 @@ public class ContentsView extends LinearLayout {
             button1.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(main, RatingActivity1.class);
-                    intent.putExtra("title",textView1.getText().toString());
-                    intent.putExtra("contentsItem",contentsItem);
-                    intent.putExtra("code",code);
-                    Log.e("ContentsView_code :",code);
+                    intent.putExtra("title", textView1.getText().toString());
+                    intent.putExtra("contentsItem", contentsItem);
+                    intent.putExtra("code", code);
+                    Log.e("ContentsView_code :", code);
 
                     //버튼은 그냥 R.layout.unWatchedButton만 가지고 오는것일 뿐이더라
                     intent.putExtra("unWatched", v.getId());

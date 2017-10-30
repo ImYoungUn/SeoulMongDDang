@@ -3,29 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="서울몽땅"
-        android:textColor="#8BC34C"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dp" />
-    <ImageButton
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/magnifier"
-        android:background="#00FF0000"
-        android:layout_margin="20dp"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="서울몽땅"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#8BC34C"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toLeftOf="@+id/searchButton"
+            android:background="#00FF0000"
+            android:src="@drawable/refresh" />
+
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            android:background="#00FF0000"
+            android:src="@drawable/magnifier" />
     </RelativeLayout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

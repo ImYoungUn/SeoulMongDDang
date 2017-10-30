@@ -21,24 +21,24 @@ public class ContentsItem implements Parcelable{
     private String janre;
     private String startDate;
     private String endDate;
+    private int i;
     private boolean unWatched = false;//true면 colored로 바뀜
     private boolean watched = false;//true면 colored로 바뀜
 
 //String janre,String startDate,String endDate는 Server DB에 저장후, 나중에 받아올 때 contentsInfo에 저장시키기 위함.
-    public ContentsItem(String code, Bitmap bitmap, String title, String time, String date, String place, String Url,String expectScore,String janre,String startDate,String endDate, boolean unWatched, boolean watched) {
+    public ContentsItem(String code, Bitmap bitmap, String title, String time, String date, String place, String Url,String expectScore,String janre,String startDate,String endDate, int i) {
         this.code = code;
         this.bitmap = bitmap;
         this.title = title;
         this.time = time;
         this.date = date;
         this.place = place;
-        this.unWatched = unWatched;
-        this.watched = watched;
         this.url = Url;
         this.expectScore=  expectScore;
         this.janre=janre;
         this.startDate=startDate;
         this.endDate = endDate;
+        this.i = i;
     }
     public ContentsItem(Bitmap bitmap, String title, String time, String date, String place) {
         this.bitmap = bitmap;
@@ -65,6 +65,7 @@ public class ContentsItem implements Parcelable{
         watched = in.readByte() != 0;
     }
 
+
     public static final Creator<ContentsItem> CREATOR = new Creator<ContentsItem>() {
         @Override
         public ContentsItem createFromParcel(Parcel in) {
@@ -77,6 +78,18 @@ public class ContentsItem implements Parcelable{
         }
     };
 
+    public int getI(){
+        return i+1;
+    }
+    public boolean getRated(){
+        return unWatched;
+    }
+    public void setRate(boolean t){
+        unWatched = t;
+    }
+    public void setTitle(String title){
+        this.title=title;
+    }
     public String getCode() {
         return code;
     }
@@ -142,5 +155,11 @@ public class ContentsItem implements Parcelable{
         parcel.writeString(place);
         parcel.writeString(expectScore);
         parcel.writeString(url);
+        parcel.writeString(janre);
+        parcel.writeString(startDate);
+        parcel.writeString(endDate);
+        parcel.writeInt(i);
+        parcel.writeByte((byte) (unWatched ? 1 : 0));
+        parcel.writeByte((byte) (watched ? 1 : 0));
     }
 }

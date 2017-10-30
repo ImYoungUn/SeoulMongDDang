@@ -29,7 +29,6 @@ public class JSONpart {
     public void addIdAndLogin(String id,LoginActivity loginActivity) throws JSONException {
         this.id = id;
         this.loginActivity = loginActivity;
-        obj.put("userId", id);
     }
     public void addIdAndReady(String id,ReadyForGetMongId ready) throws JSONException {
         this.id = id;
@@ -49,13 +48,12 @@ public class JSONpart {
         }
         else if(user.compareTo("firstRecommend")==0){
             obj.put("allContents",arr);
-            server.setFunction("recommend",obj.toString(),id);
+            server.setFunction("recommend",LoginActivity.mongId,id);
             server.recommend(readyForGetMongId);
         }
         else {
             Log.e("JSONpart","server.recommend");
-            obj.put("allContents",arr);
-            server.setFunction("recommend",obj.toString(),id);
+            server.setFunction("recommend",LoginActivity.mongId,id);
             server.recommend(loginActivity);
         }
     }

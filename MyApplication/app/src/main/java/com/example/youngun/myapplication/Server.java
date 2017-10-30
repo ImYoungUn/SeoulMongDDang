@@ -176,7 +176,7 @@ public class Server {
         else if (func.compareTo("insert") == 0)
             return "rate";
         else if (func.compareTo("recommend") == 0)
-            return "json";
+            return "mongId";
         else if (func.compareTo("save") == 0)
             return "contentsItem";
         else if (func.compareTo("getSave") == 0)
@@ -346,7 +346,7 @@ public class Server {
                 Log.e("server", "result_찜 목록");
                 HomeActivity.saveString = result;
             } else {
-                Log.e("Server", "result");
+                Log.e("Server", result);
                 Information.recommendString = result;
             }
         }

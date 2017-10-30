@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.json.JSONException;
 
@@ -23,7 +24,7 @@ public class ReadyForGetMongId extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready_for_recommend_progress);
 
-        Button gettingInbtn = (Button) findViewById(R.id.gettingInButton);
+        ImageButton gettingInbtn = (ImageButton) findViewById(R.id.gettingInButton);
         gettingInbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -180,9 +180,9 @@ public class LoginActivity extends AppCompatActivity {
         Information info = new Information();
         //JSONpart클래스 실행하여 recommend시 필요한 정보 server로 넘겨주기
         Log.e("loading()", LoginActivity.mongId);
-        JSONpart json = info.getJson();
+        JSONpart json = new JSONpart();
         try {
-            json.addIdAndLogin(LoginActivity.mongId, this);
+            json.addIdAndLogin(userId, this);
             json.send("recommend");
             Log.e("Login", "send Recommend");
         } catch (JSONException e) {

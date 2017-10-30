@@ -47,18 +47,17 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     JSONpart json;
     ContentsAdapter adapter;
     ContentsAdapter adapter2;
+    ContentsAdapter adapter3;
     String userName;
     HomeActivity home;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         context = this;
         home=this;
 /*
-        FragPagerAdapter mpageAdapter = new FragPagerAdapter(getSupportFragmentManager());
-        ViewPager mviewPager = (ViewPager) findViewById(R.id.view_pager);
-        mviewPager.setAdapter(mpageAdapter);
 */
         ViewPager mviewPager = (ViewPager) findViewById(R.id.view_pager);
         TabLayout mTab = (TabLayout) findViewById(R.id.tabs);
@@ -68,6 +67,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
         listView3 = new ListView(context);
         adapter = new ContentsAdapter(this, this, "recommend");
         adapter2 = new ContentsAdapter(this, this, "save");
+        adapter3 = new ContentsAdapter(this, this, "famous");
 
         Vector<View> pages = new Vector<View>();
         pages.add(listView);
@@ -80,6 +80,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
         mTab.getTabAt(0).setIcon(R.drawable.recommended);
         mTab.getTabAt(1).setIcon(R.drawable.newspaper);
         mTab.getTabAt(2).setIcon(R.drawable.crown);
+        customAdapter.setTab(mTab);
 
 
         //CheckTypesTask task = new CheckTypesTask(this);
@@ -94,8 +95,10 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
         Intent intent = getIntent();
         Information info = intent.getParcelableExtra("info");
 //info는 정보를 받고, item은 그 정보를 통해 item객체를 생성하고 그 item을 adapter에 넣음.
-        ArrayList<ContentsInfo> ar = info.getRecommendList();
+        info.makeList();;
+        ArrayList<ContentsInfo> ar = info.getRecommendlist();
         ArrayList<ContentsInfo> ar2 = null;
+        ArrayList<ContentsInfo> ar3 = info.getFamouslist();
         try {
             ar2 = new Save().getSaveList();
         } catch (JSONException e) {
@@ -106,9 +109,10 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         for (int i = 0; i < ar.size(); i++) {
             //adapter.setMain(this);
-            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(), ar.get(i).getStartDate(), ar.get(i).getEndDate(), ar.get(i).getJanre(), false, false));
+            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),i));
         }
         listView.setAdapter(adapter);
+
         if (ar2 != null) {
             Log.e("HomeActivity","ar2!=null");
             for (int i = 0; i < ar2.size(); i++) {
@@ -117,6 +121,12 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             }
             listView2.setAdapter(adapter2);
         }
+
+        for (int i = 0; i < ar3.size(); i++) {
+            //adapter.setMain(this);
+            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),i));
+        }
+        listView3.setAdapter(adapter3);
         search = (ImageButton) findViewById(R.id.searchButton);
         search.setOnClickListener(new View.OnClickListener() {
             @Override

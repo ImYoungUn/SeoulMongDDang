@@ -62,7 +62,4 @@ public class ContentsAdapter extends BaseAdapter {
         itemView.changeToNew(contents.get(i),page);
         return itemView;
     }
-    public void setMain(HomeActivity Main){
-        this.Main = Main;
-    }
 }
