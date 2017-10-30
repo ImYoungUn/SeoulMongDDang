@@ -68,9 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         server = new Server();
         /*자동로그인시 바로 넘어가게해놓음*/
         if (AccessToken.getCurrentAccessToken() != null) { //이미 로그인 여부 확인//
-            Log.e("at", "기존 로그인 확인");
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));
-            //server.recommend();@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //************임시 사용자 형성****************
             LoginActivity.mongId = sp.getString("mongId", "x");
             SharedPreferences.Editor editor = sp.edit();

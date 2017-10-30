@@ -17,6 +17,7 @@ public class ContentsInfo {
     String janre;
     String expectScore;
     String url;
+    String homepage;
 
     //Information class에서 저장됨.
     public void setContentsCode(String code){
@@ -24,6 +25,9 @@ public class ContentsInfo {
     }
     public void setContentsTime(String time){
         this.time = time;
+    }
+    public void setContentsHomepage(String homepage){
+        this.homepage = homepage;
     }
     public void setContentsURL(String url){this.url = url;}
     public void setContentsStartDate(String startDate) {
@@ -96,4 +100,5 @@ public class ContentsInfo {
     }
     public String getExpectScore(){return expectScore;}
     public String getUrl(){return url;}
+    public String getHomepage(){return homepage;}
 }

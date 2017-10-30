@@ -7,6 +7,7 @@ package com.example.youngun.myapplication;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Button;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -33,6 +34,7 @@ public class Server {
     private String item;
     private String item2;
     private String item3;
+    private String item4;
     private String mongId;
     private ContentsItem ci;
     private String result;
@@ -99,6 +101,15 @@ public class Server {
         onStop();
     }
 
+    protected void saveComment(CommentActivity loginActivity) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/saveComment");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+
     protected void recommend(LoginActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/recommend");//AsyncTask 시작시킴
@@ -156,12 +167,12 @@ public class Server {
         this.item2 = item2;
     }
 
-    public void setFunction(String func, String item, String item2, String item3, String mongId) {
+    public void setFunction(String func, String item, String item2, String item3, String item4) {
         this.func = func;
         this.item = item;
         this.item2 = item2;
         this.item3 = item3;
-        this.mongId = mongId;
+        this.item4 = item4;
     }
 
     public void setFunction(String func, ContentsItem ci, String id) {
@@ -181,6 +192,8 @@ public class Server {
             return "contentsItem";
         else if (func.compareTo("getSave") == 0)
             return "non";
+        else if (func.compareTo("saveComment") == 0)
+            return "comment";
         return "Null";
     }
 
@@ -198,6 +211,10 @@ public class Server {
                 jsonObject.accumulate(getFunction(), item);
                 jsonObject.accumulate("id", item2);//faceBookId
 
+                if (getFunction().compareTo("comment") == 0) {
+                    jsonObject.accumulate("name", item3);
+                    jsonObject.accumulate("cultId", item4);
+                }
                 if (getFunction().compareTo("rate") == 0) {
                     Log.e("Server_mongId", LoginActivity.mongId);
                     jsonObject.accumulate("mongId", LoginActivity.mongId);
@@ -214,28 +231,6 @@ public class Server {
                     jsonObject.accumulate("dateS", "startDate");
                     jsonObject.accumulate("date", ci.getDate());
 
-                    /*
-                    if (ci.getStartDate() != null) {
-                        temp = ci.getStartDate();
-                        temp = temp.replaceAll(",", ".");
-                        jsonObject.accumulate("startDate", temp);
-                        jsonObject.accumulate("startDateS", "startDate");
-                    } else {
-                        //없으면 빈 상태로 저장하기
-                        jsonObject.accumulate("startDate", " ");
-                        jsonObject.accumulate("startDateS", " ");
-                    }
-                    if (ci.getEndDate() != null) {
-                        temp = ci.getEndDate();
-                        temp = temp.replaceAll(",", ".");
-                        jsonObject.accumulate("endDate", temp);
-                        jsonObject.accumulate("endDateS", "endDate");
-                    } else {
-                        //없으면 빈 상태로 저장하기
-                        jsonObject.accumulate("endDate", " ");
-                        jsonObject.accumulate("endDateS", " ");
-                    }
-                    */
                     if (ci.getPlace() != null) {
                         temp = ci.getPlace();
                         temp = temp.replaceAll(",", ".");
@@ -322,7 +317,7 @@ public class Server {
         @Override
         public void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (result == null || result.compareTo("") == 0 || result.compareTo("[]")==0) {
+            if (result == null || result.compareTo("") == 0 || result.compareTo("[]") == 0) {
                 Log.e("Server", "아직 아무 result 없음");
                 return;
             } else if (result.compareTo("OK!") == 0) {
@@ -345,7 +340,12 @@ public class Server {
             } else if (result.contains("title")) {
                 Log.e("server", "result_찜 목록");
                 HomeActivity.saveString = result;
-            } else {
+            } else if( result.contains("comment")){
+                //Log.e("server", "result_코멘트");
+                Log.e("server", result);
+                ContentsView.comments=result;
+            }
+            else {
                 Log.e("Server", result);
                 Information.recommendString = result;
             }

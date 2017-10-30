@@ -21,12 +21,13 @@ public class ContentsItem implements Parcelable{
     private String janre;
     private String startDate;
     private String endDate;
+    private String homepage;
     private int i;
     private boolean unWatched = false;//true면 colored로 바뀜
     private boolean watched = false;//true면 colored로 바뀜
 
 //String janre,String startDate,String endDate는 Server DB에 저장후, 나중에 받아올 때 contentsInfo에 저장시키기 위함.
-    public ContentsItem(String code, Bitmap bitmap, String title, String time, String date, String place, String Url,String expectScore,String janre,String startDate,String endDate, int i) {
+    public ContentsItem(String code, Bitmap bitmap, String title, String time, String date, String place, String Url,String expectScore,String janre,String startDate,String endDate,String homepage, int i) {
         this.code = code;
         this.bitmap = bitmap;
         this.title = title;
@@ -38,14 +39,16 @@ public class ContentsItem implements Parcelable{
         this.janre=janre;
         this.startDate=startDate;
         this.endDate = endDate;
+        this.homepage = homepage;
         this.i = i;
     }
-    public ContentsItem(Bitmap bitmap, String title, String time, String date, String place) {
+    public ContentsItem(Bitmap bitmap, String title, String time, String date, String place, String homepage) {
         this.bitmap = bitmap;
         this.title = title;
         this.time = time;
         this.date = date;
         this.place = place;
+        this.homepage = homepage;
     }
 
 
@@ -114,6 +117,8 @@ public class ContentsItem implements Parcelable{
     public String getJanre() {
         return janre;
     }
+    public String getHomepage(){return homepage;}
+
 
     public String getTime() {
         return time;

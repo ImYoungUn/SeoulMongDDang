@@ -109,7 +109,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         for (int i = 0; i < ar.size(); i++) {
             //adapter.setMain(this);
-            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),i));
+            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
         }
         listView.setAdapter(adapter);
 
@@ -117,14 +117,14 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             Log.e("HomeActivity","ar2!=null");
             for (int i = 0; i < ar2.size(); i++) {
                 Log.e("Home_s",ar2.get(i).getContentsImage().toString());
-                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace()));
+                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar.get(i).getHomepage()));
             }
             listView2.setAdapter(adapter2);
         }
 
         for (int i = 0; i < ar3.size(); i++) {
             //adapter.setMain(this);
-            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),i));
+            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
         }
         listView3.setAdapter(adapter3);
         search = (ImageButton) findViewById(R.id.searchButton);
@@ -160,6 +160,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     //그냥 뒤로가기눌러서 나왔을 때도 체크
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         final int REQEST_CODE_RATING1 = 1001;
+        final int REQEST_CODE_RATING3 = 1003;
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQEST_CODE_RATING1) {
             //점수를 주었을 때
@@ -169,6 +170,12 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 ImageButton unWatched = (ImageButton) findViewById(unWatchedButtonId);
                 unWatched.setImageResource(R.drawable.star_colored);
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == REQEST_CODE_RATING3) {
+            //점수를 주었을 때
+            if (intent != null) {
+                Toast.makeText(getApplicationContext(), userName+"님의 코멘트를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         }
         if (resultCode == RESULT_OK) {

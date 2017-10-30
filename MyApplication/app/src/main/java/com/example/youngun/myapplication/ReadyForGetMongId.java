@@ -66,7 +66,7 @@ public class ReadyForGetMongId extends Activity {
         editor.apply();
 
         //JSONpart클래스 실행하여 recommend시 필요한 정보 server로 넘겨주기(받아오는건 HomeActivity에서)
-        JSONpart json = info.getJson();
+        JSONpart json = new JSONpart();
         try {
             json.addIdAndReady(LoginActivity.mongId, this);
             json.send("firstRecommend");

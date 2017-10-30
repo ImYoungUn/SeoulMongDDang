@@ -79,7 +79,6 @@ public class Information extends Thread implements Parcelable {
     void get_server_famousContents() {
         String page[] = Information.recommendString.split("split");
         String parse[] = page[1].split(",");
-        Log.e("Information", "famousString");
         //int ci_recomSize = Integer.parseInt(parse[parse.length-1]);
         famousCodeList = new String[famousSize];
         famousScoreList = new String[famousSize];
@@ -115,7 +114,7 @@ public class Information extends Thread implements Parcelable {
             ci_f[0] = new ContentsInfo();
             int parserEvent = parser.getEventType();
             String tag;
-            boolean title = false, code = false, image = false, start = false, end = false, time = false, place = false, janre = false;
+            boolean title = false, code = false, homepage = false, image = false, start = false, end = false, time = false, place = false, janre = false;
             boolean skip_r = false, skip_f = false, skip = false;
             int i = 0;
             int j = 0;
@@ -148,6 +147,8 @@ public class Information extends Thread implements Parcelable {
                             time = true;
                         else if (tag.compareTo("PLACE") == 0)
                             place = true;
+                        else if (tag.compareTo("ORG_LINK") == 0)
+                            homepage = true;
                         else if (tag.compareTo("MAIN_IMG") == 0)
                             image = true;
                         break;
@@ -229,6 +230,15 @@ public class Information extends Thread implements Parcelable {
                                 if (!skip_f)
                                     ci_f[j].setContentsPlace(parser.getText());
                             }
+                        } else if (homepage) {
+                            if (parser.getText() == null)
+                                skip = true;
+                            else {
+                                if (!skip_r)
+                                    ci_r[i].setContentsHomepage(parser.getText());
+                                if (!skip_f)
+                                    ci_f[j].setContentsHomepage(parser.getText());
+                            }
                         } else if (time) {
                             if (parser.getText() == null)
                                 skip = true;
@@ -276,6 +286,8 @@ public class Information extends Thread implements Parcelable {
                             time = false;
                         } else if (tag.compareTo("PLACE") == 0) {
                             place = false;
+                        } else if (tag.compareTo("ORG_LINK") == 0) {
+                            homepage = false;
                         } else if (tag.compareTo("MAIN_IMG") == 0) {
                             image = false;
                             if (skip == false) {
@@ -313,12 +325,15 @@ public class Information extends Thread implements Parcelable {
         Collections.sort(recommendlist, descendingObj);
         Collections.sort(famouslist, descendingObj);
     }
-    public ArrayList<ContentsInfo> getRecommendlist(){
+
+    public ArrayList<ContentsInfo> getRecommendlist() {
         return recommendlist;
     }
-    public ArrayList<ContentsInfo> getFamouslist(){
+
+    public ArrayList<ContentsInfo> getFamouslist() {
         return famouslist;
     }
+
     JSONpart getJson() {
         return json;
     }
