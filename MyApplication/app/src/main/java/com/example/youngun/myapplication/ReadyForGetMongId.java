@@ -141,6 +141,8 @@ public class ReadyForGetMongId extends Activity {
                                                             @Override
                                                             public void onPostExecute(String result) {
                                                                 Information.recommendString = result;
+                                                                info = new Information();
+
                                                                 new AsyncTask<String, String, String>() {
                                                                     @Override
                                                                     protected void onPreExecute() {
@@ -226,17 +228,15 @@ public class ReadyForGetMongId extends Activity {
                                                                     public void onPostExecute(String result) {
                                                                         super.onPostExecute(result);
                                                                         HomeActivity.saveString = result;
+
                                                                         Intent intent = new Intent(r, HomeActivity.class);
+                                                                        intent.putExtra("info", info);
                                                                         //Log.e("Progress_", result);
                                                                         //main.startActivityForResult(intent, REQEST_CODE_RATING1);
                                                                         startActivity(intent);
+                                                                        finish();
                                                                     }
                                                                 }.execute("http://18.221.180.219:3000/getSave");
-                                                                Intent intent = new Intent(r, HomeActivity.class);
-                                                                //Log.e("Progress_", result);
-                                                                //main.startActivityForResult(intent, REQEST_CODE_RATING1);
-                                                                startActivity(intent);
-                                                                finish();
                                                             }
                                                         }.execute("http://18.221.180.219:3000/recommend");
                                                 }

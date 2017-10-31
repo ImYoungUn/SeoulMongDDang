@@ -93,9 +93,9 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         //ArrayList<ContentsInfo> ar = info.getRecommendationList();
 //info는 정보를 받고, item은 그 정보를 통해 item객체를 생성하고 그 item을 adapter에 넣음.
-        Information info = new Information();
-        info.makeList();
-        
+        Intent in = getIntent();
+        Information info = in.getParcelableExtra("info");
+
         ArrayList<ContentsInfo> ar = info.getRecommendlist();
         ArrayList<ContentsInfo> ar2 = null;
         ArrayList<ContentsInfo> ar3 = info.getFamouslist();

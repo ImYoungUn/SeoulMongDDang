@@ -27,7 +27,7 @@ import java.util.Comparator;
 /**
  * Created by youngun on 2017-09-12.
  */
-public class Information extends Thread{
+public class Information extends Thread implements Parcelable{
     static String recommendString;
     private ContentsInfo[] ci_r;
     private ContentsInfo[] ci_f;
@@ -42,6 +42,29 @@ public class Information extends Thread{
     public int famousSize = 10;
 
 
+    Information(){
+        makeList();
+    }
+    protected Information(Parcel in) {
+        codeList = in.createStringArray();
+        famousCodeList = in.createStringArray();
+        expectScoreList = in.createStringArray();
+        famousScoreList = in.createStringArray();
+        cultureSize = in.readInt();
+        famousSize = in.readInt();
+    }
+
+    public static final Creator<Information> CREATOR = new Creator<Information>() {
+        @Override
+        public Information createFromParcel(Parcel in) {
+            return new Information(in);
+        }
+
+        @Override
+        public Information[] newArray(int size) {
+            return new Information[size];
+        }
+    };
 
     void get_server_recommendList() {
         String page[] = Information.recommendString.split("split");
@@ -362,6 +385,21 @@ public class Information extends Thread{
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(codeList);
+        parcel.writeStringArray(famousCodeList);
+        parcel.writeStringArray(expectScoreList);
+        parcel.writeStringArray(famousScoreList);
+        parcel.writeInt(cultureSize);
+        parcel.writeInt(famousSize);
     }
 }
 
