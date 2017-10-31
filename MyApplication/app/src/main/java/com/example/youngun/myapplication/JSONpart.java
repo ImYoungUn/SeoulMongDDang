@@ -47,7 +47,6 @@ public class JSONpart {
             server.register(homeActivity);
         }
         else if(user.compareTo("firstRecommend")==0){
-            obj.put("allContents",arr);
             server.setFunction("recommend",LoginActivity.mongId,id);
             server.recommend(readyForGetMongId);
         }

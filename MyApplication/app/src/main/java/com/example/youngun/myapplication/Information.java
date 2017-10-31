@@ -100,7 +100,7 @@ public class Information extends Thread{
             int j = 0;
             int c=0;
             Log.e("count", count + "");
-            while (c<count) {
+            while (recommendlist.size() != cultureSize && famouslist.size()!=famousSize) {
                 switch (parserEvent) {
                     case XmlPullParser.START_TAG:
                         tag = parser.getName();
@@ -147,23 +147,27 @@ public class Information extends Thread{
                                 skip_r = true;
                                 skip_f = true;
                                 Log.e("Information_culcode2 : ",cultCode+","+c+"번");
-                                for (int k = 0; k < cultureSize; k++) {
-                                    // Log.e("codeLis1t",codeList[j]);
-                                    if (cultCode.compareTo(codeList[k]) == 0) {
-                                        //Log.e("codeList2",codeList[j]);
-                                        ci_r[i].setContentsCode(parser.getText());
-                                        ci_r[i].setContentsExpectScore(expectScoreList[k]);
-                                        skip_r = false;
-                                        break;
+                                if(i<cultureSize) {
+                                    for (int k = 0; k < cultureSize; k++) {
+                                        // Log.e("codeLis1t",codeList[j]);
+                                        if (cultCode.compareTo(codeList[k]) == 0) {
+                                            //Log.e("codeList2",codeList[j]);
+                                            ci_r[i].setContentsCode(parser.getText());
+                                            ci_r[i].setContentsExpectScore(expectScoreList[k]);
+                                            skip_r = false;
+                                            break;
+                                        }
                                     }
                                 }
-                                for (int k = 0; k < famousSize; k++) {
-                                    if (cultCode.compareTo(famousCodeList[k]) == 0) {
-                                        //Log.e("codeList2",codeList[j]);
-                                        ci_f[j].setContentsCode(parser.getText());
-                                        ci_f[j].setContentsExpectScore(famousScoreList[k]);
-                                        skip_f = false;
-                                        break;
+                                if(j<famousSize) {
+                                    for (int k = 0; k < famousSize; k++) {
+                                        if (cultCode.compareTo(famousCodeList[k]) == 0) {
+                                            //Log.e("codeList2",codeList[j]);
+                                            ci_f[j].setContentsCode(parser.getText());
+                                            ci_f[j].setContentsExpectScore(famousScoreList[k]);
+                                            skip_f = false;
+                                            break;
+                                        }
                                     }
                                 }
                             }

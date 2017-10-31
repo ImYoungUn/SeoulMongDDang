@@ -75,8 +75,9 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
             Log.e("login_mongId", LoginActivity.mongId);
             //************임시 사용자 형성*****************
-            loading();
-            Intent intent1 = new Intent(this, LoadingActivity.class);
+            //loading();
+            ReadyForGetMongId.NewUser = "false";
+            Intent intent1 = new Intent(this, ReadyForGetMongId.class);
             startActivity(intent1);
             finish();
             Log.d("Tag", "user id : " + AccessToken.getCurrentAccessToken().getUserId());
