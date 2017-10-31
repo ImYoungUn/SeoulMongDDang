@@ -92,10 +92,10 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
 
         //ArrayList<ContentsInfo> ar = info.getRecommendationList();
-        Intent intent = getIntent();
-        Information info = intent.getParcelableExtra("info");
 //info는 정보를 받고, item은 그 정보를 통해 item객체를 생성하고 그 item을 adapter에 넣음.
-        info.makeList();;
+        Information info = new Information();
+        info.makeList();
+        
         ArrayList<ContentsInfo> ar = info.getRecommendlist();
         ArrayList<ContentsInfo> ar2 = null;
         ArrayList<ContentsInfo> ar3 = info.getFamouslist();
@@ -117,14 +117,14 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             Log.e("HomeActivity","ar2!=null");
             for (int i = 0; i < ar2.size(); i++) {
                 Log.e("Home_s",ar2.get(i).getContentsImage().toString());
-                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar.get(i).getHomepage()));
+                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
             }
             listView2.setAdapter(adapter2);
         }
 
         for (int i = 0; i < ar3.size(); i++) {
             //adapter.setMain(this);
-            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
+            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar3.get(i).getJanre(), ar3.get(i).getStartDate(), ar3.get(i).getEndDate(),ar3.get(i).getHomepage(),i));
         }
         listView3.setAdapter(adapter3);
         search = (ImageButton) findViewById(R.id.searchButton);

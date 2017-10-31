@@ -25,7 +25,7 @@ public class LoadingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         intent1 = getIntent();
         b = (Button) findViewById(R.id.loadingButton);
-        Toast.makeText(getApplicationContext(), "버튼을 누르시면 추천 시스템을 가동 합니다.\n 조금만 기다려 주세요!^^", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "버튼을 누르시면 추천 시스템을 가동 합니다.\n 조금만 기다려 주세요!^^", Toast.LENGTH_LONG).show();
         SharedPreferences sp = getSharedPreferences("myFile",Activity.MODE_PRIVATE);
         Server server = new Server();
         server.setFunction("getSave","non",sp.getString("id",""));
@@ -38,9 +38,7 @@ public class LoadingActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         b.setBackground(Drawable.createFromPath("#8bc34a"));
                     }
-                    Information inf = intent1.getParcelableExtra("info");
                     Intent in = new Intent(LoadingActivity.this, HomeActivity.class);
-                    in.putExtra("info", inf);
                     startActivity(in);
                     finish();
                 }

@@ -3,6 +3,7 @@ package com.example.youngun.myapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -31,17 +32,23 @@ public class ReadyForGetMongId extends Activity {
                 if(NewUser!=null) {
                     if (NewUser.compareTo("true") == 0) {
                         //첫 사용자
+                        new AsyncTask<String, String, String>() {
+                        @Override
+                        protected void onPreExecute() {
+                            super.onPreExecute();
+                            bar.setVisibility(View.VISIBLE);
+                        }
+
+                    protected String doInBackground(String... urls) {
+                        loading();
                         getUserPerference();
-                        info = loading();
                         Intent intent2 = new Intent(ReadyForGetMongId.this, LoadingActivity.class);
-                        intent2.putExtra("info", info);
                         startActivity(intent2);
                         finish();
                     } else {
                         //mongId 받고 바로 넘어가기
-                        info = loading();
+                        loading();
                         Intent intent2 = new Intent(ReadyForGetMongId.this, LoadingActivity.class);
-                        intent2.putExtra("info", info);
                         startActivity(intent2);
                         finish();
                     }
@@ -57,7 +64,7 @@ public class ReadyForGetMongId extends Activity {
         String result = null;
         return result;
     }
-    public Information loading() {
+    public void loading() {
         Information info = new Information();
         SharedPreferences sp = getSharedPreferences("myFile",Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -74,7 +81,6 @@ public class ReadyForGetMongId extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return info;
     }
 
 }

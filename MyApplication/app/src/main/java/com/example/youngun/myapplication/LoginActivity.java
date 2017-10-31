@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Server server;
     private LoginActivity loginActivity;
-    private Information info;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -76,9 +75,8 @@ public class LoginActivity extends AppCompatActivity {
             editor.apply();
             Log.e("login_mongId", LoginActivity.mongId);
             //************임시 사용자 형성*****************
-            info = loading();
+            loading();
             Intent intent1 = new Intent(this, LoadingActivity.class);
-            intent1.putExtra("info", info);
             startActivity(intent1);
             finish();
             Log.d("Tag", "user id : " + AccessToken.getCurrentAccessToken().getUserId());
@@ -174,8 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public Information loading() {
-        Information info = new Information();
+    public void loading() {
         //JSONpart클래스 실행하여 recommend시 필요한 정보 server로 넘겨주기
         Log.e("loading()", LoginActivity.mongId);
         JSONpart json = new JSONpart();
@@ -186,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return info;
     }
 
 

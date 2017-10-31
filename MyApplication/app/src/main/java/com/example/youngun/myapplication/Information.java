@@ -27,7 +27,7 @@ import java.util.Comparator;
 /**
  * Created by youngun on 2017-09-12.
  */
-public class Information extends Thread implements Parcelable {
+public class Information extends Thread{
     static String recommendString;
     private ContentsInfo[] ci_r;
     private ContentsInfo[] ci_f;
@@ -42,26 +42,6 @@ public class Information extends Thread implements Parcelable {
     public int famousSize = 10;
 
 
-    Information() {
-    }
-
-    protected Information(Parcel in) {
-        codeList = in.createStringArray();
-        expectScoreList = in.createStringArray();
-        cultureSize = in.readInt();
-    }
-
-    public static final Creator<Information> CREATOR = new Creator<Information>() {
-        @Override
-        public Information createFromParcel(Parcel in) {
-            return new Information(in);
-        }
-
-        @Override
-        public Information[] newArray(int size) {
-            return new Information[size];
-        }
-    };
 
     void get_server_recommendList() {
         String page[] = Information.recommendString.split("split");
@@ -118,11 +98,14 @@ public class Information extends Thread implements Parcelable {
             boolean skip_r = false, skip_f = false, skip = false;
             int i = 0;
             int j = 0;
-            while (recommendlist.size() != cultureSize) {
+            int c=0;
+            Log.e("count", count + "");
+            while (c<count) {
                 switch (parserEvent) {
                     case XmlPullParser.START_TAG:
                         tag = parser.getName();
                         if (tag.compareTo("CULTCODE") == 0) {
+                            c++;
                             //Log.e("Information_cultcode : ",tag);
                             code = true;
                             skip_r = false;
@@ -163,7 +146,7 @@ public class Information extends Thread implements Parcelable {
                                 String cultCode = parser.getText();
                                 skip_r = true;
                                 skip_f = true;
-                                //Log.e("Information_culcode2 : ",cultCode);
+                                Log.e("Information_culcode2 : ",cultCode+","+c+"번");
                                 for (int k = 0; k < cultureSize; k++) {
                                     // Log.e("codeLis1t",codeList[j]);
                                     if (cultCode.compareTo(codeList[k]) == 0) {
@@ -375,18 +358,6 @@ public class Information extends Thread implements Parcelable {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(codeList);
-        parcel.writeStringArray(expectScoreList);
-        parcel.writeInt(cultureSize);
     }
 }
 
