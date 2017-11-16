@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (LoginButton) findViewById(R.id.login_facebook_button); //페이스북 로그인 버튼
         sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
         server = new Server();
+
         /*자동로그인시 바로 넘어가게해놓음*/
         if (AccessToken.getCurrentAccessToken() != null) { //이미 로그인 여부 확인//
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));

@@ -339,7 +339,7 @@ public class Server {
                 }
             } else if (result.contains("title")) {
                 Log.e("server", "result_찜 목록");
-                HomeActivity.saveString = result;
+                Save.saveString = result;
             } else if( result.contains("comment")){
                 //Log.e("server", "result_코멘트");
                 Log.e("server", result);

@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.net.SocketException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,8 +29,8 @@ import java.util.Comparator;
 /**
  * Created by youngun on 2017-09-12.
  */
-public class Information extends Thread implements Parcelable{
-    static String recommendString;
+public class Information extends Thread implements Parcelable {
+    static String recommendString = null;
     private ContentsInfo[] ci_r;
     private ContentsInfo[] ci_f;
     private ArrayList<ContentsInfo> recommendlist;
@@ -42,9 +44,10 @@ public class Information extends Thread implements Parcelable{
     public int famousSize = 10;
 
 
-    Information(){
+    Information() {
         makeList();
     }
+
     protected Information(Parcel in) {
         codeList = in.createStringArray();
         famousCodeList = in.createStringArray();
@@ -97,6 +100,7 @@ public class Information extends Thread implements Parcelable{
         get_server_recommendList();
         get_server_famousContents();
         int count = getList_total_count();
+        //int count = 150;
         recommendlist = new ArrayList<ContentsInfo>();
         famouslist = new ArrayList<ContentsInfo>();
         if (Build.VERSION.SDK_INT > 9) {
@@ -104,13 +108,19 @@ public class Information extends Thread implements Parcelable{
             StrictMode.setThreadPolicy(policy);
         }
 
+        int c1 = 0, c2 = 0, c3 = 0;
         try {
             URL url = new URL("http://openapi.seoul.go.kr:8088/554a764c56796f7531364e77764250/xml/SearchConcertDetailService/1/" + count + "/");
+            InputStream is = url.openStream();
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = factory.newPullParser();
+            parser.setInput(is, "utf-8");
+/*
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 
             XmlPullParser parser = factory.newPullParser();
             parser.setInput(url.openStream(), null);
-
+*/
             ci_r = new ContentsInfo[count + 1];
             ci_f = new ContentsInfo[count + 1];
             ci_r[0] = new ContentsInfo();
@@ -121,15 +131,12 @@ public class Information extends Thread implements Parcelable{
             boolean skip_r = false, skip_f = false, skip = false;
             int i = 0;
             int j = 0;
-            int c=0;
-            Log.e("count", count + "");
-            while (recommendlist.size() != cultureSize && famouslist.size()!=famousSize) {
+            while (recommendlist.size() != cultureSize && famouslist.size() != famousSize) {
                 switch (parserEvent) {
                     case XmlPullParser.START_TAG:
+                        c1++;
                         tag = parser.getName();
                         if (tag.compareTo("CULTCODE") == 0) {
-                            c++;
-                            //Log.e("Information_cultcode : ",tag);
                             code = true;
                             skip_r = false;
                             skip_f = false;
@@ -159,6 +166,8 @@ public class Information extends Thread implements Parcelable{
                             image = true;
                         break;
                     case XmlPullParser.TEXT:
+                        Log.e("tag", parser.getText());
+                        c2++;
                         //tag = parser.getName();
                         if (code) {
                             if (parser.getText() == null) {
@@ -169,8 +178,7 @@ public class Information extends Thread implements Parcelable{
                                 String cultCode = parser.getText();
                                 skip_r = true;
                                 skip_f = true;
-                                Log.e("Information_culcode2 : ",cultCode+","+c+"번");
-                                if(i<cultureSize) {
+                                if (i < cultureSize) {
                                     for (int k = 0; k < cultureSize; k++) {
                                         // Log.e("codeLis1t",codeList[j]);
                                         if (cultCode.compareTo(codeList[k]) == 0) {
@@ -182,7 +190,7 @@ public class Information extends Thread implements Parcelable{
                                         }
                                     }
                                 }
-                                if(j<famousSize) {
+                                if (j < famousSize) {
                                     for (int k = 0; k < famousSize; k++) {
                                         if (cultCode.compareTo(famousCodeList[k]) == 0) {
                                             //Log.e("codeList2",codeList[j]);
@@ -264,23 +272,32 @@ public class Information extends Thread implements Parcelable{
                                 skip = true;
                             else {
                                 String tmp = parser.getText();
-                                URL urlImage = new URL(tmp);
-                                if (!skip_r)
-                                    ci_r[i].setContentsURL(tmp);
-                                InputStream is = urlImage.openStream();
                                 try {
+                                    URL urlImage = new URL(tmp);
                                     if (!skip_r)
-                                        ci_r[i].setContentsImage(BitmapFactory.decodeStream(is));
-                                    if (!skip_f)
-                                        ci_f[j].setContentsImage(BitmapFactory.decodeStream(is));
-                                } catch (OutOfMemoryError e) {
+                                        ci_r[i].setContentsURL(tmp);
+                                    InputStream is2 = urlImage.openStream();
+                                    try {
+                                        if (!skip_r)
+                                            ci_r[i].setContentsImage(BitmapFactory.decodeStream(is2));
+                                        if (!skip_f)
+                                            ci_f[j].setContentsImage(BitmapFactory.decodeStream(is2));
+                                    } catch (OutOfMemoryError e) {
+                                        skip = true;
+                                        Log.e("skip", tmp + "가 skip됐습니다");
+                                    }
+                                } catch (SocketException e) {
                                     skip = true;
-                                    Log.e("skip", tmp + "가 skip됐습니다");
+                                    Log.e("soket문제발생", c2 + "");
+                                } catch (UnknownHostException e) {
+                                    skip = true;
+                                    Log.e("host문제발생", c2 + "");
                                 }
                             }
                         }
                         break;
                     case XmlPullParser.END_TAG:
+                        c3++;
                         tag = parser.getName();
                         if (tag.compareTo("CULTCODE") == 0)
                             code = false;
@@ -322,16 +339,17 @@ public class Information extends Thread implements Parcelable{
                 }
                 parserEvent = parser.next();
             }
-        } catch (MalformedURLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         } catch (XmlPullParserException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
+        Log.e("Information_culcode2 : ", "," + c1 + "번," + c2 + "번," + c3 + "번,");
         Log.e("Information", "getRecommendationList_finish");
         DescendingObj descendingObj = new DescendingObj();
+
+        //예상점수 순으로 sorting
         Collections.sort(recommendlist, descendingObj);
         Collections.sort(famouslist, descendingObj);
     }

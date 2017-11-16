@@ -2,11 +2,13 @@ package com.example.youngun.myapplication;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by youngun on 2017-09-12.
  */
-public class ContentsInfo {
+public class ContentsInfo implements Parcelable{
     String contentsCode;
     String title;
     Bitmap contentsImage;
@@ -18,6 +20,35 @@ public class ContentsInfo {
     String expectScore;
     String url;
     String homepage;
+
+    public ContentsInfo(){
+
+    }
+    protected ContentsInfo(Parcel in) {
+        contentsCode = in.readString();
+        title = in.readString();
+        contentsImage = in.readParcelable(Bitmap.class.getClassLoader());
+        startDate = in.readString();
+        endDate = in.readString();
+        place = in.readString();
+        time = in.readString();
+        janre = in.readString();
+        expectScore = in.readString();
+        url = in.readString();
+        homepage = in.readString();
+    }
+
+    public static final Creator<ContentsInfo> CREATOR = new Creator<ContentsInfo>() {
+        @Override
+        public ContentsInfo createFromParcel(Parcel in) {
+            return new ContentsInfo(in);
+        }
+
+        @Override
+        public ContentsInfo[] newArray(int size) {
+            return new ContentsInfo[size];
+        }
+    };
 
     //Information class에서 저장됨.
     public void setContentsCode(String code){
@@ -75,7 +106,7 @@ public class ContentsInfo {
             return "";
         if(time.contains("시간"))
             return time;
-        return " 시간 : "+time;
+        return "시간 : "+time;
     }
     public String getDate(){
         return endDate;
@@ -101,4 +132,24 @@ public class ContentsInfo {
     public String getExpectScore(){return expectScore;}
     public String getUrl(){return url;}
     public String getHomepage(){return homepage;}
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(contentsCode);
+        parcel.writeString(title);
+        parcel.writeParcelable(contentsImage, i);
+        parcel.writeString(startDate);
+        parcel.writeString(endDate);
+        parcel.writeString(place);
+        parcel.writeString(time);
+        parcel.writeString(janre);
+        parcel.writeString(expectScore);
+        parcel.writeString(url);
+        parcel.writeString(homepage);
+    }
 }

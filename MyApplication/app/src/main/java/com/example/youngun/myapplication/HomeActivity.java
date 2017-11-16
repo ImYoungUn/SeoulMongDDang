@@ -38,7 +38,6 @@ import layout.RecommendationFragment;
  * Created by youngun on 2017-10-18.
  */
 public class HomeActivity extends FragmentActivity implements RecommendationFragment.OnFragmentInteractionListener, NewsFragment.OnFragmentInteractionListener, FamousFragment.OnFragmentInteractionListener {
-    static String saveString;
     private Context context;
     ListView listView;
     ListView listView2;
@@ -50,7 +49,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     ContentsAdapter adapter3;
     String userName;
     HomeActivity home;
-
+    StringParsing stringParsing;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -89,71 +88,87 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
         userName = sp.getString("name", "");
+        search = (ImageButton) findViewById(R.id.searchButton);
 
 
         //ArrayList<ContentsInfo> ar = info.getRecommendationList();
 //info는 정보를 받고, item은 그 정보를 통해 item객체를 생성하고 그 item을 adapter에 넣음.
-        Intent in = getIntent();
-        Information info = in.getParcelableExtra("info");
+        //Intent in = getIntent();
+        //StringParsing stringParsing = in.getParcelableExtra("stringParsing");
 
-        ArrayList<ContentsInfo> ar = info.getRecommendlist();
-        ArrayList<ContentsInfo> ar2 = null;
-        ArrayList<ContentsInfo> ar3 = info.getFamouslist();
-        try {
-            ar2 = new Save().getSaveList();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < ar.size(); i++) {
-            //adapter.setMain(this);
-            adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
-        }
-        listView.setAdapter(adapter);
-
-        if (ar2 != null) {
-            Log.e("HomeActivity","ar2!=null");
-            for (int i = 0; i < ar2.size(); i++) {
-                Log.e("Home_s",ar2.get(i).getContentsImage().toString());
-                adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
-            }
-            listView2.setAdapter(adapter2);
-        }
-
-        for (int i = 0; i < ar3.size(); i++) {
-            //adapter.setMain(this);
-            adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar3.get(i).getJanre(), ar3.get(i).getStartDate(), ar3.get(i).getEndDate(),ar3.get(i).getHomepage(),i));
-        }
-        listView3.setAdapter(adapter3);
-        search = (ImageButton) findViewById(R.id.searchButton);
-        search.setOnClickListener(new View.OnClickListener() {
+        new AsyncTask<String, String, String>() {
             @Override
-            public void onClick(View view) {
-                //************임시 사용자 형성*****************
+            protected void onPreExecute() {
+                super.onPreExecute();
+                stringParsing = new StringParsing();
+            }
+
+            protected String doInBackground(String... urls) {
+                return "finish";
+            }
+            @Override
+                public void onPostExecute(String result) {
+                Log.e("Home", "start");
+                ArrayList<ContentsInfo> ar = stringParsing.getAr();
+                ArrayList<ContentsInfo> ar2 = null;
+                ArrayList<ContentsInfo> ar3 = stringParsing.getAr3();
                 try {
-                    Log.e("search", "SEND");
-                    SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
-                    int tempUser = sp.getInt("tempUser", 0);
-                    SharedPreferences.Editor editor = sp.edit();
-                    tempUser++;
-                    //tempUser가 1에서 더이상 안넘어가네
-                    editor.putInt("tempUser", tempUser);
-                    json = new JSONpart();
-                    json.setTempUser(tempUser,home);
-                    json.send("tempUser");
-                    editor.apply();
-                    Toast.makeText(getApplicationContext(), "계정이 전환되었습니다. tempUser : " + tempUser, Toast.LENGTH_SHORT).show();
+                    ar2 = new Save().getSaveList();
                 } catch (JSONException e) {
-                    Log.e("search", "Fail");
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                //************임시 사용자 형성*****************
+                for (int i = 0; i < ar.size(); i++) {
+                    //adapter.setMain(this);
+                    adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
+                }
+                listView.setAdapter(adapter);
+
+                if (ar2 != null) {
+                    Log.e("HomeActivity","ar2!=null");
+                    for (int i = 0; i < ar2.size(); i++) {
+                        Log.e("Home_s",ar2.get(i).getContentsImage().toString());
+                        adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
+                    }
+                    listView2.setAdapter(adapter2);
+                }
+
+                for (int i = 0; i < ar3.size(); i++) {
+                    //adapter.setMain(this);
+                    adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar3.get(i).getJanre(), ar3.get(i).getStartDate(), ar3.get(i).getEndDate(),ar3.get(i).getHomepage(),i));
+                }
+                listView3.setAdapter(adapter3);
+                search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //************임시 사용자 형성*****************
+                        try {
+                            Log.e("search", "SEND");
+                            SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
+                            int tempUser = sp.getInt("tempUser", 0);
+                            SharedPreferences.Editor editor = sp.edit();
+                            tempUser++;
+                            //tempUser가 1에서 더이상 안넘어가네
+                            editor.putInt("tempUser", tempUser);
+                            json = new JSONpart();
+                            json.setTempUser(tempUser,home);
+                            json.send("tempUser");
+                            editor.apply();
+                            Toast.makeText(getApplicationContext(), "계정이 전환되었습니다. tempUser : " + tempUser, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            Log.e("search", "Fail");
+                            e.printStackTrace();
+                        }
+
+                        //************임시 사용자 형성*****************
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "반갑습니다." + userName + "님, 서울몽땅입니다.", Toast.LENGTH_SHORT).show();
+
             }
-        });
-        Toast.makeText(getApplicationContext(), "반갑습니다." + userName + "님, 서울몽땅입니다.", Toast.LENGTH_SHORT).show();
+            }.execute();
 
     }
 

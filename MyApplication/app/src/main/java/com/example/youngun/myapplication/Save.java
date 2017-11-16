@@ -18,11 +18,13 @@ import java.util.ArrayList;
  * Created by youngun on 2017-10-29.
  */
 public class Save extends Thread{
+    static String saveString;
     public ArrayList<ContentsInfo> getSaveList() throws JSONException, IOException {
+        //저장했던 찜목록
         ArrayList<ContentsInfo> list = new ArrayList<ContentsInfo>();
-        if (HomeActivity.saveString != null) {
+        if (Save.saveString != null) {
             Log.e("Save", "on");
-            String temp = HomeActivity.saveString.replaceAll("\"", "'");
+            String temp = Save.saveString.replaceAll("\"", "'");
             JSONArray jarray = new JSONArray(temp);
             ContentsInfo ci[] = new ContentsInfo[jarray.length()];
             for (int i = 0; i < jarray.length(); i++) {

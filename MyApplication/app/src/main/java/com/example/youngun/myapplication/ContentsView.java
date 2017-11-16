@@ -84,6 +84,7 @@ public class ContentsView extends LinearLayout {
         if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
 
+
             if (contentsItem.getRated()) {
                 rate.setImageResource(R.drawable.star_colored);
                 Log.e("contentsView_랭킹", contentsItem.getTitle());
