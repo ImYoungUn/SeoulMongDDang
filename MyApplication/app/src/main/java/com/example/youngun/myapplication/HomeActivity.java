@@ -128,7 +128,14 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
                 if (ar2 != null) {
                     Log.e("HomeActivity","ar2!=null");
+                    /*
                     for (int i = 0; i < ar2.size(); i++) {
+                        Log.e("Home_s",ar2.get(i).getContentsImage().toString());
+                        adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
+                    }
+                    */
+                    //최신 save가 가장 먼저 나오도록 역순으로 제공
+                    for (int i = ar2.size()-1; i>=0; i--) {
                         Log.e("Home_s",ar2.get(i).getContentsImage().toString());
                         adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
                     }

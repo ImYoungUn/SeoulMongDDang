@@ -1,0 +1,124 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+public class CF {
+	// 공연 갯수를 안드로이드로 부터 받음!
+	public static void main(String args[]) throws IOException {
+		int num = 5;
+		int a = 3;
+		float[] simPerson = new float[5];
+		Person[] person = new Person[100];
+
+		BufferedReader[] br = new BufferedReader[5];
+		String[] line = new String[5];
+		for (int i = 0; i < 5; i++) {
+			br[i] = new BufferedReader((new InputStreamReader(System.in)));
+			line[i] = br[i].readLine();
+			line[i] = line[i].replaceAll(System.getProperty("line.separator"), " ");
+			String[] spl = line[i].split(" ");
+			person[i] = new Person(15);
+			for (int j = 0; j < person[i].score.length; j++) {
+				//System.out.println(spl.length + "	" + j + " : " + spl[j]);
+				System.out.print(Integer.parseInt(spl[j]));
+				person[i].score[j] = Integer.parseInt(spl[j]);
+			}
+			System.out.println();
+		}
+
+		EQ1 eq1 = new EQ1();
+		EQ2 eq2 = new EQ2();
+		for (int i = 0; i < num; i++) {
+			if (a != i)
+				simPerson[i] = eq1.getSim(person[a].score, person[i].score);
+		}
+		System.out.println(
+				simPerson[0] + ", " + simPerson[1] + ", " + simPerson[2] + ", " + simPerson[3] + ", " + simPerson[4]);
+		// System.out.println(eq.getSim(a, a));
+		// System.out.println(eq.getSim(a, b));
+		// System.out.println(eq.getSim(a, d));
+		// System.out.println(eq.getSim(a, e));
+	}
+
+}
+/*
+ * 
+0 0 0 3 5 3 3 3 2 1 1 5 5 5 0
+0 0 0 2 5 3 3 3 1 1 1 5 5 5 0
+0 0 0 -1 -5 3 3 1 1 1 1 -5 5 5 0
+0 0 0 3 5 3 3 3 2 1 1 5 5 1 0
+0 0 0 3 5 3 3 2 1 1 1 5 4 4 0
+ */
+
+class Person {
+	public int[] score;
+
+	Person(int num) {
+		score = new int[num];
+	}
+}
+
+class EQ1 {
+	float getSim(int[] a, int[] u) {
+		// using Equation 1.
+		float sim;
+		int sum1 = 0, sum2 = 0, sum3 = 0;
+		int aAvg = 0, uAvg = 0;
+		int count = 0;
+
+		for (int i = 0; i < a.length; i++) {
+			if (a[i] != 0 && u[i] != 0) {
+				aAvg += a[i];
+				uAvg += u[i];
+				count++;
+			}
+		}
+		aAvg = aAvg / count;
+		uAvg = uAvg / count;
+
+		for (int i = 0; i < a.length; i++) {
+			if (a[i] != 0 && u[i] != 0) {
+				sum1 += (a[i] - aAvg) * (u[i] - uAvg);
+				sum2 += Math.pow(a[i] - aAvg, 2);
+				sum3 += Math.pow(u[i] - uAvg, 2);
+			}
+		}
+		sim = (float) (sum1 / (Math.sqrt(sum2) * Math.sqrt(sum3)));
+		return sim;
+	}
+}
+
+class EQ2 {
+	float expect(int x, int a, float[] simPerson, int scoreSize, Person[] p) {
+		// a와 나머지 n명과의 x에 대한 유사도
+		// x에 대한 n명의 평가 점수와 전체 평가점수의 평균이 필요.
+		// 결과 : a가 x를 몇점을 줄지 예상
+		float expection;
+		float rA = ave(a, scoreSize, p);
+		float rV;
+		int sum1 = 0, sum2 = 0, sum3 = 0;
+		for (int i = 0; i < simPerson.length; i++) {
+			// 유사한 simPerson에게는 '유사도' 값이 부여되어져 있다.
+			if (simPerson[i] != 0) {
+				rV = ave(i, scoreSize, p);
+				sum1 += p[i].score[x] - rV;
+			}
+			sum2 += simPerson[i];
+			sum3 += Math.abs(simPerson[i]);
+		}
+		expection = sum1 * sum2 / sum3;
+
+		return expection;
+	}
+
+	float ave(int perNum, int scoreSize, Person[] p) {
+		int sum = 0;
+		float ave = 0;
+		for (int i = 0; i < scoreSize; i++) {
+			sum += p[perNum].score[i];
+		}
+		ave = sum / scoreSize;
+		return ave;
+	}
+}
