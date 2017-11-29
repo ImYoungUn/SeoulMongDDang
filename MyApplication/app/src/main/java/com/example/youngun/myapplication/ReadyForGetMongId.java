@@ -55,7 +55,7 @@ public class ReadyForGetMongId extends Activity {
                      public void onClick(View view) {
                          if (NewUser != null) {
                              if (StringParsing.recommendString == null && recommendCheck==true) {
-                                 textView.setText("잠시만 기다려주세요!");
+                                 textView.setText("Recommending System 가동중...\n무료 서버를 사용 중이라 좀 느려요...ㅜㅜ");
                                  bar.setVisibility(View.VISIBLE);
                                  recommendCheck = false;//터치 불가
                                  //첫 사용자
@@ -153,7 +153,7 @@ public class ReadyForGetMongId extends Activity {
                                  bar.setVisibility(View.VISIBLE);
                                  saveCheck = false;//터치불가
                                  getSaveInBackGround();
-                                 textView.setText("잠시만 기다려주세요!");
+                                 textView.setText("시작합니다~");
                              }
                          }
                      }

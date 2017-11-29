@@ -13,13 +13,46 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="서울몽땅"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="몽"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#8BC34C"
+            android:textColor="#d42426"
             android:textSize="30dp"
             android:textStyle="bold" />
-
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="땅"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/textView2"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#3a8249"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+        <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#d42426"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="울"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/textView4"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#3a8249"
+            android:textSize="30dp"
+            android:textStyle="bold" />
         <ImageButton
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"

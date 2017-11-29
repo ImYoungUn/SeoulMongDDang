@@ -10,6 +10,8 @@
         android:layout_height="250dp" />
     <TextView
         android:id="@+id/titleText"
+        android:text="클래식 공연"
+        android:textColor="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
@@ -18,34 +20,38 @@
 
     <TextView
         android:id="@+id/dateText"
+        android:text="날짜 : 1999-11-11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
+        android:layout_margin="5dp" />
 
     <TextView
         android:id="@+id/timeText"
+        android:text="시간:오후 몇시여"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
+        android:layout_margin="5dp" />
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
     <TextView
         android:id="@+id/placeText"
-        android:text="asdfljl"
+        android:text="중앙대학교"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/expectScore"
         android:text="예상점수 : 3.5"
-        android:textColor="#8BC34C"
+        android:textStyle="bold"
+        android:textColor="#d42426"
         android:textSize="15dp"
-        android:layout_margin="20dp"
+        android:layout_margin="5dp"
+        android:layout_marginRight="15dp"
         android:layout_alignParentRight="true"
         />
     </RelativeLayout>

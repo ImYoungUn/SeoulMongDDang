@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.Rating;
 import android.net.Uri;
@@ -19,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import org.json.JSONObject;
 
@@ -82,6 +86,7 @@ public class ContentsView extends LinearLayout {
 
     public void changeToNew(final ContentsItem contentsItem, String page) {
         if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
+            //Picasso.with(main).load(contentsItem.getUrl()).placeholder(R.drawable.loading).error(R.drawable.icon).resize(0,400).into(imageViewButton);
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
 
 
@@ -114,6 +119,24 @@ public class ContentsView extends LinearLayout {
             time.setText(contentsItem.getTime());
         }
     }
+    public int targetWidth = 200;
+
+    public Transformation resizeTransformation = new Transformation() {
+        @Override
+        public Bitmap transform(Bitmap source) {
+            double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+            int targetHeight = (int) (targetWidth * aspectRatio);
+            Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+            if (result != source) {
+                source.recycle();
+            }
+            return result;
+        }
+        @Override
+        public String key() {
+            return "resizeTransformation#" + System.currentTimeMillis();
+        }
+    };
 
     class ButtonClass extends AppCompatActivity {
         public static final int REQEST_CODE_RATING1 = 1001;
@@ -151,9 +174,6 @@ public class ContentsView extends LinearLayout {
                     main.startActivityForResult(intent,REQEST_CODE_RATING3);
                 }
             });
-
         }
-
-
     }
 }

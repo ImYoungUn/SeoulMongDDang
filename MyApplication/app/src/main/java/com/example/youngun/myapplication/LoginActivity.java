@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -68,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
         /*자동로그인시 바로 넘어가게해놓음*/
         if (AccessToken.getCurrentAccessToken() != null) { //이미 로그인 여부 확인//
+            //뒤로가기 해서 나갔다가 바로 다시 들어올 경우에는 recommendString의 데이터가 남아있는 듯 함.
+            StringParsing.recommendString=null;
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));
             //************임시 사용자 형성****************
             LoginActivity.mongId = sp.getString("mongId", "x");
@@ -77,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("login_mongId", LoginActivity.mongId);
             //************임시 사용자 형성*****************
             //loading();
-            ReadyForGetMongId.NewUser = "false";
+            ReadyForGetMongId.NewUser = "기존유저";
             Intent intent1 = new Intent(this, ReadyForGetMongId.class);
             startActivity(intent1);
             finish();
@@ -141,6 +144,8 @@ public class LoginActivity extends AppCompatActivity {
         CustomloginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "관리자 지문 인식 실패.", Toast.LENGTH_SHORT).show();
                 //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
                         Arrays.asList("public_profile", "user_friends"));
