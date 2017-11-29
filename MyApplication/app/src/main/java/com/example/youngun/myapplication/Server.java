@@ -82,14 +82,6 @@ public class Server {
         onStop();
     }
 
-    protected void getSave(LoadingActivity ratingActivity1) {
-        //버튼이 클릭되면 여기 리스너로 옴
-        new JSONTask().execute("http://18.221.180.219:3000/getSave");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
-        onStart();
-
-        onStop();
-    }
 
     //home - 추천 버튼
     protected void insert(RatingActivity1 ratingActivity1) {
@@ -344,10 +336,8 @@ public class Server {
                 //Log.e("server", "result_코멘트");
                 Log.e("server", result);
                 ContentsView.comments=result;
-            }
-            else {
-                Log.e("Server", result);
-                Information.recommendString = result;
+            }else{
+                Log.e("Server_unexpect", result);
             }
         }
     }
