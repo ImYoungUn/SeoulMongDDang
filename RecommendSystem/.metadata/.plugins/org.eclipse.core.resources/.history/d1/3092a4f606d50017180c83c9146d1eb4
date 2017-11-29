@@ -205,8 +205,8 @@ class EQ3 {
 			int index = p.get(i).cultId.indexOf(x);
 			if(index != -1){
 				rV = ave(i, p);
-				sum1 += (p.get(i).rate.get(index))*simPerson[i];
-				//sum2 += simPerson[i];
+				sum1 += p.get(i).rate.get(index) - rV;
+				sum2 += simPerson[i];
 				sum3 += Math.abs(simPerson[i]);
 				returnCount++;
 			}

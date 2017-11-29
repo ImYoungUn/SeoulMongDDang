@@ -162,8 +162,8 @@ class EQ2 {
 			int index = p.get(i).cultId.indexOf(x);
 			if(index != -1){
 				rV = ave(i, p);
-				sum1 += (p.get(i).rate.get(index) - rV)*simPerson[i];
-				//sum2 += simPerson[i];
+				sum1 += p.get(i).rate.get(index) - rV;
+				sum2 += simPerson[i];
 				sum3 += Math.abs(simPerson[i]);
 				returnCount++;
 			}
@@ -171,7 +171,7 @@ class EQ2 {
 		//아무도 해당 컨텐츠에 평가를 내리지 않았을 경우 기본점수 2.5점
 		if(returnCount ==0)
 			return (float)2.5;
-		expection = rA + sum1 / sum3;
+		expection = rA + sum1 * sum2 / sum3;
 		return expection;
 	}
 
@@ -186,47 +186,24 @@ class EQ2 {
 		ave = sum / scoreSize;
 		return ave;
 	}
-}
+	int[] findSame(ArrayList<Integer> a, ArrayList<Integer> u, int[] stage) {
+		// 주의!! sorting이 되어 있는 일반적인 arrayList가 들어가야 함
+		int[] same = { -1, -1 };
+		int i = stage[0];
+		int j = stage[1];
 
-class EQ3 {
-	float expect(int x, int a, float[] simPerson, ArrayList<Person> p) {
-		// a와 나머지 n명과의 x에 대한 유사도
-		// x에 대한 n명의 평가 점수와 전체 평가점수의 평균이 필요.
-		// 결과 : a가 x를 몇점을 줄지 예상
-		// 단, 제공받는 x의 id는 현재 진행중인 컨텐츠여야 함. 
-		float expection;
-		float rA = ave(a, p);
-		float rV;
-		float sum1 = 0, sum2 = 0, sum3 = 0;
-		int returnCount=0;
-		for (int i = 0; i < simPerson.length; i++) {
-			// 유사한 simPerson에게는 '유사도' 값이 부여되어져 있다.
-			// 이들은 'x'에 대해 평가를 한 적이 있어야 한다. 그렇지않으면, 걸러진다.
-			int index = p.get(i).cultId.indexOf(x);
-			if(index != -1){
-				rV = ave(i, p);
-				sum1 += (p.get(i).rate.get(index))*simPerson[i];
-				//sum2 += simPerson[i];
-				sum3 += Math.abs(simPerson[i]);
-				returnCount++;
+		while (a.size() > i && u.size() > j) {
+			if (a.get(i) < u.get(j)) {
+				i++;
+			} else if (a.get(i) > u.get(j)) {
+				j++;
+			} else {
+				same[0] = i;
+				same[1] = j;
+				return same;
 			}
 		}
-		//아무도 해당 컨텐츠에 평가를 내리지 않았을 경우 기본점수 2.5점
-		if(returnCount ==0)
-			return (float)2.5;
-		expection = sum1 * sum2 / sum3;
-		return expection;
-	}
-
-	float ave(int perNum, ArrayList<Person> p) {
-		//perNum에 해당하는 사람이 점수매긴 모든 문화콘텐츠에 대해 평균점수를 구한다. 
-		int sum = 0;
-		float ave = 0;
-		int scoreSize = p.get(perNum).cultId.size();
-		for (int i = 0; i < scoreSize; i++) {
-			sum += p.get(perNum).rate.get(i);
-		}
-		ave = sum / scoreSize;
-		return ave;
+		return same;
 	}
 }
+

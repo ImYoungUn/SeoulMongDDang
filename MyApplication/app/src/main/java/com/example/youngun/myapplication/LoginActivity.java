@@ -140,34 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        CustomloginButton = (Button) findViewById(R.id.login_button);
-        CustomloginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "관리자 지문 인식 실패.", Toast.LENGTH_SHORT).show();
-                //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList("public_profile", "user_friends"));
-                LoginManager.getInstance().registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-                                Log.e("onSuccess", "onSuccess");
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                Log.e("onCancel", "onCancel");
-                            }
-
-                            @Override
-                            public void onError(FacebookException exception) {
-                                Log.e("onError", "onError " + exception.getLocalizedMessage());
-                            }
-                        });
-            }
-        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

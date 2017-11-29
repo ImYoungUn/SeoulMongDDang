@@ -17,48 +17,13 @@
         android:layout_marginTop="100dp"
         android:src="@drawable/icon" />
 
-    <EditText
-        android:id="@+id/login_id"
-        style="@style/EditTextTheme"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/logo"
-        android:background="@drawable/edittext_shape"
-        android:hint="아이디"
-        android:lines="1" />
-
-    <EditText
-        android:id="@+id/login_pw"
-        style="@style/EditTextTheme"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/login_id"
-        android:background="@drawable/edittext_shape"
-        android:hint="비밀번호"
-        android:lines="1"
-        android:password="true" />
-
-    <Button
-        android:id="@+id/login_button"
-        style="?android:buttonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@id/login_pw"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/ButtonColorGreen"
-        android:shadowColor="@color/transparent"
-        android:text="관리자 로그인"
-        android:textColor="@color/whiteColor"
-        android:textSize="20sp" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_facebook_button"
         style="?android:buttonBarButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@id/login_button"
+        android:layout_height="80dp"
+        android:layout_below="@id/logo"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
@@ -68,39 +33,6 @@
         android:textColor="@color/whiteColor"
         android:textSize="20sp" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/login_facebook_button"
-        android:layout_below="@id/login_facebook_button"
-        android:layout_marginTop="5dp"
-        android:text="아이디 저장"
-        android:textSize="15sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/login_facebook_button"
-        android:layout_alignRight="@+id/login_facebook_button"
-        android:layout_below="@+id/login_facebook_button"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:text=" / "
-            android:textSize="15sp" />
-        <Button
-            android:id="@+id/sign_up_btn"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:text="관리자가입"
-            android:textSize="15sp" />
-    </LinearLayout>
 
 
 </RelativeLayout>

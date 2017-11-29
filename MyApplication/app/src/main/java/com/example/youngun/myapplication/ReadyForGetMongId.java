@@ -30,13 +30,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class ReadyForGetMongId extends Activity {
-    static String NewUser;
+    static String NewUser = null;
     ReadyForGetMongId r;
     ProgressBar bar;
     StringParsing stringParsing;
     TextView textView;
     boolean recommendCheck;//처음에 시작했을 때 가능
     boolean saveCheck;//불가
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //서버에서 첫 로그인시 MongId를 받아 오는 속도차가 있어서 해당 Activity가 필요하며,
@@ -54,7 +55,7 @@ public class ReadyForGetMongId extends Activity {
                 (new View.OnClickListener() {
                      public void onClick(View view) {
                          if (NewUser != null) {
-                             if (StringParsing.recommendString == null && recommendCheck==true) {
+                             if (StringParsing.recommendString == null && recommendCheck == true) {
                                  textView.setText("Recommending System 가동중...\n무료 서버를 사용 중이라 좀 느려요...ㅜㅜ");
                                  bar.setVisibility(View.VISIBLE);
                                  recommendCheck = false;//터치 불가
@@ -149,7 +150,7 @@ public class ReadyForGetMongId extends Activity {
                                          //stringParsing = new StringParsing();
                                      }
                                  }.execute("http://18.221.180.219:3000/recommend");
-                             }else if(saveCheck == true){
+                             } else if (saveCheck == true) {
                                  bar.setVisibility(View.VISIBLE);
                                  saveCheck = false;//터치불가
                                  getSaveInBackGround();

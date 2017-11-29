@@ -314,7 +314,15 @@ public class Server {
                 return;
             } else if (result.compareTo("OK!") == 0) {
                 return;
-            } else if (result.length() < 5) {
+
+            } else if (result.contains("title")) {
+                Log.e("server", "result_찜 목록");
+                Save.saveString = result;
+            } else if (result.contains("comment")) {
+                //Log.e("server", "result_코멘트");
+                Log.e("server", result);
+                ContentsView.comments = result;
+            } else {
                 Log.e("Server", result);
                 String parsing[] = result.split(",");
                 //mongId는 AUTO_INCREMENT로 계속 증가하는데, 같은 FACEBOOK_ID를 가지고 있는 사용자에게는
@@ -329,15 +337,6 @@ public class Server {
                     ReadyForGetMongId.NewUser = "true";
 
                 }
-            } else if (result.contains("title")) {
-                Log.e("server", "result_찜 목록");
-                Save.saveString = result;
-            } else if( result.contains("comment")){
-                //Log.e("server", "result_코멘트");
-                Log.e("server", result);
-                ContentsView.comments=result;
-            }else{
-                Log.e("Server_unexpect", result);
             }
         }
     }

@@ -29,7 +29,7 @@ class PersonList {
 		return allContents;
 	}
 */
-	void savePerson(String args, Functions func, ArrayList<Integer> allContents, FamousContents contents, int userId) {
+	void savePerson(String args, Functions func, ArrayList<Integer> allContents, FamousContents contents) {
 		// {mongId:1,rate:4.0:96117:0
 		ArrayList<String> rate = new ArrayList();
 		int mongId = 1;
@@ -52,7 +52,6 @@ class PersonList {
 		} // mongID가 같은 rate끼리 func.save로 넘기기
 			// android에서 mongId를 1부터 제공하므로 0으로 만들어줌.
 		func.save(mongId - 1, rate, person,allContents, contents);
-		
 	}
 
 	ArrayList<Person> getPerson() {

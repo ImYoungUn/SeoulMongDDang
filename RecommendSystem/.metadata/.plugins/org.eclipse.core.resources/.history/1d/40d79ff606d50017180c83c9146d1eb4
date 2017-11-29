@@ -52,6 +52,7 @@ class PersonList {
 		} // mongID가 같은 rate끼리 func.save로 넘기기
 			// android에서 mongId를 1부터 제공하므로 0으로 만들어줌.
 		func.save(mongId - 1, rate, person,allContents, contents);
+		func.save(userId, rate, person,allContents, contents);
 		
 	}
 
