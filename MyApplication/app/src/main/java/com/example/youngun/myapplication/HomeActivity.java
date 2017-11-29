@@ -150,6 +150,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        /*
                         //************임시 사용자 형성*****************
                         try {
                             Log.e("search", "SEND");
@@ -170,6 +171,9 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                         }
 
                         //************임시 사용자 형성*****************
+                        */
+                        Toast.makeText(getApplicationContext(), "구현예정입니다.", Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 Toast.makeText(getApplicationContext(), "반갑습니다." + userName + "님, 서울몽땅입니다.", Toast.LENGTH_SHORT).show();
