@@ -76,9 +76,9 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
         CustomFragPagerAdapter customAdapter = new CustomFragPagerAdapter(context, pages);
         mviewPager.setAdapter(customAdapter);
         mTab.setupWithViewPager(mviewPager);
-        mTab.getTabAt(0).setIcon(R.drawable.recommended);
-        mTab.getTabAt(1).setIcon(R.drawable.newspaper);
-        mTab.getTabAt(2).setIcon(R.drawable.crown);
+        mTab.getTabAt(0).setIcon(R.drawable.ic_recommended);
+        mTab.getTabAt(1).setIcon(R.drawable.ic_books);
+        mTab.getTabAt(2).setIcon(R.drawable.ic_cup);
         customAdapter.setTab(mTab);
 
 

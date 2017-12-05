@@ -47,15 +47,15 @@
         <activity
             android:name=".RatingActivity1"
             android:label="평가하기"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".ProgressBarActivity"
             android:label="코멘트 불러오는중..."
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".CommentActivity"
             android:label="코멘트"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

@@ -43,25 +43,48 @@ public class CustomFragPagerAdapter extends PagerAdapter {
         return view.equals(object);
     }
 
+
     @Override
     public int getItemPosition(Object object) {
         int itemPosition = super.getItemPosition(object);
         Log.e("pager", Integer.toString(itemPosition));
-        if (itemPosition == 0 && mTab!=null) {
-            mTab.getTabAt(0).setIcon(R.drawable.recommended_colored);
-            mTab.getTabAt(1).setIcon(R.drawable.newspaper);
-            mTab.getTabAt(2).setIcon(R.drawable.crown);
-        }
-        else if (itemPosition == 2 && mTab!=null) {
-            mTab.getTabAt(0).setIcon(R.drawable.recommended);
-            mTab.getTabAt(1).setIcon(R.drawable.newspaper);
-            mTab.getTabAt(2).setIcon(R.drawable.crown_colored);
-        }
         return itemPosition;
     }
 
     public void setTab(TabLayout tab){
         mTab = tab;
+        mTab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==0)
+                    tab.setIcon(R.drawable.ic_recommended_colored);
+                if(tab.getPosition()==1)
+                    tab.setIcon(R.drawable.ic_books_colored);
+                if(tab.getPosition()==2)
+                    mTab.getTabAt(2).setIcon(R.drawable.ic_cup_colored);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if(tab.getPosition()==0)
+                    tab.setIcon(R.drawable.ic_recommended);
+                if(tab.getPosition()==1)
+                    tab.setIcon(R.drawable.ic_books);
+                if(tab.getPosition()==2)
+                    mTab.getTabAt(2).setIcon(R.drawable.ic_cup);
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if(tab.getPosition()==0)
+                    tab.setIcon(R.drawable.ic_recommended_colored);
+                if(tab.getPosition()==1)
+                    tab.setIcon(R.drawable.ic_books_colored);
+                if(tab.getPosition()==2)
+                    mTab.getTabAt(2).setIcon(R.drawable.ic_cup_colored);
+            }
+        });
     }
 
     @Override
