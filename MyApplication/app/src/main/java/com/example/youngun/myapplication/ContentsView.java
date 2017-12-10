@@ -88,6 +88,10 @@ public class ContentsView extends LinearLayout {
         if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
             //Picasso.with(main).load(contentsItem.getUrl()).placeholder(R.drawable.loading).error(R.drawable.icon).resize(0,400).into(imageViewButton);
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
+            Log.e(contentsItem.getTitle(),""+imageViewButton.getVisibility());
+            if(imageViewButton.isShown()==false)
+                Log.e(contentsItem.getTitle(),"안보임");
+
 
 
             if (contentsItem.getRated()) {
@@ -100,9 +104,14 @@ public class ContentsView extends LinearLayout {
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
             time.setText(contentsItem.getTime());
-            expection.setText("(" + contentsItem.getI() + "위)" + "예상점수 : " + contentsItem.getExpectScore());
+            String score=null;
+            //place의 길이가 길면
+            if(contentsItem.getPlace().length()>15)
+                score = "=n";
+            score += "(" + contentsItem.getI() + "위)" + "예상점수 : " + contentsItem.getExpectScore();
+            expection.setText(score);
             if (page.compareTo("famous") == 0)
-                expection.setText("(" + contentsItem.getI() + "위) 평균점수 : " + contentsItem.getExpectScore());
+                expection.setText(score);
             String code = contentsItem.getCode();
             url = contentsItem.getUrl();
 
@@ -119,6 +128,8 @@ public class ContentsView extends LinearLayout {
             time.setText(contentsItem.getTime());
         }
     }
+    /*
+    피카소 쓸 때 Bitmap사이즈 조절
     public int targetWidth = 200;
 
     public Transformation resizeTransformation = new Transformation() {
@@ -137,7 +148,7 @@ public class ContentsView extends LinearLayout {
             return "resizeTransformation#" + System.currentTimeMillis();
         }
     };
-
+*/
     class ButtonClass extends AppCompatActivity {
         public static final int REQEST_CODE_RATING1 = 1001;
         public static final int REQEST_CODE_RATING2 = 1002;
@@ -159,7 +170,14 @@ public class ContentsView extends LinearLayout {
                     main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 }
             });
-            homepage.setOnClickListener(new OnClickListener() {
+            imageViewButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getHomepage()));
+                    main.startActivityForResult(intent, REQEST_CODE_RATING2);
+                }
+            });
+            imageViewButton2.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getHomepage()));

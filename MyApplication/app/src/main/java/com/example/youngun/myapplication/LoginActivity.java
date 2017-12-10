@@ -34,7 +34,6 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     static String mongId;
     private LoginButton loginButton;
-    private Button CustomloginButton;
     private CallbackManager callbackManager;
     private String name;
     private String userId;
@@ -63,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
-        loginButton = (LoginButton) findViewById(R.id.login_facebook_button); //페이스북 로그인 버튼
+        loginButton = findViewById(R.id.login_facebook_button); //페이스북 로그인 버튼
         sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
         server = new Server();
 
@@ -80,6 +79,11 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("login_mongId", LoginActivity.mongId);
             //************임시 사용자 형성*****************
             //loading();
+
+            //mongId를 못받아왔을 때, 다시 가입유도!
+            if(LoginActivity.mongId.equals("x"))
+                registerAgain();
+
             ReadyForGetMongId.NewUser = "기존유저";
             Intent intent1 = new Intent(this, ReadyForGetMongId.class);
             startActivity(intent1);
@@ -121,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.apply();
                                 } catch (Exception e) {
                                     e.printStackTrace();
+                                    Log.e("loginErr", e.toString());
                                 }
                             }
                         });
@@ -133,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException error) {
+                Log.e("loginErr", error.toString());
             }
 
             @Override
@@ -163,6 +169,15 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public void registerAgain(){
+        //다시 가입하기
+        Log.e("Login", "registerAgain"+name);
+        sp.getString("name", "홍길동");
+        sp.getString("id", userId);
+
+        server.setFunction("register", name, userId);
+        server.register(loginActivity);
     }
 
 

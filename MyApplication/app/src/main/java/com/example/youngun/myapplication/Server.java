@@ -51,7 +51,7 @@ public class Server {
     //************임시 사용자 형성*****************
     protected void register(HomeActivity loginActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
-        js = (JSONTask) new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask 시작시킴
+        new JSONTask().execute("http://18.221.180.219:3000/register");//AsyncTask 시작시킴
         client = new GoogleApiClient.Builder(loginActivity).addApi(AppIndex.API).build();
         onStart();
 

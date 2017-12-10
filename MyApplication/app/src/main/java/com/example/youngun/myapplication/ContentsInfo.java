@@ -81,7 +81,12 @@ public class ContentsInfo implements Parcelable{
             this.janre = janre;
     }
     public void setContentsExpectScore(String expectScore){
-        this.expectScore = expectScore;
+        double d = Double.parseDouble(String.format("%.2f", expectScore));
+        this.expectScore = d+"";
+        if(d==2.5){
+            //아직 평가를 안했을 확률 높음. 이는 그냥 ?로 표시
+            this.expectScore = "평가가 필요해요";
+        }
     }
     public void setContentsImage(Bitmap bmImg){
         this.contentsImage = bmImg;
