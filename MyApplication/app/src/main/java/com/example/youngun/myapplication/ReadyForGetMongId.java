@@ -52,6 +52,7 @@ public class ReadyForGetMongId extends Activity {
         bar.setVisibility(View.GONE);
         textView = (TextView) findViewById(R.id.textView4);
         while (true) {
+            Log.e("rfgm", "while");
             if (NewUser != null) {
                 textView.setText("Recommending System 가동중...\n무료 서버를 사용 중이라 좀 느려요...ㅜㅜ");
                 bar.setVisibility(View.VISIBLE);

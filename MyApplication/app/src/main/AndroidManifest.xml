@@ -3,7 +3,7 @@
     package="com.example.youngun.myapplication">
 
     <uses-sdk
-        android:maxSdkVersion="25"
+        android:maxSdkVersion="26"
         android:minSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -46,7 +46,7 @@
         <activity android:name=".ContentsView$ButtonClass" />
         <activity
             android:name=".RatingActivity1"
-            android:label="평가하기"
+            android:label="보고 싶은 만큼 별 주기"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".ProgressBarActivity"
@@ -73,11 +73,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReadyForGetMongId" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".WelcomeActivity"></activity>
     </application>
 
 </manifest>

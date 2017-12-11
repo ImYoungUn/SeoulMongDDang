@@ -7,9 +7,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -19,14 +16,11 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.LoggingBehavior;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.Arrays;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         server = new Server();
 
         /*자동로그인시 바로 넘어가게해놓음*/
+
         if (AccessToken.getCurrentAccessToken() != null) { //이미 로그인 여부 확인//
             //뒤로가기 해서 나갔다가 바로 다시 들어올 경우에는 recommendString의 데이터가 남아있는 듯 함.
             StringParsing.recommendString=null;
@@ -92,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.e("Tag", "로그인을 하세요");
         }
+
 
         //유저 정보, 친구정보, 이메일 정보등을 수집하기 위해서는 허가(퍼미션)를 받아야 합니다.
         loginButton.setReadPermissions("public_profile", "user_friends", "email");
@@ -124,14 +120,17 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putInt("tempUser",0);
                                     editor.apply();
                                 } catch (Exception e) {
-                                    e.printStackTrace();
                                     Log.e("loginErr", e.toString());
+                                    e.printStackTrace();
                                 }
                             }
                         });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields","id,name,birthday");
+                request.setParameters(parameters);
                 request.executeAsync();
 
-                Intent intent2 = new Intent(LoginActivity.this, ReadyForGetMongId.class);
+                Intent intent2 = new Intent(LoginActivity.this, WelcomeActivity.class);
                 startActivity(intent2);
                 finish();
             }

@@ -81,7 +81,7 @@ public class ContentsInfo implements Parcelable{
             this.janre = janre;
     }
     public void setContentsExpectScore(String expectScore){
-        double d = Double.parseDouble(String.format("%.2f", expectScore));
+        double d = Double.parseDouble(String.format("%.2f", Float.parseFloat(expectScore)));
         this.expectScore = d+"";
         if(d==2.5){
             //아직 평가를 안했을 확률 높음. 이는 그냥 ?로 표시

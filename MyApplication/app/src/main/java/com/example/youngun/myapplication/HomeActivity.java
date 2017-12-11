@@ -193,8 +193,8 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             if (intent != null) {
                 String score = intent.getExtras().getString("score");
                 int unWatchedButtonId = intent.getExtras().getInt("unWatched");
-                ImageButton unWatched = (ImageButton) findViewById(unWatchedButtonId);
-                unWatched.setImageResource(R.drawable.star_colored);
+                Button unWatched = (Button) findViewById(unWatchedButtonId);
+                unWatched.setText(score+"점을 줬어요");
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
             }
         }
