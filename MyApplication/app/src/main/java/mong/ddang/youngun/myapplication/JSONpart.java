@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.util.Log;
 

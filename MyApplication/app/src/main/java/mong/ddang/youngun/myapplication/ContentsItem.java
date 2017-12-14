@@ -1,8 +1,6 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 

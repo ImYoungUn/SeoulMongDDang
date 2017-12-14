@@ -4,16 +4,19 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
 
+    lintOptions{
+        abortOnError false
+    }
     repositories {
         mavenCentral()
     }
     defaultConfig {
-        applicationId "com.example.youngun.myapplication"
+        applicationId "mong.ddang.youngun.myapplication"
         multiDexEnabled true
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {

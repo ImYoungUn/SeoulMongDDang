@@ -16,7 +16,7 @@
         android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon2"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -25,7 +25,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".LoginActivity">
+        <activity android:name="mong.ddang.youngun.myapplication.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,19 +42,27 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         -->
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".ContentsView$ButtonClass" />
+        <activity android:name="mong.ddang.youngun.myapplication.HomeActivity" />
+        <activity android:name="mong.ddang.youngun.myapplication.ContentsView" />
         <activity
-            android:name=".RatingActivity1"
+            android:name="mong.ddang.youngun.myapplication.CommentActivity"
+            android:label="코멘트"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name="mong.ddang.youngun.myapplication.RatingActivity1"
             android:label="보고 싶은 만큼 별 주기"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name=".ProgressBarActivity"
+            android:name="mong.ddang.youngun.myapplication.CommentWatingActivity"
             android:label="코멘트 불러오는중..."
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name=".CommentActivity"
+            android:name="mong.ddang.youngun.myapplication.CommentActivity"
             android:label="코멘트"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name="mong.ddang.youngun.myapplication.WelcomeRatingDialog"
+            android:label="보고 싶은 만큼 별 주기"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -72,7 +80,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReadyForGetMongId" />
+        <activity android:name="mong.ddang.youngun.myapplication.ReadyForGetMongId" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -81,7 +89,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".WelcomeActivity"></activity>
+        <activity android:name="mong.ddang.youngun.myapplication.WelcomeActivity"></activity>
     </application>
 
 </manifest>

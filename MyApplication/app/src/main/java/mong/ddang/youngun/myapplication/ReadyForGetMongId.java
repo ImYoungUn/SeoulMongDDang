@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.youngun.myapplication.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +27,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ReadyForGetMongId extends Activity {
     static String NewUser = null;
@@ -47,14 +46,19 @@ public class ReadyForGetMongId extends Activity {
         recommendCheck = true;
         saveCheck = false;
         r = this;
+        SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
+        String name = sp.getString("name","고객");
+
         Button gettingInbtn = (Button) findViewById(R.id.gettingInButton);
         bar = (ProgressBar) findViewById(R.id.progressBar_ready);
         bar.setVisibility(View.GONE);
         textView = (TextView) findViewById(R.id.textView4);
+
         while (true) {
-            Log.e("rfgm", "while");
+            // Log.e("rfgm", "while");
+
             if (NewUser != null) {
-                textView.setText("Recommending System 가동중...\n무료 서버를 사용 중이라 좀 느려요...ㅜㅜ");
+                textView.setText(name+"님을 위한 추천알고리즘 계산중...\n서버 업그레이드 하면 곧 빨라질꺼에요! 화이팅하겠습니다!");
                 bar.setVisibility(View.VISIBLE);
                 recommendCheck = false;//터치 불가
                 //첫 사용자

@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,13 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.youngun.myapplication.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.SocketHandler;
 
 /**
  * Created by youngun on 2017-10-31.

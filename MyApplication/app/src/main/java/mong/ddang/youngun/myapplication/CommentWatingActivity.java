@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.example.youngun.myapplication.R;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -28,8 +28,8 @@ import java.net.URL;
 /**
  * Created by youngun on 2017-10-31.
  */
-public class ProgressBarActivity extends AppCompatActivity {
-    ProgressBarActivity progressBarActivity;
+public class CommentWatingActivity extends AppCompatActivity {
+    CommentWatingActivity commentWatingActivity;
     ProgressBar bar;
     String cultId;
 
@@ -52,8 +52,8 @@ public class ProgressBarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.progressbar);
-        progressBarActivity = this;
+        setContentView(R.layout.activity_comment_wait);
+        commentWatingActivity = this;
 
         bar = (ProgressBar) findViewById(R.id.progressBar_bar);
         bar.setVisibility(View.GONE);
@@ -141,7 +141,7 @@ public class ProgressBarActivity extends AppCompatActivity {
             @Override
             public void onPostExecute(String result) {
                 super.onPostExecute(result);
-                Intent intent = new Intent(progressBarActivity, CommentActivity.class);
+                Intent intent = new Intent(commentWatingActivity, CommentActivity.class);
                 //Log.e("Progress_", result);
                 //main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 intent.putExtra("cultId", cultId);

@@ -8,24 +8,77 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.youngun.myapplication.WelcomeActivity">
+    tools:context="com.example.youngun.myapplication.Mong.example.youngun.myapplication.WelcomeActivity">
 
     <TextView
-        android:text="환영합니다, 몽땅서울입니다."
-        android:textColor="#FF2222"
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="178dp"
-        android:id="@+id/welcomeText" />
+        android:text="환영합니다, 몽땅서울입니다."
+        android:textColor="#d42426"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-    <Button
-        android:text="시작하기"
+    <TextView
+        android:id="@+id/welcomeComment1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/welcomeText"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
+        android:text="처음 시작하셨군요! 우선, 시작하기 전에"
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/welcomeComment2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeComment1"
+        android:layout_centerHorizontal="true"
+        android:text="null님의 성향을 먼저 알아보겠습니다."
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/welcomeComment3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeComment2"
+        android:layout_centerHorizontal="true"
+        android:text="다음 문화/예술 컨텐츠에 대한 선호도를"
+        android:textColor="#000000"
+        android:textSize="15dp" />
+    <TextView
+        android:id="@+id/welcomeComment4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeComment3"
+        android:layout_centerHorizontal="true"
+        android:text="별점을 통해 점수 매겨 주세요."
+        android:textColor="#000000"
+        android:textSize="15dp" />
+    <TextView
+        android:id="@+id/welcomeComment5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeComment4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="(소근소근)"
+        android:textSize="10sp" />
+
+    <ImageButton
         android:id="@+id/welcomeButton"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcomeComment5"
+        android:src="@drawable/ic_welcome_go"
+        android:background="#00000000"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="선호도 조사 시작하기" />
 </RelativeLayout>

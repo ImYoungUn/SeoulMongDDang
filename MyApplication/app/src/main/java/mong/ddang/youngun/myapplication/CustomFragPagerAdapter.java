@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
@@ -7,7 +7,8 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import com.example.youngun.myapplication.R;
 
 import java.util.Vector;
 

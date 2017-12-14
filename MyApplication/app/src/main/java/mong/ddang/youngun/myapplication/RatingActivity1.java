@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.youngun.myapplication.R;
 
 public class RatingActivity1 extends AppCompatActivity {
 
@@ -60,7 +62,7 @@ public class RatingActivity1 extends AppCompatActivity {
                 Server server = new Server();
                 server.setFunction("save", contentsItem, id);
                 server.save(ra);
-                Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^(앱 재접속시 보여집니다)", Toast.LENGTH_SHORT).show();
             }
         });
 

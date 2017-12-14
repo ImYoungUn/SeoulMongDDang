@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.youngun.myapplication.BuildConfig;
+import com.example.youngun.myapplication.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -34,16 +37,18 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sp;
     private Server server;
     private LoginActivity loginActivity;
+    private Boolean isFirst = false;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-/*
-첫 로그인시 /register 서버로 들어가 mongId를 받아옴.
-그 후 해당 mongId를 저장하고, x개의 선별된 컨텐츠에 대해 평점을 내리면 /insert 서버를 통해 DB에 저장됨.
-그 후 /recommend 서버에 접속시 사용자의 예상점수가 가장 높은 컨텐츠를 우선적으로 제공함.
- */
+
+    /*
+    첫 로그인시 /register 서버로 들어가 mongId를 받아옴.
+    그 후 해당 mongId를 저장하고, x개의 선별된 컨텐츠에 대해 평점을 내리면 /insert 서버를 통해 DB에 저장됨.
+    그 후 /recommend 서버에 접속시 사용자의 예상점수가 가장 높은 컨텐츠를 우선적으로 제공함.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (AccessToken.getCurrentAccessToken() != null) { //이미 로그인 여부 확인//
             //뒤로가기 해서 나갔다가 바로 다시 들어올 경우에는 recommendString의 데이터가 남아있는 듯 함.
-            StringParsing.recommendString=null;
+            StringParsing.recommendString = null;
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));
             //************임시 사용자 형성****************
             LoginActivity.mongId = sp.getString("mongId", "x");
@@ -76,8 +81,8 @@ public class LoginActivity extends AppCompatActivity {
             //loading();
 
             //mongId를 못받아왔을 때, 다시 가입유도!
-            if(LoginActivity.mongId.equals("x"))
-                registerAgain();
+            if (LoginActivity.mongId.equals("x"))
+                Toast.makeText(getApplicationContext(), "과거 로그인 중에 네트워크상 오류가 발생하였습니다. 다시 깔고 사용해주세요", Toast.LENGTH_LONG).show();
 
             ReadyForGetMongId.NewUser = "기존유저";
             Intent intent1 = new Intent(this, ReadyForGetMongId.class);
@@ -95,60 +100,74 @@ public class LoginActivity extends AppCompatActivity {
         //반면에 커스텀으로 만든 버튼을 사용할 경우 아래보면 CustomloginButton OnClickListener안에 LoginManager를 이용해서
         //로그인 처리를 해주어야 합니다.
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) { //로그인 성공시 호출되는 메소드
-                Log.e("토큰", loginResult.getAccessToken().getToken());
-                Log.e("유저아이디", loginResult.getAccessToken().getUserId());
-                Log.e("퍼미션 리스트", loginResult.getAccessToken().getPermissions() + "");
+                    @Override
+                    public void onSuccess(LoginResult loginResult) { //로그인 성공시 호출되는 메소드
+                        Log.e("토큰", loginResult.getAccessToken().getToken());
+                        Log.e("유저아이디", loginResult.getAccessToken().getUserId());
+                        Log.e("퍼미션 리스트", loginResult.getAccessToken().getPermissions() + "");
 
-                //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
-                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                try {
-                                    Log.e("user profile", object.toString());
-                                    name = object.getString("name");
-                                    userId = object.getString("id");
-                                    //server에 register 후 mong Id 받아옴 (In server.class) 그러나 이 작업이 시간이 좀 걸림
-                                    Log.e("Login", "register");
-                                    server.setFunction("register", name, userId);
-                                    server.register(loginActivity);
-                                    SharedPreferences.Editor editor = sp.edit();
-                                    editor.putString("name", name);
-                                    editor.putString("id", userId);
-                                    editor.putInt("tempUser",0);
-                                    editor.apply();
-                                } catch (Exception e) {
-                                    Log.e("loginErr", e.toString());
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields","id,name,birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
+                        //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        try {
+                                            Log.e("user profile", object.toString());
+                                            isFirst = true;
+                                            name = object.getString("name");
+                                            userId = object.getString("id");
+                                            /**************for test****************/
+                                            //userId += "2";
+                                            /****************************/
+                                            //server에 register 후 mong Id 받아옴 (In server.class) 그러나 이 작업이 시간이 좀 걸림
+                                            Log.e("Login", "register");
+                                            Log.e("Login", userId);
+                                            server.setFunction("register", name, userId);
+                                            server.register(loginActivity);
+                                            SharedPreferences.Editor editor = sp.edit();
+                                            editor.putString("name", name);
+                                            editor.putString("id", userId);
+                                            editor.putInt("tempUser", 0);
+                                            editor.apply();
+                                        } catch (Exception e) {
+                                            Log.e("loginErr", e.toString());
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id,name,birthday");
+                        request.setParameters(parameters);
+                        request.executeAsync();
 
-                Intent intent2 = new Intent(LoginActivity.this, WelcomeActivity.class);
-                startActivity(intent2);
-                finish();
-            }
+                        Intent intent2 = new Intent(LoginActivity.this, WelcomeActivity.class);
+                        startActivity(intent2);
+                        finish();
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.e("loginErr", error.toString());
-            }
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.e("loginErr", error.toString());
+                    }
 
-            @Override
-            public void onCancel() {
-            }
-        });
+                    @Override
+                    public void onCancel() {
+                    }
+                }
+
+        );
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(this).
+
+                addApi(AppIndex.API)
+
+                .
+
+                        build();
+
     }
 
 
@@ -169,23 +188,16 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    public void registerAgain(){
+
+    public void registerAgain() {
         //다시 가입하기
-        Log.e("Login", "registerAgain"+name);
+        Log.e("Login", "registerAgain" + name);
         sp.getString("name", "홍길동");
         sp.getString("id", userId);
 
         server.setFunction("register", name, userId);
         server.register(loginActivity);
     }
-
-
-
-
-
-
-
-
 
 
     @Override

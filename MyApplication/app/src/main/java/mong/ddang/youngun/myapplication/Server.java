@@ -1,4 +1,4 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 /**
  * Created by youngun on 2017-10-08.
@@ -7,14 +7,11 @@ package com.example.youngun.myapplication;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Button;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -81,13 +78,30 @@ public class Server {
 
         onStop();
     }
+    //Welcome - 처음부분
+    protected void save(WelcomeRatingDialog wa) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/save");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(wa).addApi(AppIndex.API).build();
+        onStart();
 
+        onStop();
+    }
 
     //home - 추천 버튼
     protected void insert(RatingActivity1 ratingActivity1) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
         client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        onStart();
+
+        onStop();
+    }
+    //Welcome - 처음부분
+    protected void insert(WelcomeRatingDialog wa) {
+        //버튼이 클릭되면 여기 리스너로 옴
+        new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
+        client = new GoogleApiClient.Builder(wa).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
@@ -329,13 +343,13 @@ public class Server {
                 //첫번째 등록된 mongId를 server로 부터 계속 받게 된다.
                 //따라서 서버로부터 '서버가 안드로이드에 제공하는 mongId와 서버에서 방금 증가한 mongId를 비교하면
                 //새 사용자인지 기존 사용자인지 알 수 있다.
+                //parsing[2]는 그 사용자가 평가를 한번이라도 하였을 경우 rated, 한번도 안했을 경우 first로 뜬다.
                 if (Integer.parseInt(parsing[0]) < Integer.parseInt(parsing[1])) {
                     LoginActivity.mongId = parsing[0];
-                    ReadyForGetMongId.NewUser = "false";
+                    ReadyForGetMongId.NewUser = parsing[2];
                 } else {
                     LoginActivity.mongId = parsing[0];
-                    ReadyForGetMongId.NewUser = "true";
-
+                    ReadyForGetMongId.NewUser = parsing[2];
                 }
             }
         }

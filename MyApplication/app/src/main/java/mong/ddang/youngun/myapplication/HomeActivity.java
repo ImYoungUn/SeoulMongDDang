@@ -1,12 +1,9 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.icu.text.IDNA;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,13 +17,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.example.youngun.myapplication.R;
+
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -128,12 +123,6 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
                 if (ar2 != null) {
                     Log.e("HomeActivity","ar2!=null");
-                    /*
-                    for (int i = 0; i < ar2.size(); i++) {
-                        Log.e("Home_s",ar2.get(i).getContentsImage().toString());
-                        adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
-                    }
-                    */
                     //최신 save가 가장 먼저 나오도록 역순으로 제공
                     for (int i = ar2.size()-1; i>=0; i--) {
                         Log.e("Home_s",ar2.get(i).getContentsImage().toString());
@@ -194,7 +183,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 String score = intent.getExtras().getString("score");
                 int unWatchedButtonId = intent.getExtras().getInt("unWatched");
                 Button unWatched = (Button) findViewById(unWatchedButtonId);
-                unWatched.setText(score+"점을 줬어요");
+                //////////////////////////////////////////////////////////////////////////////////////////unWatched.setText(score+"점을 줬어요");//////////////////////////////구현예정
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
             }
         }

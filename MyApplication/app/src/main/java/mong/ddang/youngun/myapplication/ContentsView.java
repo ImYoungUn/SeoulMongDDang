@@ -1,14 +1,8 @@
-package com.example.youngun.myapplication;
+package mong.ddang.youngun.myapplication;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.Rating;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,28 +11,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static android.support.v4.content.ContextCompat.startActivity;
+import com.example.youngun.myapplication.R;
 
 /**
  * Created by youngun on 2017-10-18.
@@ -102,7 +77,10 @@ public class ContentsView extends LinearLayout {
             //place의 길이가 길면
             if (contentsItem.getPlace().length() > 15)
                 score = "\n";
-            score += "(" + contentsItem.getI() + "위)" + "예상점수 : " + contentsItem.getExpectScore();
+            if(page.compareTo("recommend") == 0)
+                score += "(" + contentsItem.getI() + "위)" + "예상점수 : " + contentsItem.getExpectScore();
+            else
+                score += "(" + contentsItem.getI() + "위)" + "평균점수 : " + contentsItem.getExpectScore();
             expection.setText(score);
             if (page.compareTo("famous") == 0)
                 expection.setText(score);
@@ -150,7 +128,6 @@ public class ContentsView extends LinearLayout {
         public static final int REQEST_CODE_RATING1 = 1001;
         public static final int REQEST_CODE_RATING2 = 1002;
         public static final int REQEST_CODE_RATING3 = 1003;
-        ButtonClass buttonClass = this;
 
         ButtonClass(Button button1, final String code, final ContentsItem contentsItem, String tag) {
             if (tag.compareTo("recommend&famous") == 0) {
@@ -187,7 +164,7 @@ public class ContentsView extends LinearLayout {
             comment.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(main, ProgressBarActivity.class);
+                    Intent intent = new Intent(main, CommentWatingActivity.class);
                     intent.putExtra("cultId", contentsItem.getCode());
                     main.startActivityForResult(intent, REQEST_CODE_RATING3);
                 }
