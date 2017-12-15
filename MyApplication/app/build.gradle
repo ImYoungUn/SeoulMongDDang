@@ -4,6 +4,24 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
 
+    productFlavors {
+        free {
+            applicationIdSuffix ".free"
+            versionCode 1
+            versionName "1.0.0"
+            buildConfigField 'int', 'WHO', "1"
+            manifestPlaceholders = [ appLabel: "영운버전" ]
+        }
+
+        paid {
+            applicationIdSuffix ".paid"
+            versionCode 2
+            versionName "1.0.1"
+            buildConfigField 'int', 'WHO', "2"
+            manifestPlaceholders = [ appLabel: "할아버지버전" ]
+        }
+    }
+
     lintOptions{
         abortOnError false
     }
