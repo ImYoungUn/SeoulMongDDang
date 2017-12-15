@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.youngun.myapplication.R;
 
@@ -61,6 +62,7 @@ public class CommentActivity extends AppCompatActivity {
                     String id = sp.getString("id", "");
                     Intent intent = getIntent();
                     String cultId = intent.getStringExtra("cultId");
+                    Toast.makeText(getApplicationContext(), name+"님의 코멘트를 저장하였습니다.", Toast.LENGTH_SHORT).show();
 
                     Server server = new Server();
                     server.setFunction("saveComment", text, id, name, cultId);

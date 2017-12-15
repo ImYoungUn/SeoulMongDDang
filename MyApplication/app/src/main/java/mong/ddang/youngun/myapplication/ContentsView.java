@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.youngun.myapplication.R;
 
@@ -129,9 +130,9 @@ public class ContentsView extends LinearLayout {
         public static final int REQEST_CODE_RATING2 = 1002;
         public static final int REQEST_CODE_RATING3 = 1003;
 
-        ButtonClass(Button button1, final String code, final ContentsItem contentsItem, String tag) {
+        ButtonClass(Button rate, final String code, final ContentsItem contentsItem, String tag) {
             if (tag.compareTo("recommend&famous") == 0) {
-                button1.setOnClickListener(new OnClickListener() {
+                rate.setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(main, RatingActivity1.class);
                         intent.putExtra("title", textView1.getText().toString());
@@ -152,7 +153,7 @@ public class ContentsView extends LinearLayout {
                         main.startActivityForResult(intent, REQEST_CODE_RATING2);
                     }
                 });
-            } else if (tag.compareTo("save") == 0) {
+            } else if (tag.compareTo("save") == 0) {/*
                 imageViewButton2.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -160,6 +161,8 @@ public class ContentsView extends LinearLayout {
                         main.startActivityForResult(intent, REQEST_CODE_RATING2);
                     }
                 });
+                */
+                Toast.makeText(getApplicationContext(), "(홈페이지 접속 구현예정입니다.)", Toast.LENGTH_SHORT).show();
             }
             comment.setOnClickListener(new OnClickListener() {
                 @Override
