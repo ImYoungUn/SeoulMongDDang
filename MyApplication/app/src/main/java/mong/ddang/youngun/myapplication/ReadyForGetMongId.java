@@ -34,7 +34,6 @@ public class ReadyForGetMongId extends Activity {
     ProgressBar bar;
     StringParsing stringParsing;
     TextView textView;
-    boolean recommendCheck;//처음에 시작했을 때 가능
     boolean saveCheck;//불가
 
     @Override
@@ -43,7 +42,6 @@ public class ReadyForGetMongId extends Activity {
         //첫 사용자에게는 선별된 x개의 contents를 검사받도록 제공해야 한다.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready_for_recommend_progress);
-        recommendCheck = true;
         saveCheck = false;
         r = this;
         SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
@@ -55,12 +53,11 @@ public class ReadyForGetMongId extends Activity {
         textView = (TextView) findViewById(R.id.textView4);
 
         while (true) {
-            // Log.e("rfgm", "while");
+             Log.e("rfgm", "while");
 
             if (NewUser != null) {
-                textView.setText(name+"님을 위한 추천알고리즘 계산중...\n서버 업그레이드 하면 곧 빨라질꺼에요! 화이팅하겠습니다!");
+                textView.setText(name+"님을 위한 추천알고리즘 계산중...\n(서버속력 업그레이드 예정 중 입니다)");
                 bar.setVisibility(View.VISIBLE);
-                recommendCheck = false;//터치 불가
                 //첫 사용자
                 new AsyncTask<String, String, String>() {
                     @Override
@@ -146,8 +143,18 @@ public class ReadyForGetMongId extends Activity {
                     public void onPostExecute(String result) {
                         saveCheck = true;//터치가능
                         Log.e("first", "f");
+                        Log.e("first", result);
                         StringParsing.recommendString = result;
-                        getSaveInBackGround();
+                        if (result.contains("에러")) {
+                            //공공데이터 api상의 에러시 적용.
+                            Intent intent = new Intent(r, ErrorActivity.class);
+                            intent.putExtra("errorCode", result);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            getSaveInBackGround();
+                        }
                     }
                 }.execute("http://18.221.180.219:3000/recommend");
                 break;

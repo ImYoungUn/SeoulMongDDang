@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    tools:context="mong.ddang.youngun.myapplication.ErrorActivity">
+    <ImageView
+        android:id="@+id/warningImage"
+        android:layout_width="76dp"
+        android:layout_height="77dp"
+        android:src="@drawable/ic_warning"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+
+        />
+    <TextView
+    android:id="@+id/warningText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서버 점검 중 입니다... \n최대한 빠른 시일내에 고치겠습니다."
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/warningImage"
+        />
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="error : "
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+</RelativeLayout>
