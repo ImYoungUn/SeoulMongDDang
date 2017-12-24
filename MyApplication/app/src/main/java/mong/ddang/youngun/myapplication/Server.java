@@ -336,7 +336,8 @@ public class Server {
                 //Log.e("server", "result_코멘트");
                 Log.e("server", result);
                 ContentsView.comments = result;
-            } else {
+            }  else {
+                //LoginActivity에서 "register"하였을 때 결과로 나옴.
                 Log.e("Server", result);
                 String parsing[] = result.split(",");
                 //mongId는 AUTO_INCREMENT로 계속 증가하는데, 같은 FACEBOOK_ID를 가지고 있는 사용자에게는
