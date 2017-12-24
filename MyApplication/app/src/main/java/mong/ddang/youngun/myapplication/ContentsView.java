@@ -162,7 +162,7 @@ public class ContentsView extends LinearLayout {
                     }
                 });
                 */
-                Toast.makeText(getApplicationContext(), "(홈페이지 접속 구현예정입니다.)", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "(홈페이지 접속 구현예정입니다.)", Toast.LENGTH_SHORT).show();
             }
             comment.setOnClickListener(new OnClickListener() {
                 @Override

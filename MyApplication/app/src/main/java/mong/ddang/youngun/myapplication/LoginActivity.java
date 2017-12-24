@@ -117,10 +117,6 @@ public class LoginActivity extends AppCompatActivity {
                                             name = object.getString("name");
                                             userId = object.getString("id");
                                             /**************for test****************/
-                                            if (BuildConfig.WHO == 1)
-                                                userId = "101";
-                                            else if (BuildConfig.WHO == 2)
-                                                userId = "102";
                                             /****************************/
                                             //server에 register 후 mong Id 받아옴 (In server.class) 그러나 이 작업이 시간이 좀 걸림
                                             Log.e("Login", "register");
