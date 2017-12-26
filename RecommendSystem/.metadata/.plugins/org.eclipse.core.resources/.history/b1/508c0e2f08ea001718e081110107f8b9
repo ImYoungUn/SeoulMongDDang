@@ -47,7 +47,6 @@ public class Main {
 		} else {
 			RealContents rc = new RealContents(recommendContents, famousContents, info.getCount(), recommendSize,
 					famousSize);
-			recommendSize = rc.getRecommendSize();	//30개보다 적을 수 있음.
 			ArrayList recom = rc.getRecommendlist();
 			ArrayList famous = rc.getFamouslist();
 

@@ -36,17 +36,14 @@ public class RealContents extends Thread {
 	URLConnection connection;
 	Document doc;
 
-	RealContents(RecommendContents rc, FamousContents fc, int count, int recommendSize, int famousSize) {
+	RealContents(RecommendContents rc, FamousContents fc, int count, int famousSize) {
 
 		codeList = rc.getCode();
 		expectScoreList = rc.getScore();
 		famousCodeList = fc.getCode();
 		famousScoreList = fc.getScore();
 		this.count = count;
-		if(rc.getCode().length<recommendSize)
-			this.recommendSize = rc.getCode().length;
-		else
-			this.recommendSize = recommendSize;
+		this.recommendSize = rc.getCode().length;
 		this.famousSize = famousSize;
 		makeList();
 	}

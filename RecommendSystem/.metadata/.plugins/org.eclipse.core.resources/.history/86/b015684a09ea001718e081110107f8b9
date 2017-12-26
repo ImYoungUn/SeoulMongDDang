@@ -43,10 +43,7 @@ public class RealContents extends Thread {
 		famousCodeList = fc.getCode();
 		famousScoreList = fc.getScore();
 		this.count = count;
-		if(rc.getCode().length<recommendSize)
-			this.recommendSize = rc.getCode().length;
-		else
-			this.recommendSize = recommendSize;
+		this.recommendSize = recommendSize;
 		this.famousSize = famousSize;
 		makeList();
 	}
@@ -94,6 +91,7 @@ public class RealContents extends Thread {
 		else
 			famousMin = famousCodeList.length;
 		
+		int boundary=0; //recommendSize가 30개 이하일 경우 방지
 		while (rSize < recommendSize || fSize < famousMin) {
 			NodeList descNodes = doc.getElementsByTagName("row");
 			for (int tm = 0; tm < descNodes.getLength(); tm++) {
@@ -101,6 +99,10 @@ public class RealContents extends Thread {
 					nodeName = node.getNodeName();
 					textName = node.getTextContent();
 					if (nodeName.equals("CULTCODE")) {
+						if(++boundary>count*recommendSize){
+							//맨 뒤에 1위부터 있어서 최악의 경우 이만큼의 반복문 가동 가능.
+							recommendSize = rSize;
+						}
 						recom = false;
 						famo = false;
 						if (rSize < recommendSize) {

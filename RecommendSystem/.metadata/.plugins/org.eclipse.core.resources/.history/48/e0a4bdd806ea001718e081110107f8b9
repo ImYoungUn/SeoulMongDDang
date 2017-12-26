@@ -48,7 +48,7 @@ public class Information {
 					// cultCode.add(Integer.parseInt(node.getTextContent()));
 				} else if (node.getNodeName().equals("CODENAME")) {
 					String text = node.getTextContent();
-					if (text.equals("문화교양/강좌") || text.equals("기타")||text.equals("영화")) {
+					if (text.equals("문화교양/강좌") || text.equals("기타")) {
 						exceptCode = true;
 					} else {
 						exceptCode = false;

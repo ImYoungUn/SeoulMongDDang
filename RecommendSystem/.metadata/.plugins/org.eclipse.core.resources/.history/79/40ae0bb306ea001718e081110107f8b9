@@ -31,8 +31,7 @@ public class Information {
 		Document doc = parseXML(connection.getInputStream());
 		NodeList descNodes = doc.getElementsByTagName("row");
 		int temp = 0;
-		boolean exceptCode = false;
-		boolean exceptTitle = false;
+		boolean except = false;
 		for (int i = 0; i < descNodes.getLength(); i++) {
 
 			for (Node node = descNodes.item(i).getFirstChild(); node != null; node = node.getNextSibling()) { // 첫번째
@@ -48,19 +47,19 @@ public class Information {
 					// cultCode.add(Integer.parseInt(node.getTextContent()));
 				} else if (node.getNodeName().equals("CODENAME")) {
 					String text = node.getTextContent();
-					if (text.equals("문화교양/강좌") || text.equals("기타")||text.equals("영화")) {
-						exceptCode = true;
+					if (text.equals("문화교양/강좌") || text.equals("기타")) {
+						except = true;
 					} else {
-						exceptCode = false;
+						except = false;
 					}
 				} else if (node.getNodeName().equals("TITLE")) {
 					String text = node.getTextContent();
-					if (text.contains("독주")||text.contains("소극장")) {
-						exceptTitle = true;
+					if (text.contains("독주")) {
+						except = true;
 					} else {
-						exceptTitle = false;
+						except = false;
 					}
-					if (exceptCode==true || exceptTitle==true) {
+					if (except) {
 						// pass
 					} else {
 						cultCode.add(temp);
