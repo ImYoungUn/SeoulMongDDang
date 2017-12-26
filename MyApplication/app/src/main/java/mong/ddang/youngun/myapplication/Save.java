@@ -46,6 +46,7 @@ public class Save extends Thread{
                     ci[i].setContentsTime(job.getString("time"));
                     ci[i].setContentsPlace(job.getString("place"));
                     ci[i].setContentsImage(BitmapFactory.decodeStream(bis));
+                    ci[i].setContentsHomepage(job.getString("homePage"));
                     list.add(ci[i]);
                 }
             }

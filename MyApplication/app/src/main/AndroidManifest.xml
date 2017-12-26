@@ -49,7 +49,7 @@
             android:label="코멘트"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name="mong.ddang.youngun.myapplication.RatingActivity1"
+            android:name="mong.ddang.youngun.myapplication.RatingActivity"
             android:label="보고 싶은 만큼 별 주기"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity

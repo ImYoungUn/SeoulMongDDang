@@ -93,6 +93,7 @@ public class WelcomeRatingDialog extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getUrl()));
+                    startActivity(intent);
                 }
             });
             saveButton.setOnClickListener(new View.OnClickListener() {
