@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.youngun.myapplication.R;
 
@@ -134,7 +133,7 @@ public class ContentsView extends LinearLayout {
             if (tag.compareTo("recommend&famous") == 0) {
                 rate.setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(main, RatingActivity1.class);
+                        Intent intent = new Intent(main, RatingActivity.class);
                         intent.putExtra("title", textView1.getText().toString());
                         intent.putExtra("contentsItem", contentsItem);
                         intent.putExtra("code", code);
@@ -153,7 +152,7 @@ public class ContentsView extends LinearLayout {
                         main.startActivityForResult(intent, REQEST_CODE_RATING2);
                     }
                 });
-            } else if (tag.compareTo("save") == 0) {/*
+            } else if (tag.compareTo("save") == 0) {
                 imageViewButton2.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -161,8 +160,8 @@ public class ContentsView extends LinearLayout {
                         main.startActivityForResult(intent, REQEST_CODE_RATING2);
                     }
                 });
-                */
-                Toast.makeText(getApplicationContext(), "(홈페이지 접속 구현예정입니다.)", Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(getApplicationContext(), "(홈페이지 접속 구현예정입니다.)", Toast.LENGTH_SHORT).show();
             }
             comment.setOnClickListener(new OnClickListener() {
                 @Override

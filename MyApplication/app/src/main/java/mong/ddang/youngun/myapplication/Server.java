@@ -70,10 +70,10 @@ public class Server {
         onStop();
     }
 
-    protected void save(RatingActivity1 ratingActivity1) {
+    protected void save(RatingActivity ratingActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/save");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(ratingActivity).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
@@ -89,10 +89,10 @@ public class Server {
     }
 
     //home - 추천 버튼
-    protected void insert(RatingActivity1 ratingActivity1) {
+    protected void insert(RatingActivity ratingActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity1).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(ratingActivity).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
@@ -236,6 +236,7 @@ public class Server {
                     jsonObject.accumulate("contentsImage", ci.getUrl());
                     jsonObject.accumulate("dateS", "startDate");
                     jsonObject.accumulate("date", ci.getDate());
+                    jsonObject.accumulate("homePage", ci.getHomepage());
 
                     if (ci.getPlace() != null) {
                         temp = ci.getPlace();

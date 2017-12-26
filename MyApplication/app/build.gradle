@@ -15,8 +15,8 @@ android {
         multiDexEnabled true
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 6
-        versionName "6.0"
+        versionCode 7
+        versionName "7.0"
     }
     buildTypes {
         release {
@@ -27,7 +27,7 @@ android {
     useLibrary 'org.apache.http.legacy'
 }
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     provided 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
