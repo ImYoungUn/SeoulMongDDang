@@ -234,27 +234,22 @@ public class Server {
                     //jsonObject.accumulate("janre",ci.getJanre());
                     //jsonObject.accumulate("janreS","janreS");
                     jsonObject.accumulate("contentsImage", ci.getUrl());
-                    jsonObject.accumulate("dateS", "startDate");
                     jsonObject.accumulate("date", ci.getDate());
                     jsonObject.accumulate("homePage", ci.getHomepage());
 
                     if (ci.getPlace() != null) {
                         temp = ci.getPlace();
                         temp = temp.replaceAll(",", ".");
-                        jsonObject.accumulate("placeS", "place");
                         jsonObject.accumulate("place", temp);
                     } else {
-                        jsonObject.accumulate("placeS", "place");
                         jsonObject.accumulate("place", " ");
                     }
                     if (ci.getTime() != null) {
                         temp = ci.getTime();
                         temp = temp.replaceAll(",", ".");
-                        jsonObject.accumulate("timeS", "time");
                         jsonObject.accumulate("time", temp);
                     } else {
-                        jsonObject.accumulate("timeS", "time");
-                        jsonObject.accumulate("Time", " ");
+                        jsonObject.accumulate("time", " ");
                     }
                 }
 
