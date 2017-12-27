@@ -253,8 +253,7 @@ public class ReadyForGetMongId extends Activity {
 
             @Override
             public void onPostExecute(String result) {
-                Log.e("first", "f");
-                Log.e("first", result);
+                Log.e("ReadyForGet", result);
                 StringParsing.recommendString = result;
                 if (result.contains("에러")) {
                     //공공데이터 api상의 에러시 적용.
