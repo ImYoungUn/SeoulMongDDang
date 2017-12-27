@@ -341,13 +341,15 @@ public class Server {
                 //따라서 서버로부터 '서버가 안드로이드에 제공하는 mongId와 서버에서 방금 증가한 mongId를 비교하면
                 //새 사용자인지 기존 사용자인지 알 수 있다.
                 //parsing[2]는 그 사용자가 평가를 한번이라도 하였을 경우 rated, 한번도 안했을 경우 first로 뜬다.
+                //parsing[3~7]은 로딩창에 띄워주는 문구(pharase).
                 if (Integer.parseInt(parsing[0]) < Integer.parseInt(parsing[1])) {
                     LoginActivity.mongId = parsing[0];
-                    ReadyForGetMongId.NewUser = parsing[2];
+
                 } else {
                     LoginActivity.mongId = parsing[0];
-                    ReadyForGetMongId.NewUser = parsing[2];
                 }
+                ReadyForGetMongId.NewUser = parsing[2];
+                ReadyForGetMongId.Pharase = parsing[3];
             }
         }
     }
