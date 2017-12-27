@@ -3,10 +3,12 @@
 	<section name="FatJarPackageWizard">
 		<item value="C:\Users\youngun\Desktop" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="Main - CF" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
-		<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem3.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem5.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem5.jar"/>
+			<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem4.jar"/>
 			<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem3.jar"/>
 			<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem2.jar"/>
 			<item value="C:\Users\youngun\Desktop\서울시 모바일 앱공모전\RecommendingSystem1.jar"/>

@@ -43,7 +43,10 @@ public class RealContents extends Thread {
 		famousCodeList = fc.getCode();
 		famousScoreList = fc.getScore();
 		this.count = count;
-		this.recommendSize = recommendSize;
+		if(rc.getCode().length<recommendSize)
+			this.recommendSize = rc.getCode().length;
+		else
+			this.recommendSize = recommendSize;
 		this.famousSize = famousSize;
 		makeList();
 	}
@@ -193,6 +196,10 @@ public class RealContents extends Thread {
 
 	public ArrayList<String> getFamouslist() {
 		return famouslist;
+	}
+	
+	public int getRecommendSize(){
+		return recommendSize;
 	}
 
 	private Document parseXML(InputStream stream) throws Exception {
