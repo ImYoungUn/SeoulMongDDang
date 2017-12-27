@@ -12,14 +12,16 @@
 
     <TextView
         android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="178dp"
         android:text="환영합니다, 몽땅서울입니다."
         android:textColor="#d42426"
-        android:textSize="30dp"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
@@ -29,7 +31,7 @@
         android:layout_below="@+id/welcomeText"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:text="처음 시작하셨군요! 우선, 시작하기 전에"
+        android:text="반갑습니다! 우선, 시작하기 전에"
         android:textColor="#000000"
         android:textSize="15dp" />
 
