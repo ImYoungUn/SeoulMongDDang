@@ -253,7 +253,6 @@ public class ReadyForGetMongId extends Activity {
 
             @Override
             public void onPostExecute(String result) {
-                saveCheck = true;//터치가능
                 Log.e("first", "f");
                 Log.e("first", result);
                 StringParsing.recommendString = result;

@@ -73,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
             server.setFunction("recommend", sp.getString("name", ""), sp.getString("id", ""));
             //************임시 사용자 형성****************
             LoginActivity.mongId = sp.getString("mongId", "x");
+            /**************for test****************/
+            //LoginActivity.mongId = "134";
+            /****************************/
             SharedPreferences.Editor editor = sp.edit();
             editor.putInt("tempUser", 0);
             editor.apply();

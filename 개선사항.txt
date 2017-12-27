@@ -1,0 +1,2 @@
+comment나 평가하기를 누른 후
+HomeActivity의 changeToNew를 재시동하거나 해야 함.

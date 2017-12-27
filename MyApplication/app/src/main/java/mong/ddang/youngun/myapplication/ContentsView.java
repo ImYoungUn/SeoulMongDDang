@@ -62,13 +62,17 @@ public class ContentsView extends LinearLayout {
         if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
             //Picasso.with(main).load(contentsItem.getUrl()).placeholder(R.drawable.loading).error(R.drawable.icon).resize(0,400).into(imageViewButton);
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
+            if(contentsItem.getBitmap()==null) {
+                //Log.e("contentsView_랭킹", contentsItem.getTitle());
+                imageViewButton.setImageResource(R.drawable.no_image);
+            }
 
             if (contentsItem.getRated()) {
                 //rate.setImageResource(R.drawable.star_colored);
-                Log.e("contentsView_랭킹", contentsItem.getTitle());
-            } else
-               // rate.setImageResource(R.drawable.star);
-
+                //Log.e("cv_비트맵",contentsItem.getBitmap().toString());
+            } else {
+                // rate.setImageResource(R.drawable.star);
+            }
             textView1.setText(contentsItem.getTitle());
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
