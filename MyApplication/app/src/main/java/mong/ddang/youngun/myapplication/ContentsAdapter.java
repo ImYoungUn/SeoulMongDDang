@@ -1,6 +1,7 @@
 package mong.ddang.youngun.myapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,6 +24,12 @@ public class ContentsAdapter extends BaseAdapter {
         this.page = page;
     }
 
+    public  String getContentsRated(int i){
+        return contents.get(i).getRated();
+    }
+    public List<ContentsItem> getContents(){
+        return contents;
+    }
     public void addContents(ContentsItem c) {
         contents.add(c);
     }
@@ -51,7 +58,7 @@ public class ContentsAdapter extends BaseAdapter {
         } else {
             itemView = (ContentsView) view;
         }
-        itemView.changeToNew(contents.get(i),page);
+        itemView.changeToNew(contents.get(i),page,i);
         return itemView;
     }
 }

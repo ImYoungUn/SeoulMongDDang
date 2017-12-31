@@ -26,11 +26,8 @@ public class ButtonClass_notUse {
                     intent.putExtra("title", textView1.getText().toString());
                     intent.putExtra("contentsItem", contentsItem);
                     intent.putExtra("code", code);
-                    //누르기만 하면 true로 저장이 됨.
-                    contentsItem.setRate(true);
 
                     //버튼은 그냥 R.layout.unWatchedButton만 가지고 오는것일 뿐이더라
-                    intent.putExtra("unWatched", v.getId());
                     main.startActivityForResult(intent, REQEST_CODE_RATING1);
                 }
             });

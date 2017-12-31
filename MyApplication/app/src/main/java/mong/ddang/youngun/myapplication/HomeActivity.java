@@ -23,6 +23,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import layout.FamousFragment;
@@ -174,17 +175,50 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
     //그냥 뒤로가기눌러서 나왔을 때도 체크
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        final int REQEST_CODE_RATING1 = 1001;
+        final int REQEST_CODE_RATING1 = 1001;//recommend
+        final int REQEST_CODE_RATING2 = 1002;//famous
         final int REQEST_CODE_RATING3 = 1003;
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQEST_CODE_RATING1) {
             //점수를 주었을 때
             if (intent != null) {
+                Log.e("RESULT_CODE_RATING1", "good");
                 String score = intent.getExtras().getString("score");
-                int unWatchedButtonId = intent.getExtras().getInt("unWatched");
-                Button unWatched = (Button) findViewById(unWatchedButtonId);
-                //////////////////////////////////////////////////////////////////////////////////////////unWatched.setText(score+"점을 줬어요");//////////////////////////////구현예정
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
+
+                int position = intent.getIntExtra("position",-1);
+                ContentsItem ci = intent.getParcelableExtra("ContentsItem");
+
+                List<ContentsItem> contents = adapter.getContents();
+                contents.get(position).setRated(ci.getRated());
+                ContentsAdapter adapter1 = new ContentsAdapter(context, home, "recommend");
+
+                for (int i = 0; i < contents.size(); i++) {
+                    //adapter.setMain(this);
+                    adapter1.addContents(contents.get(i));
+                }
+                adapter1.notifyDataSetChanged();
+            }
+        }
+        if (requestCode == REQEST_CODE_RATING2) {
+            //점수를 주었을 때
+            if (intent != null) {
+                Log.e("RESULT_CODE_RATING2", "good");
+                String score = intent.getExtras().getString("score");
+                Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
+
+                int position = intent.getIntExtra("position",-1);
+                ContentsItem ci = intent.getParcelableExtra("ContentsItem");
+
+                List<ContentsItem> contents = adapter3.getContents();
+                contents.get(position).setRated(ci.getRated());
+                ContentsAdapter adapter1 = new ContentsAdapter(context, home, "famous");
+
+                for (int i = 0; i < contents.size(); i++) {
+                    //adapter.setMain(this);
+                    adapter1.addContents(contents.get(i));
+                }
+                adapter1.notifyDataSetChanged();
             }
         }
         if (requestCode == REQEST_CODE_RATING3) {
@@ -192,9 +226,6 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             if (intent != null) {
                 Toast.makeText(getApplicationContext(), userName+"님의 코멘트를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
-        }
-        if (resultCode == RESULT_OK) {
-            Log.e("RESULT_OK", "good");
         }
     }
 

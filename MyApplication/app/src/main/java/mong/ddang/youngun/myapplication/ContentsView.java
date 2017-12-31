@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.youngun.myapplication.R;
 
@@ -21,6 +22,7 @@ import com.example.youngun.myapplication.R;
 public class ContentsView extends LinearLayout {
     static String comments;
     ContentsView contentsView;
+    ContentsItem contentsItem;
     ImageView imageViewButton;
     TextView textView1;
     TextView textView2;
@@ -53,10 +55,11 @@ public class ContentsView extends LinearLayout {
         comment = (ImageButton) findViewById(R.id.comment);
 
         this.main = main;
-        changeToNew(contentsItem, page);
+        //changeToNew(contentsItem, page);
     }
 
-    public void changeToNew(final ContentsItem contentsItem, String page) {
+    public void changeToNew(ContentsItem contentsItem, String page, int position) {
+        this.contentsItem = contentsItem;
         if (page.compareTo("recommend") == 0 || page.compareTo("famous") == 0) {
             //Picasso.with(main).load(contentsItem.getUrl()).placeholder(R.drawable.loading).error(R.drawable.icon).resize(0,400).into(imageViewButton);
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
@@ -64,13 +67,7 @@ public class ContentsView extends LinearLayout {
                 //Log.e("contentsView_랭킹", contentsItem.getTitle());
                 imageViewButton.setImageResource(R.drawable.no_image);
             }
-
-            if (contentsItem.getRated()) {
-                //rate.setImageResource(R.drawable.star_colored);
-                //Log.e("cv_비트맵",contentsItem.getBitmap().toString());
-            } else {
-                // rate.setImageResource(R.drawable.star);
-            }
+            rate.setText(contentsItem.getRated());
             textView1.setText(contentsItem.getTitle());
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
@@ -93,7 +90,7 @@ public class ContentsView extends LinearLayout {
             // inflater- 평가내리는 창 열리고,
             // if(평가 후) -> unWatched_colored로 바뀜
 
-            new ButtonClass(rate, code, contentsItem,"recommend&famous");
+            new ButtonClass(rate, code,page,position);
 
         } else if (page.compareTo("save") == 0) {
             imageViewButton.setImageBitmap(contentsItem.getBitmap());
@@ -101,7 +98,7 @@ public class ContentsView extends LinearLayout {
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
             time.setText(contentsItem.getTime());
-            new ButtonClass(rate, "", contentsItem,"save");
+            new ButtonClass(rate, "",page,position);
         }
     }
 
@@ -127,31 +124,34 @@ public class ContentsView extends LinearLayout {
     };
 */
     class ButtonClass extends AppCompatActivity {
-        public static final int REQEST_CODE_RATING1 = 1001;
-        public static final int REQEST_CODE_RATING2 = 1002;
-        public static final int REQEST_CODE_RATING3 = 1003;
+        public static final int REQEST_CODE_RATING1 = 1001;//recommend
+        public static final int REQEST_CODE_RATING2 = 1002;//famous
+        public static final int REQEST_CODE_RATING3 = 1003;//comment
+        public static final int REQEST_CODE_RATING4 = 1004;//image click
 
-        ButtonClass(Button rate, final String code, final ContentsItem contentsItem, String tag) {
-            if (tag.compareTo("recommend&famous") == 0) {
+        ButtonClass(Button rate, final String code, final String tag, final int position) {
+            if (tag.compareTo("recommend") == 0 || tag.compareTo("famous")==0) {
                 rate.setOnClickListener(new OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(main, RatingActivity.class);
-                        intent.putExtra("title", textView1.getText().toString());
-                        intent.putExtra("contentsItem", contentsItem);
-                        intent.putExtra("code", code);
-                        //누르기만 하면 true로 저장이 됨.
-                        contentsItem.setRate(true);
-
-                        //버튼은 그냥 R.layout.unWatchedButton만 가지고 오는것일 뿐이더라
-                        intent.putExtra("unWatched", v.getId());
-                        main.startActivityForResult(intent, REQEST_CODE_RATING1);
+                        if(contentsItem.getRated().compareTo("보고 싶은 만큼 별 주기")==0) {
+                            Intent intent = new Intent(main, RatingActivity.class);
+                            intent.putExtra("contentsItem", contentsItem);
+                            intent.putExtra("code", code);
+                            intent.putExtra("position", position);
+                            if(tag.compareTo("recommend") == 0)
+                                main.startActivityForResult(intent, REQEST_CODE_RATING1);
+                            else if(tag.compareTo("famous") == 0)
+                                main.startActivityForResult(intent, REQEST_CODE_RATING2);
+                        }else{
+                            Toast.makeText(getApplicationContext(),"이미 별점을 주셨어요!",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 imageViewButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getHomepage()));
-                        main.startActivityForResult(intent, REQEST_CODE_RATING2);
+                        main.startActivityForResult(intent, REQEST_CODE_RATING4);
                     }
                 });
             } else if (tag.compareTo("save") == 0) {
@@ -159,7 +159,7 @@ public class ContentsView extends LinearLayout {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getHomepage()));
-                        main.startActivityForResult(intent, REQEST_CODE_RATING2);
+                        main.startActivityForResult(intent, REQEST_CODE_RATING4);
                     }
                 });
 

@@ -24,6 +24,7 @@ public class RatingActivity extends AppCompatActivity {
     TextView scoreText;
     RatingActivity ra;
     String code;
+    int position;
     int unWatchedButtonId;
     ContentsItem contentsItem;
 
@@ -34,6 +35,8 @@ public class RatingActivity extends AppCompatActivity {
         ra = this;
         Log.e("ratingActivity", "Rating");
         Intent intent = getIntent();
+        position = intent.getIntExtra("position",-1);
+
         //contentsView에서 가져온 해당 contentsItem
         contentsItem = intent.getParcelableExtra("contentsItem");
         Log.e("RatingActivity", contentsItem.getTitle());
@@ -72,8 +75,7 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (score != -1) {
-                    contentsItem.setRate(true);
-                    contentsItem.setTitle("What");
+                    contentsItem.setRated(Float.toString(score)+"점을 주셨습니다.");
                     Intent intent1 = new Intent(getApplicationContext(), HomeActivity.class);
                     SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
                     String id = sp.getString("id", "");
@@ -84,7 +86,8 @@ public class RatingActivity extends AppCompatActivity {
                     server.setFunction("insert", send, id);
                     server.insert(ra);
                     intent1.putExtra("score", Float.toString(score));
-                    intent1.putExtra("unWatched", unWatchedButtonId);
+                    intent1.putExtra("ContentsItem", contentsItem);
+                    intent1.putExtra("position", position);
                     //Result_Ok 정보와 intent1 보내기
                     setResult(RESULT_OK, intent1);
                     finish();

@@ -20,9 +20,8 @@ public class ContentsItem implements Parcelable{
     private String startDate;
     private String endDate;
     private String homepage;
+    private String rated="보고 싶은 만큼 별 주기";
     private int i;
-    private boolean unWatched = false;//true면 colored로 바뀜
-    private boolean watched = false;//true면 colored로 바뀜
 
 //String janre,String startDate,String endDate는 Server DB에 저장후, 나중에 받아올 때 contentsInfo에 저장시키기 위함.
     public ContentsItem(String code, Bitmap bitmap, String title, String time, String date, String place, String Url,String expectScore,String janre,String startDate,String endDate,String homepage, int i) {
@@ -62,8 +61,7 @@ public class ContentsItem implements Parcelable{
         janre = in.readString();
         startDate = in.readString();
         endDate = in.readString();
-        unWatched = in.readByte() != 0;
-        watched = in.readByte() != 0;
+        rated = in.readString();
     }
 
 
@@ -82,11 +80,11 @@ public class ContentsItem implements Parcelable{
     public int getI(){
         return i+1;
     }
-    public boolean getRated(){
-        return unWatched;
+    public String getRated(){
+        return rated;
     }
-    public void setRate(boolean t){
-        unWatched = t;
+    public void setRated(String s){
+        rated = s;
     }
     public void setTitle(String title){
         this.title=title;
@@ -130,14 +128,6 @@ public class ContentsItem implements Parcelable{
         return bitmap;
     }
 
-    public boolean isUnWatched() {
-        return unWatched;
-    }
-
-    public boolean isWatched() {
-        return watched;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -161,8 +151,7 @@ public class ContentsItem implements Parcelable{
         parcel.writeString(janre);
         parcel.writeString(startDate);
         parcel.writeString(endDate);
+        parcel.writeString(rated);
         parcel.writeInt(i);
-        parcel.writeByte((byte) (unWatched ? 1 : 0));
-        parcel.writeByte((byte) (watched ? 1 : 0));
     }
 }
