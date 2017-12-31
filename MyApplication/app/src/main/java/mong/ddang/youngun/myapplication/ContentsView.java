@@ -22,7 +22,6 @@ public class ContentsView extends LinearLayout {
     static String comments;
     ContentsView contentsView;
     ImageView imageViewButton;
-    ImageView imageViewButton2;
     TextView textView1;
     TextView textView2;
     TextView textView3;
@@ -45,7 +44,6 @@ public class ContentsView extends LinearLayout {
         }
 
         imageViewButton = (ImageView) findViewById(R.id.imageView_button);
-        imageViewButton2 = (ImageView) findViewById(R.id.imageView_button2);
         rate = (Button) findViewById(R.id.unWatched);
         textView1 = (TextView) findViewById(R.id.titleText);
         textView2 = (TextView) findViewById(R.id.dateText);
@@ -98,7 +96,7 @@ public class ContentsView extends LinearLayout {
             new ButtonClass(rate, code, contentsItem,"recommend&famous");
 
         } else if (page.compareTo("save") == 0) {
-            imageViewButton2.setImageBitmap(contentsItem.getBitmap());
+            imageViewButton.setImageBitmap(contentsItem.getBitmap());
             textView1.setText(contentsItem.getTitle());
             textView2.setText(contentsItem.getDate());
             textView3.setText(contentsItem.getPlace());
@@ -157,7 +155,7 @@ public class ContentsView extends LinearLayout {
                     }
                 });
             } else if (tag.compareTo("save") == 0) {
-                imageViewButton2.setOnClickListener(new OnClickListener() {
+                imageViewButton.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getHomepage()));

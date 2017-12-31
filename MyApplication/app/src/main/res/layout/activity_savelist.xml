@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/oneContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageView
-        android:id="@+id/imageView_button2"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
-    <TextView
-        android:id="@+id/titleText"
+    <mong.ddang.youngun.myapplication.CustomContents
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        android:id="@+id/recommendList"
+        custom:score=""/>
 
-    <TextView
-        android:id="@+id/dateText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-        <TextView
-            android:id="@+id/placeText"
-            android:text="asdfljl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            />
-
-    </RelativeLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
