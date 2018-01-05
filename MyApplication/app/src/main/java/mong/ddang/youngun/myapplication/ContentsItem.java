@@ -21,6 +21,8 @@ public class ContentsItem implements Parcelable{
     private String endDate;
     private String homepage;
     private String rated="보고 싶은 만큼 별 주기";
+    private String ratingText="";
+    private float ratingScore=0;//별점주는 점수
     private int i;
 
 //String janre,String startDate,String endDate는 Server DB에 저장후, 나중에 받아올 때 contentsInfo에 저장시키기 위함.
@@ -62,6 +64,8 @@ public class ContentsItem implements Parcelable{
         startDate = in.readString();
         endDate = in.readString();
         rated = in.readString();
+        ratingText = in.readString();
+        ratingScore = in.readFloat();
     }
 
 
@@ -80,27 +84,24 @@ public class ContentsItem implements Parcelable{
     public int getI(){
         return i+1;
     }
+    public float getRatingScore(){
+        return ratingScore;
+    }
+    public String getratingText(){
+        return ratingText;
+    }
     public String getRated(){
         return rated;
-    }
-    public void setRated(String s){
-        rated = s;
-    }
-    public void setTitle(String title){
-        this.title=title;
     }
     public String getCode() {
         return code;
     }
-
     public String getTitle() {
         return title;
     }
-
     public String getPlace() {
         return place;
     }
-
     public String getDate() {
         return date;
     }
@@ -114,24 +115,32 @@ public class ContentsItem implements Parcelable{
         return janre;
     }
     public String getHomepage(){return homepage;}
-
-
     public String getTime() {
         return time;
     }
-
     public String getExpectScore() {
         return expectScore;
     }
-
     public Bitmap getBitmap() {
         return bitmap;
     }
-
     public String getUrl() {
         return url;
     }
 
+
+    public void setRated(String s){
+        rated = s;
+    }
+    public void setTitle(String title){
+        this.title=title;
+    }
+    public void setRatingScore(Float ratingScore) {
+        this.ratingScore = ratingScore;
+    }
+    public void setratingText(String ratingText) {
+        this.ratingText = ratingText;
+    }
 
     @Override
     public int describeContents() {
@@ -152,6 +161,8 @@ public class ContentsItem implements Parcelable{
         parcel.writeString(startDate);
         parcel.writeString(endDate);
         parcel.writeString(rated);
+        parcel.writeString(ratingText);
+        parcel.writeFloat(ratingScore);
         parcel.writeInt(i);
     }
 }

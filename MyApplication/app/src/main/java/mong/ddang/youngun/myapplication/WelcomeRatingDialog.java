@@ -92,8 +92,8 @@ public class WelcomeRatingDialog extends AppCompatActivity {
             imageViewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getUrl()));
-                    startActivity(intent);
+                    //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contentsItem.getUrl()));
+                    //startActivity(intent);
                 }
             });
             saveButton.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class WelcomeRatingDialog extends AppCompatActivity {
                     String id = sp.getString("id", "");
                     Server server = new Server();
                     server.setFunction("save", contentsItem, id);
-                    server.save(wrd);
+                    server.save(main);
                     Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^", Toast.LENGTH_SHORT).show();
                 }
             });

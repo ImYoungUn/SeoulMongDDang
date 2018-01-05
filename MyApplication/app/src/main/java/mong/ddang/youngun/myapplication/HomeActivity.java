@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.youngun.myapplication.R;
@@ -39,6 +41,7 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     ListView listView2;
     ListView listView3;
     ImageButton search;
+    ImageButton refresh;
     JSONpart json;
     ContentsAdapter adapter;
     ContentsAdapter adapter2;
@@ -46,12 +49,13 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
     String userName;
     HomeActivity home;
     StringParsing stringParsing;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         context = this;
-        home=this;
+        home = this;
 /*
 */
         ViewPager mviewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -84,7 +88,11 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
         SharedPreferences sp = getSharedPreferences("myFile", Activity.MODE_PRIVATE);
         userName = sp.getString("name", "");
+        adapter.setId(sp.getString("id", ""));
+        adapter3.setId(sp.getString("id", ""));
+
         search = (ImageButton) findViewById(R.id.searchButton);
+        refresh = (ImageButton) findViewById(R.id.refreshButton);
 
 
         //ArrayList<ContentsInfo> ar = info.getRecommendationList();
@@ -102,8 +110,9 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
             protected String doInBackground(String... urls) {
                 return "finish";
             }
+
             @Override
-                public void onPostExecute(String result) {
+            public void onPostExecute(String result) {
                 Log.e("Home", "start");
                 ArrayList<ContentsInfo> ar = stringParsing.getAr();
                 ArrayList<ContentsInfo> ar2 = null;
@@ -118,25 +127,24 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
 
                 for (int i = 0; i < ar.size(); i++) {
                     //adapter.setMain(this);
-                    adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(),ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(),ar.get(i).getHomepage(),i));
+                    adapter.addContents(new ContentsItem(ar.get(i).getContentsCode(), ar.get(i).getContentsImage(), ar.get(i).getTitle(), ar.get(i).getTIme(), ar.get(i).getDate(), ar.get(i).getPlace(), ar.get(i).getUrl(), ar.get(i).getExpectScore(), ar.get(i).getJanre(), ar.get(i).getStartDate(), ar.get(i).getEndDate(), ar.get(i).getHomepage(), i));
                 }
                 listView.setAdapter(adapter);
 
                 if (ar2 != null) {
-                    Log.e("HomeActivity","ar2!=null");
                     //최신 save가 가장 먼저 나오도록 역순으로 제공
-                    for (int i = ar2.size()-1; i>=0; i--) {
-                        Log.e("Home_s",ar2.get(i).getContentsImage().toString());
-                        adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(),ar2.get(i).getHomepage()));
+                    for (int i = ar2.size() - 1; i >= 0; i--) {
+                        adapter2.addContents(new ContentsItem(ar2.get(i).getContentsImage(), ar2.get(i).getTitle(), ar2.get(i).getTIme(), ar2.get(i).getDate(), ar2.get(i).getPlace(), ar2.get(i).getHomepage()));
                     }
                     listView2.setAdapter(adapter2);
                 }
 
                 for (int i = 0; i < ar3.size(); i++) {
                     //adapter.setMain(this);
-                    adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(),ar3.get(i).getJanre(), ar3.get(i).getStartDate(), ar3.get(i).getEndDate(),ar3.get(i).getHomepage(),i));
+                    adapter3.addContents(new ContentsItem(ar3.get(i).getContentsCode(), ar3.get(i).getContentsImage(), ar3.get(i).getTitle(), ar3.get(i).getTIme(), ar3.get(i).getDate(), ar3.get(i).getPlace(), ar3.get(i).getUrl(), ar3.get(i).getExpectScore(), ar3.get(i).getJanre(), ar3.get(i).getStartDate(), ar3.get(i).getEndDate(), ar3.get(i).getHomepage(), i));
                 }
                 listView3.setAdapter(adapter3);
+
                 search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -159,25 +167,33 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                             Log.e("search", "Fail");
                             e.printStackTrace();
                         }
-
                         //************임시 사용자 형성*****************
                         */
                         Toast.makeText(getApplicationContext(), "구현예정입니다.", Toast.LENGTH_SHORT).show();
 
                     }
                 });
+                search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(getApplicationContext(), "구현예정입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 Toast.makeText(getApplicationContext(), "반갑습니다." + userName + "님, 서울몽땅입니다.", Toast.LENGTH_SHORT).show();
 
             }
-            }.execute();
+        }.execute();
 
     }
 
     //그냥 뒤로가기눌러서 나왔을 때도 체크
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        final int REQEST_CODE_RATING1 = 1001;//recommend
-        final int REQEST_CODE_RATING2 = 1002;//famous
-        final int REQEST_CODE_RATING3 = 1003;
+        final int REQEST_CODE_RATING1 = 1001;//recommend에서 추천
+        final int REQEST_CODE_RATING2 = 1002;//famous에서 추천
+        final int REQEST_CODE_RATING3 = 1003;//comment 달았을 때
+        final int REQEST_CODE_RATING4 = 1004;//찜하기버튼
+        final int REQEST_CODE_Err1 = 4001;//
+        final int REQEST_CODE_Err2 = 4002;//
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == REQEST_CODE_RATING1) {
             //점수를 주었을 때
@@ -186,18 +202,13 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 String score = intent.getExtras().getString("score");
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
 
-                int position = intent.getIntExtra("position",-1);
+                int position = intent.getIntExtra("position", -1);
                 ContentsItem ci = intent.getParcelableExtra("ContentsItem");
 
+                //adapter가 가지고 있는 Contents를 수정하였고 adapter.notify는 비동기적으로 실행되는 듯(이 둘보다 앞에 있어도 똑같이 수정이 됨...)
                 List<ContentsItem> contents = adapter.getContents();
                 contents.get(position).setRated(ci.getRated());
-                ContentsAdapter adapter1 = new ContentsAdapter(context, home, "recommend");
-
-                for (int i = 0; i < contents.size(); i++) {
-                    //adapter.setMain(this);
-                    adapter1.addContents(contents.get(i));
-                }
-                adapter1.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         }
         if (requestCode == REQEST_CODE_RATING2) {
@@ -207,26 +218,39 @@ public class HomeActivity extends FragmentActivity implements RecommendationFrag
                 String score = intent.getExtras().getString("score");
                 Toast.makeText(getApplicationContext(), score + "점을 주셨습니다.", Toast.LENGTH_SHORT).show();
 
-                int position = intent.getIntExtra("position",-1);
+                int position = intent.getIntExtra("position", -1);
                 ContentsItem ci = intent.getParcelableExtra("ContentsItem");
 
                 List<ContentsItem> contents = adapter3.getContents();
                 contents.get(position).setRated(ci.getRated());
-                ContentsAdapter adapter1 = new ContentsAdapter(context, home, "famous");
-
-                for (int i = 0; i < contents.size(); i++) {
-                    //adapter.setMain(this);
-                    adapter1.addContents(contents.get(i));
-                }
-                adapter1.notifyDataSetChanged();
+                adapter3.notifyDataSetChanged();
             }
         }
         if (requestCode == REQEST_CODE_RATING3) {
             //점수를 주었을 때
             if (intent != null) {
-                Toast.makeText(getApplicationContext(), userName+"님의 코멘트를 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), userName + "님의 코멘트를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         }
+        if (requestCode == REQEST_CODE_RATING4) {
+            //점수를 주었을 때
+            if (intent != null) {
+                Toast.makeText(getApplicationContext(), "'찜 목록'에 저장되었습니다!^^\n(앱 재접속시 보여집니다)", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == REQEST_CODE_Err1) {
+            //점수를 주었을 때
+            if (intent != null) {
+                Toast.makeText(getApplicationContext(), "별점을 매긴 후 클릭해주세요!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == REQEST_CODE_Err2) {
+            //점수를 주었을 때
+            if (intent != null) {
+                Toast.makeText(getApplicationContext(), "이미 별점을 주셨어요!", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override

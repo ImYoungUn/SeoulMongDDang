@@ -22,7 +22,7 @@ public class ButtonClass_notUse {
         if (tag.compareTo("recommend&famous") == 0) {
             button1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(main, RatingActivity.class);
+                    Intent intent = new Intent(main, RateSaveTemporaryActivity.class);
                     intent.putExtra("title", textView1.getText().toString());
                     intent.putExtra("contentsItem", contentsItem);
                     intent.putExtra("code", code);

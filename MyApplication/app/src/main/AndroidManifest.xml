@@ -7,9 +7,6 @@
         android:minSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -49,7 +46,7 @@
             android:label="코멘트"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name="mong.ddang.youngun.myapplication.RatingActivity"
+            android:name="mong.ddang.youngun.myapplication.RateSaveTemporaryActivity"
             android:label="보고 싶은 만큼 별 주기"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity

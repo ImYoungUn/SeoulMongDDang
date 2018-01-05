@@ -70,29 +70,29 @@ public class Server {
         onStop();
     }
 
-    protected void save(RatingActivity ratingActivity) {
+    protected void save(RateSaveTemporaryActivity rateSaveTemporaryActivity) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/save");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(rateSaveTemporaryActivity).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
     //Welcome - 처음부분
-    protected void save(WelcomeRatingDialog wa) {
+    protected void save(HomeActivity main) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/save");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(wa).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(main).addApi(AppIndex.API).build();
         onStart();
 
         onStop();
     }
 
     //home - 추천 버튼
-    protected void insert(RatingActivity ratingActivity) {
+    protected void insert(HomeActivity main) {
         //버튼이 클릭되면 여기 리스너로 옴
         new JSONTask().execute("http://18.221.180.219:3000/insert");//AsyncTask 시작시킴
-        client = new GoogleApiClient.Builder(ratingActivity).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(main).addApi(AppIndex.API).build();
         onStart();
 
         onStop();

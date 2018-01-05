@@ -18,6 +18,7 @@ public class ContentsAdapter extends BaseAdapter {
     private HomeActivity Main;
     private Boolean unWatched[];
     private String page;
+    private String id;//ContentsView 에서 rate정보를 서버로 보낼 때 필요
     public ContentsAdapter(Context context, HomeActivity main, String page) {
         this.context = context;
         Main=main;
@@ -54,11 +55,14 @@ public class ContentsAdapter extends BaseAdapter {
         ContentsView itemView;
         //없으면 새로 만들고, 있으면 전에 만들었던 view를 그대로 다시 씀(4개 돌려쓰기)
         if (view == null) {
-            itemView = new ContentsView(context, contents.get(i),Main, page);
+            itemView = new ContentsView(context, contents.get(i),Main, page, id);
         } else {
             itemView = (ContentsView) view;
         }
         itemView.changeToNew(contents.get(i),page,i);
         return itemView;
+    }
+    public void setId(String id){
+        this.id = id;
     }
 }

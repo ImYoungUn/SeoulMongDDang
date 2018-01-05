@@ -23,7 +23,7 @@ public class Save extends Thread{
         //저장했던 찜목록
         ArrayList<ContentsInfo> list = new ArrayList<ContentsInfo>();
         if (Save.saveString != null) {
-            Log.e("Save", "on");
+            //Log.e("Save", saveString+"...?");
             String temp = Save.saveString.replaceAll("\"", "'");
             JSONArray jarray = new JSONArray(temp);
             ContentsInfo ci[] = new ContentsInfo[jarray.length()];

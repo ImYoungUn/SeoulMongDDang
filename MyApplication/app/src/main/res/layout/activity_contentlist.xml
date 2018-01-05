@@ -7,26 +7,58 @@
     android:orientation="vertical">
 
     <mong.ddang.youngun.myapplication.CustomContents
+        android:id="@+id/recommendList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recommendList"
-        custom:score="예상점수 : "
-        >
-    </mong.ddang.youngun.myapplication.CustomContents>
+        custom:score="예상점수 : "></mong.ddang.youngun.myapplication.CustomContents>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+
+            />
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ratingBar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+        />
+    </RelativeLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
 
         <Button
-            android:id="@+id/unWatched"
+            android:id="@+id/rateButton"
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_weight="1"
             android:background="#00ff0000"
             android:text="보고 싶은 만큼 별 주기"
+            android:textAlignment="center"
+            android:textColorHighlight="@color/colorAccent"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:text="찜하기"
             android:textAlignment="center"
             android:textColorHighlight="@color/colorAccent"
             android:textSize="15dp"

@@ -5,33 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <mong.ddang.youngun.myapplication.CustomContents
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/recommendList"
-        custom:score=""/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:score="" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    android:orientation="horizontal">
-
-
-    <ImageButton
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="55dp"
-        android:layout_weight="1"
-        android:background="#00ff0000"
-        android:src="@drawable/ic_chat" />
-</LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal">
 
+
+        <ImageButton
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:src="@drawable/ic_chat" />
     </LinearLayout>
+
 
 </LinearLayout>
