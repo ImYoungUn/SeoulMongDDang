@@ -23,6 +23,8 @@ public class StringParsing  extends Thread implements Parcelable {
     public ArrayList<ContentsInfo> ar3;
     public ArrayList<ContentsInfo> welcome_ar;
     ContentsInfo ci;
+    String[] recommend;
+    String[] famous;
 
     StringParsing() {
         ar = new ArrayList<>();
@@ -34,40 +36,47 @@ public class StringParsing  extends Thread implements Parcelable {
         //31235==예상점수==장르==타이틀==시작날짜==끝날짜==시간==장소==홈페이지==이미지==split23152==예상점수==장르==타이틀==시작날짜==끝날짜==시간==장소==홈페이지==이미지==
         //추천목록split인기목록
         String[] lists = recommendString.split("split");
-        String[] recommend = lists[0].split("==");
-        String[] famous = lists[1].split("==");
-        Log.e("sp", "" + recommend.length);
-        for (int i = 0; i < recommend.length; i+=10) {
-            ci = new ContentsInfo();
-            ci.setContentsCode(recommend[i]);
-            ci.setContentsExpectScore(recommend[i + 1]);
-            ci.setContentsJanre(recommend[i + 2]);
-            ci.setContentsTitle(recommend[i + 3]);
-            ci.setContentsStartDate(recommend[i + 4]);
-            ci.setContentsEndDate(recommend[i + 5]);
-            ci.setContentsTime(recommend[i + 6]);
-            ci.setContentsPlace(recommend[i + 7]);
-            ci.setContentsHomepage(recommend[i + 8]);
-            ci.setContentsURL(recommend[i + 9]);
-            try {
-                URL urlImage = new URL(recommend[i + 9]);
-                InputStream is2 = urlImage.openStream();
-                try {
-                    ci.setContentsImage(BitmapFactory.decodeStream(is2));
-                } catch (OutOfMemoryError e) {
-                    ci.setContentsImage(null);
-                    Log.e("sp_OutOfMemory", "bomb");
-                }
-            } catch (SocketException e) {
-                Log.e("sp_soket문제발생", "");
-            } catch (UnknownHostException e) {
-                Log.e("sp_host문제발생", "");
-            } catch (IOException e) {
-                Log.e("sp_IOException문제발생", "");
-            }
-            ar.add(ci);
+        if(lists[0].isEmpty()){
+            //추천 다 해서 더이상 나오는 추천이 없을 때
+            recommend = null;
+            famous = lists[1].split("==");
         }
-        Log.e("sp", "" + ar.size());
+        else {
+            //정상적일 때
+            recommend = lists[0].split("==");
+            famous = lists[1].split("==");
+            for (int i = 0; i < recommend.length; i+=10) {
+                ci = new ContentsInfo();
+                ci.setContentsCode(recommend[i]);
+                ci.setContentsExpectScore(recommend[i + 1]);
+                ci.setContentsJanre(recommend[i + 2]);
+                ci.setContentsTitle(recommend[i + 3]);
+                ci.setContentsStartDate(recommend[i + 4]);
+                ci.setContentsEndDate(recommend[i + 5]);
+                ci.setContentsTime(recommend[i + 6]);
+                ci.setContentsPlace(recommend[i + 7]);
+                ci.setContentsHomepage(recommend[i + 8]);
+                ci.setContentsURL(recommend[i + 9]);
+                try {
+                    URL urlImage = new URL(recommend[i + 9]);
+                    InputStream is2 = urlImage.openStream();
+                    try {
+                        ci.setContentsImage(BitmapFactory.decodeStream(is2));
+                    } catch (OutOfMemoryError e) {
+                        ci.setContentsImage(null);
+                        Log.e("sp_OutOfMemory", "bomb");
+                    }
+                } catch (SocketException e) {
+                    Log.e("sp_soket문제발생", "");
+                } catch (UnknownHostException e) {
+                    Log.e("sp_host문제발생", "");
+                } catch (IOException e) {
+                    Log.e("sp_IOException문제발생", "");
+                }
+                ar.add(ci);
+            }
+            Log.e("sp", "" + ar.size());
+        }
 
         for (int i = 0; i < famous.length; i+=10) {
             ci = new ContentsInfo();
@@ -100,14 +109,14 @@ public class StringParsing  extends Thread implements Parcelable {
         }
         Log.e("StringParsing", "finish");
     }
-    StringParsing(String test) {
+    StringParsing(String welcome) {
         welcome_ar = new ArrayList<>();
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         //31235==예상점수==장르==타이틀==시작날짜==끝날짜==시간==장소==홈페이지==이미지==split23152==예상점수==장르==타이틀==시작날짜==끝날짜==시간==장소==홈페이지==이미지==
-        String[] recommend = test.split("==");
+        String[] recommend = welcome.split("==");
         for (int i = 0; i < recommend.length; i += 10) {
             ci = new ContentsInfo();
             ci.setContentsCode(recommend[i]);
